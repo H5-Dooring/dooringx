@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-06-29 11:14:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-08 11:29:23
- * @FilePath: \my-app\svelte.config.js
+ * @LastEditTime: 2021-07-09 01:50:59
+ * @FilePath: \dooringx\packages\dooringx-doc\svelte.config.js
  */
 import preprocess from 'svelte-preprocess';
 import staticAdapter from '@sveltejs/adapter-static';
@@ -22,7 +22,7 @@ const config = {
 		}),
 		paths: process.env.DEPLOY
 			? {
-					base: '/svelte-kit-markdown',
+					base: '/dooringx',
 			  }
 			: {},
 		trailingSlash: 'ignore',
