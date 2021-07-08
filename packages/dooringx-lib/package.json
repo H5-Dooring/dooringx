@@ -1,0 +1,52 @@
+{
+	"version": "0.1.7",
+	"license": "MIT",
+	"main": "dist/index.js",
+	"module": "dist/dooringx-lib.esm.js",
+	"browser": "dist/dooringx-lib.esm.js",
+	"typings": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"engines": {
+		"node": ">=10"
+	},
+	"scripts": {
+		"start": "tsdx watch  --noclean ",
+		"build": "tsdx build ",
+		"test": "tsdx test --passWithNoTests",
+		"lint": "tsdx lint",
+		"prepare": "tsdx build"
+	},
+	"peerDependencies": {
+		"react": ">=16.8",
+		"antd": ">=4"
+	},
+	"name": "dooringx-lib",
+	"author": "yehuozhili",
+	"devDependencies": {
+		"@ant-design/icons": "^4.6.2",
+		"antd": "^4.15.2",
+		"postcss-modules": "^4.0.0",
+		"babel-plugin-import": "^1.13.3",
+		"babel-plugin-import-v2": "^1.0.0",
+		"@types/react-color": "^3.0.4",
+		"@types/react": "^17.0.0",
+		"@types/react-dom": "^17.0.0",
+		"size-limit": "^4.10.1",
+		"tsdx": "^0.14.1",
+		"react": "17.x",
+		"react-dom": "17.x",
+		"postcss": "^8.2.8",
+		"less": "^4.1.1",
+		"rollup-plugin-postcss": "^4.0.0",
+		"@types/uuid": "^8.3.0"
+	},
+	"dependencies": {
+		"deepcopy": "^2.1.0",
+		"react-color": "^2.19.3",
+		"react-sortable-hoc": "^2.0.0",
+		"uuid": "^8.3.2",
+		"animate.css": "^4.1.1"
+	}
+}

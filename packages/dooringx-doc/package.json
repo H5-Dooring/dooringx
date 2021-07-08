@@ -1,0 +1,39 @@
+{
+	"name": "dooringx-doc",
+	"version": "0.0.1",
+	"scripts": {
+		"start": "svelte-kit dev",
+		"dev": "svelte-kit dev",
+		"build": "svelte-kit build",
+		"deploy": "cross-env DEPLOY=TRUE svelte-kit build",
+		"preview": "svelte-kit preview",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --check --plugin-search-dir=. .",
+		"format": "prettier --write --plugin-search-dir=. ."
+	},
+	"devDependencies": {
+		"@sveltejs/kit": "next",
+		"@types/cookie": "^0.4.0",
+		"@types/marked": "^2.0.3",
+		"prettier": "~2.2.1",
+		"prettier-plugin-svelte": "^2.2.0",
+		"svelte": "^3.34.0",
+		"svelte-check": "^2.0.0",
+		"svelte-preprocess": "^4.0.0",
+		"@sveltejs/adapter-node": "^1.0.0-next.29",
+		"@sveltejs/adapter-static": "^1.0.0-next.13"
+	},
+	"type": "module",
+	"dependencies": {
+		"@fontsource/fira-mono": "^4.2.2",
+		"@lukeed/uuid": "^2.0.0",
+		"cookie": "^0.4.1",
+		"cross-env": "^7.0.3",
+		"marked": "^2.1.3",
+		"prism-svelte": "^0.4.7",
+		"prismjs": "^1.24.0",
+		"sass": "^1.35.1",
+		"slug": "^5.1.0"
+	}
+}
