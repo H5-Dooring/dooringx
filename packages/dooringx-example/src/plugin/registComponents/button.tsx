@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 19:04:05
+ * @LastEditTime: 2021-07-10 23:04:56
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -35,7 +35,6 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 
 	const [text, setText] = useState('');
 	useEffect(() => {
-		//模拟改变文本
 		const functionCenter = eventCenter.getFunctionCenter();
 		const unregist = functionCenter.register(
 			`${pr.data.id}+改变文本函数`,
@@ -86,8 +85,6 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 			onClick={() => {
 				eventCenter.runEventQueue(`${pr.data.id}-click`, pr.config);
 			}}
-			// type={props.type}
-			// size={props.size}
 		>
 			{text ? text : props.text}
 		</Button>
@@ -100,7 +97,7 @@ const MButton = new ComponentItemFactory(
 	{
 		style: [
 			createPannelOptions<FormMap, 'input'>('input', {
-				receive: 'text', //用于发送回的props，必传 ,跨组件传递需要指定额外字段
+				receive: 'text',
 				label: '文字',
 				text: 'yehuozhili',
 			}),

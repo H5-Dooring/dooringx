@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 18:29:07
+ * @LastEditTime: 2021-07-10 21:22:42
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import { IBlockType, IStoreData } from '../core/store/storetype';
@@ -34,7 +34,6 @@ import MmodalMask from '../core/components/defaultFormComponents/modalMask';
  * @interface CacheComponentValueType
  */
 export interface CacheComponentValueType {
-	urlFn?: () => Promise<any>;
 	component?: ComponentItemFactory;
 }
 export type CacheComponentType = Record<string, CacheComponentValueType> | {};

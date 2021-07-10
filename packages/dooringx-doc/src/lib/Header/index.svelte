@@ -36,14 +36,14 @@
 				<Button>Github</Button>
 			</div>
 
-			<Switch
+			<!-- <Switch
 				{checked}
 				onChange={() => {
 					lang.update((pre) => {
 						return pre === 'cn' ? 'en' : 'cn';
 					});
 				}}
-			/>
+			/> -->
 		</div>
 	</nav>
 </header>

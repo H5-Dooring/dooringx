@@ -118,3 +118,6 @@ pre[class*='language-'] {
 .token.entity {
 	cursor: help;
 }
+p {
+	line-height: 2.5;
+}
