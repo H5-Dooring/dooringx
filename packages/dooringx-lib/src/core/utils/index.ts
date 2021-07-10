@@ -156,7 +156,7 @@ export const changeLayer = (store: Store, id: string, action: 'up' | 'down' | 'd
  * @param {*} from
  * @param {*} to
  */
-export const arrayMove = (array: any, from: number, to: number) => {
+export const arrayMove = (array: Array<any>, from: number, to: number) => {
 	array = [...array];
 	arrayMoveMutate(array, from, to);
 	return array;
@@ -179,7 +179,7 @@ const indexSub = (arrLength: number, toIndex: number) => {
  * @param {Number} to Index of where to move the item. If negative, it will begin that many elements from the end / 0 / -1 / 2
  * returns A new array with the item moved to the new position [1,2,3] -> [1,3,2]
  */
-const arrayMoveMutate = (array: [], from: number, to: number) => {
+const arrayMoveMutate = (array: Array<any>, from: number, to: number) => {
 	const arrLength = array.length;
 	const startIndex = indexSub(arrLength, from);
 	if (startIndex >= 0 && startIndex < arrLength) {

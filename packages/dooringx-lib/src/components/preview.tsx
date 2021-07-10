@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:40:37
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-08 20:44:45
+ * @LastEditTime: 2021-07-10 16:09:19
  * @FilePath: \DooringV2\packages\dooringx-lib\src\components\preview.tsx
  */
 import Container from './container';
@@ -24,6 +24,12 @@ function Preview(props: { config: UserConfig; loadText?: ReactNode }): ReactElem
 			.getEventCenter()
 			.syncEventMap(props.config.getStore().getData(), props.config.getStoreChanger());
 		setTimeout(() => {
+			// 设置全局
+			const bodyColor = props.config.getStore().getData().globalState?.bodyColor;
+			if (bodyColor) {
+				document.body.style.backgroundColor = bodyColor;
+			}
+
 			setLoading(false);
 		});
 	}, [props.config]);

@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-08 20:42:22
- * @FilePath: \DooringV2\packages\dooringx-lib\src\config\index.tsx
+ * @LastEditTime: 2021-07-10 18:29:07
+ * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import { IBlockType, IStoreData } from '../core/store/storetype';
 import { store } from '../runtime/store';
@@ -23,7 +23,6 @@ import { createModal, unmountMap } from '../components/modalRender';
 import { scaleState } from '../core/scale/state';
 import { CommanderItemFactory } from '../core/command/abstract';
 import MmodalMask from '../core/components/defaultFormComponents/modalMask';
-import MmodalContainer from '../core/components/defaultFormComponents/modalContainer';
 
 // 组件部分
 
@@ -156,7 +155,9 @@ export const defaultStore: IStoreData = {
 	globalState: {
 		containerColor: 'rgba(255,255,255,1)',
 		title: 'dooring',
+		bodyColor: 'rgba(255,255,255,1)',
 	},
+	modalConfig: {},
 };
 
 export const defaultConfig: InitConfig = {
@@ -166,8 +167,7 @@ export const defaultConfig: InitConfig = {
 	rightGlobalCustom: null,
 	rightRenderListCategory: [],
 	initComponentCache: {
-		modalMask: { component: MmodalMask }, // 这2个组件不配置显示
-		modalContainer: { component: MmodalContainer },
+		modalMask: { component: MmodalMask }, // 这个组件不配置显示
 	},
 	initFunctionMap: {
 		打开弹窗函数: {
@@ -192,7 +192,9 @@ export const defaultConfig: InitConfig = {
 			fn: (_ctx, next, _config, args) => {
 				const modalName = args['_modal'];
 				const fn = unmountMap.get(modalName);
-				fn ? fn() : '';
+				if (fn) {
+					fn();
+				}
 				next();
 			},
 			config: [

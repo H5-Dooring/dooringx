@@ -6,3 +6,11 @@ yarn-error.log
 .vercel_build_output
 build
 dist
+
+/yarn-error.log
+
+# umi
+.umi
+.umi-production
+.umi-test
+.env.local

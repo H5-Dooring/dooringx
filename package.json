@@ -5,6 +5,8 @@
 	],
 	"scripts": {
 		"start": "lerna exec npm run start --scope=dooringx-lib",
+		"start:example":"lerna exec npm run start --scope=dooringx-example",
+		"start:doc":"lerna exec npm run start --scope=dooringx-doc",
 		"build": "lerna exec npm run build --scope=dooringx-lib",
 		"deploy": "lerna exec npm run deploy --scope=dooringx-doc",
 		"pub": "node ./script/publish.js"

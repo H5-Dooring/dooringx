@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-07 17:00:07
+ * @LastEditTime: 2021-07-09 17:22:14
  * @FilePath: \DooringV2\packages\dooringx-lib\src\core\store\storetype.ts
  */
 
@@ -17,6 +17,7 @@ export interface IStoreData {
 	modalMap: Record<string, IStoreData>;
 	dataSource: Record<string, any>;
 	globalState: Record<string, any>;
+	modalConfig: Record<string, any>;
 }
 
 export interface IBlockType {
@@ -38,7 +39,7 @@ export interface IBlockType {
 	functionList: Array<string>; //抛出的函数名
 	animate: {
 		animate?: string; //动画名
-		animationIterationCount?: any;
+		animationIterationCount?: number | string;
 		speed?: //动画速度
 		'animate__slow' | 'animate__slower' | 'animate__fast' | 'animate__faster' | '';
 		delay?: //首次延迟

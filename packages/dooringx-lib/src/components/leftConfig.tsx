@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-06 23:55:37
- * @FilePath: \dooringv2\packages\dooring-v2-lib\src\components\leftConfig.tsx
+ * @LastEditTime: 2021-07-10 15:47:34
+ * @FilePath: \DooringV2\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Input, Menu } from 'antd';
@@ -42,7 +42,7 @@ function LeftConfig(props: LeftConfigProps) {
 			cache = config.leftAllRegistMap.filter((k) => k.type === type);
 			cache.forEach((v) => props.config.asyncRegistComponent(v.component));
 			setLeftRender(
-				<div className={styles.leftco}>
+				<div className={`${styles.leftco} yh-leftcomp`}>
 					<div
 						style={{
 							display: 'flex',
@@ -53,7 +53,7 @@ function LeftConfig(props: LeftConfigProps) {
 					>
 						<div
 							style={{
-								width: 100,
+								width: 120,
 								overflow: 'hidden',
 								textOverflow: 'ellipsis',
 								whiteSpace: 'nowrap',

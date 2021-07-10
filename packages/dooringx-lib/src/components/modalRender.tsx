@@ -29,6 +29,8 @@ export function ModalRender(props: ModalRenderProps) {
 	}, [props.data.modalMap, props.name]);
 	const { parentDom, rootDom } = props;
 
+	const modalConfig = props.data.modalConfig[props.name];
+
 	//这里还要添加个关闭函数，
 	const unmount = useMemo(() => {
 		return () => {
@@ -58,7 +60,9 @@ export function ModalRender(props: ModalRenderProps) {
 				})}
 				<div
 					onClick={() => {
-						unmount();
+						if (!modalConfig) {
+							unmount();
+						}
 					}}
 					style={{
 						backgroundColor: '#716f6f9e',

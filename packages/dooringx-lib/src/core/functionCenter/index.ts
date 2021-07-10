@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-04-08 19:59:01
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-07 01:46:17
- * @FilePath: \dooringv2\packages\dooringx-lib\src\core\functionCenter\index.ts
+ * @LastEditTime: 2021-07-09 16:23:02
+ * @FilePath: \DooringV2\packages\dooringx-lib\src\core\functionCenter\index.ts
  */
 
 import UserConfig from '../../config';
@@ -81,6 +81,17 @@ export class FunctionCenter {
 
 	getConfigMap() {
 		return this.configMap;
+	}
+
+	/**
+	 *
+	 * 删除的组件需要删除动态注册的函数
+	 * @param {string} name
+	 * @memberof FunctionCenter
+	 */
+	deleteFunc(name: string) {
+		delete this.funcitonMap[name];
+		delete this.configMap[name];
 	}
 
 	/**

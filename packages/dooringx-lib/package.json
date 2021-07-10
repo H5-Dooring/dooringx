@@ -1,9 +1,7 @@
 {
-	"version": "0.1.7",
+	"version": "0.1.9",
 	"license": "MIT",
 	"main": "dist/index.js",
-	"module": "dist/dooringx-lib.esm.js",
-	"browser": "dist/dooringx-lib.esm.js",
 	"typings": "dist/index.d.ts",
 	"files": [
 		"dist"
@@ -20,7 +18,8 @@
 	},
 	"peerDependencies": {
 		"react": ">=16.8",
-		"antd": ">=4"
+		"antd": ">=4",
+		"animate.css": ">=4"
 	},
 	"name": "dooringx-lib",
 	"author": "yehuozhili",
@@ -46,7 +45,6 @@
 		"deepcopy": "^2.1.0",
 		"react-color": "^2.19.3",
 		"react-sortable-hoc": "^2.0.0",
-		"uuid": "^8.3.2",
-		"animate.css": "^4.1.1"
+		"uuid": "^8.3.2"
 	}
 }

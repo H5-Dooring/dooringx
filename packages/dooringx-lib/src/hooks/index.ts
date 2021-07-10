@@ -2,10 +2,9 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:35:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-04 17:52:02
- * @FilePath: \DooringV2\packages\dooring-v2-lib\src\hooks\index.ts
+ * @LastEditTime: 2021-07-10 17:46:26
+ * @FilePath: \dooringx\packages\dooringx-lib\src\hooks\index.ts
  */
-import { store } from '../runtime/store';
 import { useEffect, useMemo, useState } from 'react';
 import UserConfig from '../config';
 import { ComponentRenderConfigProps } from '../core/components/componentItem';
@@ -16,11 +15,13 @@ export function useStoreState(
 	extraFn: Function = () => {},
 	everyFn: Function = () => {}
 ) {
+	const store = config.getStore();
 	const [state, setState] = useState(store.getData());
 	const forceUpdate = useState(0)[1];
 	useEffect(() => {
 		const unRegister = store.subscribe(() => {
-			setState(store.getData());
+			const data = store.getData();
+			setState(data);
 			config.getEventCenter().syncEventMap(store.getData(), config.getStoreChanger());
 			extraFn();
 		});
@@ -32,7 +33,7 @@ export function useStoreState(
 			unRegister();
 			unRegistCommandFn(commandModules, commander);
 		};
-	}, [config, extraFn]);
+	}, [config, extraFn, forceUpdate, store]);
 	useEffect(() => {
 		everyFn();
 	}, [everyFn]);

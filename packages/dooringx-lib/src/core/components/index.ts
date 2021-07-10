@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-03-14 04:43:53
- * @FilePath: \dooring-v2\src\core\components\index.ts
+ * @LastEditTime: 2021-07-10 18:34:34
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\components\index.ts
  */
 import { ComponentItem } from './componentItem';
 

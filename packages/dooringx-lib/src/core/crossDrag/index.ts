@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-04 15:21:54
- * @FilePath: \DooringV2\packages\dooring-v2-lib\src\core\crossDrag\index.ts
+ * @LastEditTime: 2021-07-10 18:34:40
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\crossDrag\index.ts
  */
 import { store } from '../../runtime/store';
 import { componentRegister } from '../../runtime';

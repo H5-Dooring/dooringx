@@ -1,9 +1,9 @@
 /*
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-06-19 17:07:10
- * @FilePath: \dooringv2\packages\dooring-v2-lib\src\core\store\index.ts
+ * @LastEditors: yehuozhili
+ * @LastEditTime: 2021-07-10 18:17:56
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\index.ts
  */
 import { IStoreData } from './storetype';
 import { storeChangerState } from '../storeChanger/state';
@@ -17,9 +17,11 @@ export const initialData: IStoreData = {
 	modalMap: {},
 	dataSource: {},
 	globalState: {},
+	modalConfig: {},
 };
 
 class Store {
+	static instance: Store;
 	constructor(
 		public storeDataList: IStoreData[] = [initialData],
 		public listeners: Array<Function> = [],

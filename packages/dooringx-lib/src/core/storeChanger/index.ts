@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-04-05 14:55:31
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-07 16:59:54
+ * @LastEditTime: 2021-07-09 18:31:24
  * @FilePath: \DooringV2\packages\dooringx-lib\src\core\storeChanger\index.ts
  */
 
@@ -43,26 +43,6 @@ function createDefaultModalBlock(): IStoreData['block'] {
 			animate: {},
 			fixed: false,
 		},
-		{
-			id: createUid('modal-container'),
-			name: 'modalContainer',
-			top: 100,
-			left: 35,
-			zIndex: 0,
-			props: {},
-			resize: true,
-			focus: true,
-			position: 'absolute',
-			display: 'block',
-			width: 300,
-			height: 300,
-			syncList: [],
-			canDrag: true,
-			eventMap: {},
-			functionList: [],
-			animate: {},
-			fixed: false,
-		},
 	];
 }
 
@@ -80,6 +60,7 @@ const defaultModalStore: () => IStoreData = () => {
 		modalMap: {},
 		dataSource: {},
 		globalState: {},
+		modalConfig: {},
 	};
 };
 
