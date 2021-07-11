@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 15:47:34
- * @FilePath: \DooringV2\packages\dooringx-lib\src\components\leftConfig.tsx
+ * @LastEditTime: 2021-07-11 13:34:00
+ * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Input, Menu } from 'antd';
@@ -93,7 +93,7 @@ function LeftConfig(props: LeftConfigProps) {
 							.map((v, index) => (
 								<div className={styles.coitem} key={index} {...dragEventResolve(v)}>
 									<div className={styles.redbox}>
-										{v.imgCustom ? v.imgCustom : <img src={v.img}></img>}
+										{v.imgCustom ? v.imgCustom : <img src={v.img} alt="component"></img>}
 									</div>
 
 									<div
@@ -112,7 +112,7 @@ function LeftConfig(props: LeftConfigProps) {
 						cache.map((v, index) => (
 							<div className={styles.coitem} key={index} {...dragEventResolve(v)}>
 								<div className={styles.redbox}>
-									{v.imgCustom ? v.imgCustom : <img src={v.img}></img>}
+									{v.imgCustom ? v.imgCustom : <img src={v.img} alt="component"></img>}
 								</div>
 								<div
 									style={{

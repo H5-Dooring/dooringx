@@ -2,13 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 18:07:00
+ * @LastEditTime: 2021-07-11 13:35:16
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
 ## Dooringx-lib 
 ## changelog
 
+- 0.1.10 修改eslint依赖推荐
 - 0.1.9 增加全局body设置
 - 0.1.8 增加弹窗设置，移除modalContainer
 - 0.1.7 修改预览特殊条件显示，删除console

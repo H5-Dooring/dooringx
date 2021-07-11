@@ -101,12 +101,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 			}`;
 		}
 		return '';
-	}, [
-		props.data.animate.animate,
-		props.data.animate.delay,
-		// props.data.animate.duration,
-		props.data.animate.speed,
-	]);
+	}, [props.data.animate]);
 	const animateCount = useMemo(() => {
 		const animate = props.data.animate;
 
@@ -114,7 +109,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 			return { animationIterationCount: animate.animationIterationCount };
 		}
 		return { animationIterationCount: 1 };
-	}, [props.data.animate.animationIterationCount]);
+	}, [props.data.animate]);
 
 	const render = useMemo(() => {
 		// 如果是编辑模式下，则需要包裹不能选中层，位移层，缩放控制层，平面移动层。
@@ -191,6 +186,8 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		props.context,
 		props.data,
 		innerDragData,
+		animatecss,
+		animateCount,
 		previewState.top,
 		previewState.left,
 		previewState.width,
