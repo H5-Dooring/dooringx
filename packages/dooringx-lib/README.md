@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-11 13:35:16
+ * @LastEditTime: 2021-07-11 23:11:14
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
@@ -16,3 +16,10 @@
 - 0.1.6 调整初始缩放，画布初始比例，增加回正画布功能。
 - 0.1.5 删除未作按钮，增加fixed配置
 - 0.1.4 基础功能
+
+
+## todo
+
+1、制作标尺
+2、重构命令，传递config。
+3、重构拖拽，优化性能与config传递。
