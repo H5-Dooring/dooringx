@@ -107,7 +107,7 @@ export const innerContainerDragUp = function (config: UserConfig) {
 	const onMouseUp = (e: React.MouseEvent) => {
 		e.preventDefault();
 		wrapperMoveMouseUp();
-		selectRangeMouseUp(e);
+		selectRangeMouseUp(e, config);
 		if (innerDragState.ref && innerDragState.ref.current) {
 			innerDragState.ref.current.style.cursor = 'default';
 			innerDragState.ref.current.style.willChange = 'auto';
