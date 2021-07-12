@@ -2,15 +2,20 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-08 20:42:15
- * @FilePath: \DooringV2\packages\dooringx-lib\src\core\command\index.ts
+ * @LastEditTime: 2021-07-12 14:52:28
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\command\index.ts
  */
+import UserConfig from '../../config';
 import Store from '../store';
 import { CommanderItem } from './commanderType';
 import { keycodeFilter } from './keycode';
 
 class CommanderWrapper {
-	constructor(public store: Store, public commandMap: Record<string, CommanderItem> = {}) {}
+	constructor(
+		public store: Store,
+		public commandMap: Record<string, CommanderItem> = {},
+		public config: UserConfig
+	) {}
 	getList() {
 		return this.commandMap;
 	}
@@ -55,7 +60,7 @@ class CommanderWrapper {
 			}
 			const keyname = keyString.join('+');
 			if (current.keyboard === keyname) {
-				current.excute(this.store);
+				current.excute(this.store, this.config);
 				e.stopPropagation();
 				e.preventDefault();
 			}
@@ -78,7 +83,7 @@ class CommanderWrapper {
 			console.error(`${name} commander not found`);
 			return;
 		}
-		this.commandMap[name].excute(this.store, options);
+		this.commandMap[name].excute(this.store, this.config, options);
 	}
 }
 export default CommanderWrapper;

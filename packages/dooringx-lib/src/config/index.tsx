@@ -2,12 +2,12 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 21:22:42
+ * @LastEditTime: 2021-07-12 14:49:32
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import { IBlockType, IStoreData } from '../core/store/storetype';
 import { store } from '../runtime/store';
-import { formRegister, componentRegister, commander, storeChanger } from '../runtime';
+import { formRegister, componentRegister, storeChanger } from '../runtime';
 import { ComponentClass, FunctionComponent, ReactNode } from 'react';
 import { ComponentItemFactory } from '../core/components/abstract';
 import { marklineConfig } from '../core/markline/marklineConfig';
@@ -23,6 +23,7 @@ import { createModal, unmountMap } from '../components/modalRender';
 import { scaleState } from '../core/scale/state';
 import { CommanderItemFactory } from '../core/command/abstract';
 import MmodalMask from '../core/components/defaultFormComponents/modalMask';
+import CommanderWrapper from '../core/command';
 
 // 组件部分
 
@@ -313,7 +314,7 @@ export class UserConfig {
 	public componentCache = {};
 	public asyncComponentUrlMap = {} as AsyncCacheComponentType;
 	public marklineConfig = marklineConfig;
-	public commanderRegister = commander;
+	public commanderRegister: CommanderWrapper;
 	public contextMenuState = contextMenuState;
 	public formRegister = formRegister;
 	public storeChanger = storeChanger;
@@ -323,6 +324,7 @@ export class UserConfig {
 	constructor(initConfig?: Partial<InitConfig>) {
 		const mergeConfig = userConfigMerge(defaultConfig, initConfig);
 		this.initConfig = mergeConfig;
+		this.commanderRegister = new CommanderWrapper(store, {}, this);
 		this.eventCenter = new EventCenter({}, mergeConfig.initFunctionMap);
 		this.dataCenter = new DataCenter(mergeConfig.initDataCenterMap);
 		this.init();

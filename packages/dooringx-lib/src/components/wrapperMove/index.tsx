@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-03-14 04:58:51
- * @FilePath: \dooring-v2\src\core\wrapperMove\index.tsx
+ * @LastEditTime: 2021-07-12 15:24:29
+ * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\index.tsx
  */
 import { AllHTMLAttributes, CSSProperties, PropsWithChildren, useRef } from 'react';
 import { wrapperEvent } from './event';
@@ -20,7 +20,7 @@ function ContainerWrapper(props: PropsWithChildren<ContainerWrapperProps>) {
 	const ref = useRef<HTMLDivElement>(null);
 	return (
 		<div
-			className={`ant-menu ${classNames}`}
+			className={`ant-menu ${classNames ? classNames : ''}`}
 			ref={ref}
 			style={{
 				backgroundColor: '#f0f0f0',

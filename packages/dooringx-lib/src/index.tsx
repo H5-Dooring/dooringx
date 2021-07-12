@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:22:18
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-07 03:38:44
- * @FilePath: \dooringv2\packages\dooringx-lib\src\index.tsx
+ * @LastEditTime: 2021-07-12 14:43:28
+ * @FilePath: \dooringx\packages\dooringx-lib\src\index.tsx
  */
 
 // 初始化store用
@@ -27,7 +27,7 @@ export { innerContainerDragUp } from './core/innerDrag';
 // 用于修改store
 export { store } from './runtime/store';
 // 用于获取运行中的实例
-export { commander, componentRegister, formRegister, storeChanger } from './runtime';
+export { componentRegister, formRegister, storeChanger } from './runtime';
 
 export { unmountContextMenu } from './core/contextMenu';
 

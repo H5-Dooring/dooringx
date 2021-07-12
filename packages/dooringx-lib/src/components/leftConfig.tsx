@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-11 13:34:00
+ * @LastEditTime: 2021-07-12 15:21:27
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
@@ -44,6 +44,7 @@ function LeftConfig(props: LeftConfigProps) {
 			setLeftRender(
 				<div className={`${styles.leftco} yh-leftcomp`}>
 					<div
+						className="yh-left-top-wrapper"
 						style={{
 							display: 'flex',
 							justifyContent: 'center',
@@ -69,6 +70,7 @@ function LeftConfig(props: LeftConfigProps) {
 							{leftMapRenderListCategory[parseInt(menuSelect, 10)].displayName}
 						</div>
 						<Input
+							className="yh-left-top-input"
 							style={{
 								borderRadius: '40px',
 							}}
@@ -91,8 +93,12 @@ function LeftConfig(props: LeftConfigProps) {
 								return prev;
 							}, [])
 							.map((v, index) => (
-								<div className={styles.coitem} key={index} {...dragEventResolve(v)}>
-									<div className={styles.redbox}>
+								<div
+									className={`${styles.coitem} yh-left-item-wrap`}
+									key={index}
+									{...dragEventResolve(v)}
+								>
+									<div className={`${styles.redbox} yh-left-item-img-wrap`}>
 										{v.imgCustom ? v.imgCustom : <img src={v.img} alt="component"></img>}
 									</div>
 
@@ -110,8 +116,12 @@ function LeftConfig(props: LeftConfigProps) {
 							))}
 					{(!search || search === '') &&
 						cache.map((v, index) => (
-							<div className={styles.coitem} key={index} {...dragEventResolve(v)}>
-								<div className={styles.redbox}>
+							<div
+								className={`${styles.coitem} yh-left-item-wrap`}
+								key={index}
+								{...dragEventResolve(v)}
+							>
+								<div className={`${styles.redbox} yh-left-item-img-wrap`}>
 									{v.imgCustom ? v.imgCustom : <img src={v.img} alt="component"></img>}
 								</div>
 								<div

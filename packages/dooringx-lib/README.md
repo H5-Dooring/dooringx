@@ -2,13 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-11 23:11:14
+ * @LastEditTime: 2021-07-12 15:22:17
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
 ## Dooringx-lib 
 ## changelog
 
+- 0.2.0 commander的传递进行修改，可以获得config了，commander不再从index中导出 ，需要使用时从config中获取。增加左侧类名，方便自定义。
 - 0.1.10 修改eslint依赖推荐
 - 0.1.9 增加全局body设置
 - 0.1.8 增加弹窗设置，移除modalContainer
@@ -21,5 +22,4 @@
 ## todo
 
 1、制作标尺
-2、重构命令，传递config。
-3、重构拖拽，优化性能与config传递。
+2、重构拖拽，优化性能与config传递。
