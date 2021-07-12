@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:29:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-09 13:51:32
- * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registFormComponents.ts
+ * @LastEditTime: 2021-07-12 11:24:56
+ * @FilePath: \dooringx\packages\dooringx-example\src\plugin\formComponentModules.ts
  *
  */
 
@@ -18,4 +18,4 @@ export const Formmodules: Record<string, FunctionComponent<any> | ComponentClass
 		const value = modulesFiles(modulePath);
 		modules[name] = value.default;
 		return modules;
-	}, []);
+	}, {});
