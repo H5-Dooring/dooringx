@@ -61,8 +61,8 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 
 	const ref = useRef<HTMLDivElement>(null);
 	const innerDragData = useMemo(() => {
-		return { ...innerDrag(props.data, ref) };
-	}, [props.data]);
+		return { ...innerDrag(props.data, ref, props.config) };
+	}, [props.data, props.config]);
 
 	useEffect(() => {
 		const fn = () => {
@@ -133,7 +133,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 					{...innerDragData}
 					onContextMenu={(e) => {
 						if (props.data.name !== 'modalMask') {
-							contextMenuEvent(e, ref);
+							contextMenuEvent(e, ref, props.config);
 						}
 					}}
 				>

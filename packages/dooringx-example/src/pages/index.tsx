@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-05-15 12:49:28
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 19:08:25
+ * @LastEditTime: 2021-07-12 20:19:38
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\index.tsx
  */
 import {
@@ -33,7 +33,7 @@ export default function IndexPage() {
 	const [state] = useStoreState(config, subscribeFn, everyFn);
 
 	return (
-		<div {...innerContainerDragUp()}>
+		<div {...innerContainerDragUp(config)}>
 			<div style={{ height: HeaderHeight }}>
 				head
 				<button
@@ -64,11 +64,11 @@ export default function IndexPage() {
 					<LeftConfig config={config}></LeftConfig>
 				</div>
 
-				<ContainerWrapper>
+				<ContainerWrapper config={config}>
 					<>
 						<Control
 							config={config}
-							style={{ position: 'fixed', bottom: '60px', right: '450px' }}
+							style={{ position: 'fixed', bottom: '60px', right: '450px', zIndex: 100 }}
 						></Control>
 						<Container state={state} config={config} context="edit"></Container>
 					</>

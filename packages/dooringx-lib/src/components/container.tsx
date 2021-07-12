@@ -2,7 +2,6 @@ import { containerDragResolve } from '../core/crossDrag';
 import { containerFocusRemove } from '../core/focusHandler';
 import { innerContainerDrag } from '../core/innerDrag';
 import { NormalMarkLineRender } from '../core/markline';
-import { scaleState } from '../core/scale/state';
 import { IStoreData } from '../core/store/storetype';
 import { wrapperMoveState } from './wrapperMove/event';
 import { CSSProperties, PropsWithChildren, useMemo } from 'react';
@@ -22,14 +21,14 @@ interface ContainerProps {
 }
 function Container(props: PropsWithChildren<ContainerProps>) {
 	const { editContainerStyle, previewContainerStyle } = props;
-
+	const scaleState = props.config.getScaleState();
 	const transform = useMemo(() => {
 		if (props.context === 'edit') {
 			return `scale(${scaleState.value}) translate(${wrapperMoveState.needX}px, ${wrapperMoveState.needY}px)`;
 		} else {
 			return undefined;
 		}
-	}, [props.context]);
+	}, [props.context, scaleState]);
 
 	const bgColor = () => {
 		const isEdit = props.config.getStoreChanger().isEdit();
@@ -63,11 +62,13 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 									overflow: 'hidden',
 									...editContainerStyle,
 								}}
-								{...(props.context === 'edit' ? containerDragResolve : null)}
-								{...(props.context === 'edit' ? innerContainerDrag() : null)}
-								{...(props.context === 'edit' ? containerFocusRemove() : null)}
+								{...(props.context === 'edit' ? containerDragResolve(props.config) : null)}
+								{...(props.context === 'edit' ? innerContainerDrag(props.config) : null)}
+								{...(props.context === 'edit' ? containerFocusRemove(props.config) : null)}
 							>
-								{props.context === 'edit' && <NormalMarkLineRender></NormalMarkLineRender>}
+								{props.context === 'edit' && (
+									<NormalMarkLineRender config={props.config}></NormalMarkLineRender>
+								)}
 								{props.state.block.map((v) => {
 									return (
 										<Blocks

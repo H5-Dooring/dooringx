@@ -2,14 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-05 22:46:15
- * @FilePath: \DooringV2\packages\dooring-v2-lib\src\core\contextMenu\index.tsx
+ * @LastEditTime: 2021-07-12 20:31:47
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\contextMenu\index.tsx
  */
 import { Button } from 'antd';
 import React, { RefObject, useState } from 'react';
 import { ReactElement } from 'react';
 import ReactDOM, { unmountComponentAtNode } from 'react-dom';
-import { scaleState } from '../scale/state';
+import UserConfig from '../../config';
 import { isMac } from '../utils';
 
 const ContextMenu = () => {
@@ -68,9 +68,11 @@ export const contextMenuState: ContextMenuStateProps = {
 
 export function contextMenuEvent(
 	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-	ref: RefObject<HTMLDivElement>
+	ref: RefObject<HTMLDivElement>,
+	userConfig: UserConfig
 ) {
 	e.preventDefault();
+	const scaleState = userConfig.getScaleState();
 	contextMenuState.unmountContextMenu();
 	const config: MutationObserverInit = {
 		attributes: true,

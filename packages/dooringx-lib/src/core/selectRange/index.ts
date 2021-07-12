@@ -1,9 +1,8 @@
-import { store } from '../../runtime/store';
 import { IStoreData } from '../store/storetype';
 import { deepCopy } from '../utils';
 import { focusState } from '../focusHandler/state';
-import { scaleState } from '../scale/state';
 import style from '../../index.less';
+import UserConfig from '../../config';
 export interface SelectDataProps {
 	selectDiv: HTMLDivElement | null;
 	posx: number;
@@ -20,7 +19,7 @@ export const selectData: SelectDataProps = {
 	startY: 0,
 };
 
-export function selectRangeMouseDown(e: React.MouseEvent) {
+export function selectRangeMouseDown(e: React.MouseEvent, config: UserConfig) {
 	if (!selectData.selectDiv) {
 		selectData.selectDiv = document.createElement('div');
 	}
@@ -34,7 +33,7 @@ export function selectRangeMouseDown(e: React.MouseEvent) {
 		selectData.selectDiv.style.top = e.clientY + 'px';
 		selectData.selectDiv.style.position = 'fixed';
 		document.body.appendChild(selectData.selectDiv);
-		selectData.selectDiv.onmouseup = (e) => selectRangeMouseUp(e);
+		selectData.selectDiv.onmouseup = (e) => selectRangeMouseUp(e, config);
 		selectData.selectDiv.onmousemove = (e) => selectRangeMouseMove(e);
 	}
 }
@@ -52,10 +51,11 @@ function typeGuard(e: React.MouseEvent | MouseEvent): e is React.MouseEvent {
 	return !(e instanceof Event);
 }
 
-function selectFocus(left: number, top: number, width: number, height: number) {
+function selectFocus(left: number, top: number, width: number, height: number, config: UserConfig) {
 	if (width === 0 || height === 0) {
 		return;
 	}
+	const store = config.getStore();
 	const clonedata: IStoreData = deepCopy(store.getData());
 	const blocks = clonedata.block;
 	let change = false;
@@ -75,13 +75,14 @@ function selectFocus(left: number, top: number, width: number, height: number) {
 	}
 }
 
-export function selectRangeMouseUp(e: React.MouseEvent | MouseEvent) {
+export function selectRangeMouseUp(e: React.MouseEvent | MouseEvent, config: UserConfig) {
 	if (selectData.selectDiv) {
 		// 这里需要判定区域
 		// 如果是react触发 ，left和top就是起始值和终止值的最小值
 		// 如果是原生触发，left和top是起始点减去其宽高
 		let left = 0;
 		let top = 0;
+		const scaleState = config.getScaleState();
 		const { width, height } = selectData.selectDiv.getBoundingClientRect();
 		const scale = scaleState.value;
 		const wwidth = width / scale;
@@ -93,7 +94,7 @@ export function selectRangeMouseUp(e: React.MouseEvent | MouseEvent) {
 			left = selectData.startX - wwidth;
 			top = selectData.startY - wheight;
 		}
-		selectFocus(left, top, wwidth, wheight);
+		selectFocus(left, top, wwidth, wheight, config);
 		selectData.selectDiv.parentNode!.removeChild(selectData.selectDiv);
 		selectData.selectDiv = null;
 	}

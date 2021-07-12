@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 15:21:27
+ * @LastEditTime: 2021-07-12 17:12:35
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
@@ -144,8 +144,8 @@ function LeftConfig(props: LeftConfigProps) {
 		}
 	}, [menuSelect, props.config, leftMapRenderListCategory, search]);
 
-	const [isCollapse, setCollapse] = useState(false);
-	const [renderCollapse, setRenderCollaspe] = useState(false);
+	const [isCollapse, setCollapse] = useState(props.config.getCollapse());
+	const [renderCollapse, setRenderCollaspe] = useState(props.config.getCollapse());
 
 	return (
 		<div style={{ display: 'flex', height: '100%' }}>
@@ -164,11 +164,15 @@ function LeftConfig(props: LeftConfigProps) {
 							setCollapse((pre) => {
 								if (pre) {
 									setTimeout(() => {
+										props.config.collapsed = false;
 										setRenderCollaspe(false);
+										props.config.getStore().forceUpdate();
 									}, 300);
 									return !pre;
 								} else {
+									props.config.collapsed = true;
 									setRenderCollaspe(true);
+									props.config.getStore().forceUpdate();
 									return !pre;
 								}
 							})

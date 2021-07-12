@@ -2,12 +2,11 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 16:06:33
- * @FilePath: \DooringV2\packages\dooringx-lib\src\components\rightConfig.tsx
+ * @LastEditTime: 2021-07-12 20:36:30
+ * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
 import { IBlockType, IStoreData } from '../core/store/storetype';
-import { store } from '../runtime/store';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import React from 'react';
 import { Tabs, Input, Row, Col, Checkbox } from 'antd';
@@ -33,6 +32,9 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 	const rightMapRenderListCategory = useMemo(() => {
 		return props.config.getConfig().rightRenderListCategory;
 	}, [props.config]);
+
+	const store = props.config.getStore();
+
 	useEffect(() => {
 		const fn = () => {
 			let item: IBlockType | undefined;
@@ -52,7 +54,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 		return () => {
 			unregist();
 		};
-	}, []);
+	}, [store]);
 	const render = useMemo(() => {
 		return (type: string, current: IBlockType) => {
 			const fn = () => props.config.getComponentRegister().getComp(current.name);

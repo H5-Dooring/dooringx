@@ -2,21 +2,22 @@
  * @Author: yehuozhili
  * @Date: 2021-02-18 11:52:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-03-14 11:49:58
- * @FilePath: \dooring-v2\src\core\markline\resizeMarkline.ts
+ * @LastEditTime: 2021-07-12 20:54:50
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\resizeMarkline.ts
  */
 
-import { store } from '../../runtime/store';
 import { resizeState } from '../resizeHandler';
-import { scaleState } from '../scale/state';
 import { LinesTypes } from './calcRender';
 import { switchMarklineResizeDisplay } from './normalMode';
 import { marklineConfig } from './marklineConfig';
+import UserConfig from '../../config';
 
-export function resizeCurrentCalculate(lines: LinesTypes) {
+export function resizeCurrentCalculate(lines: LinesTypes, config: UserConfig) {
 	const id = resizeState.item?.id;
 
 	if (resizeState.ref?.current && id) {
+		const store = config.getStore();
+		const scaleState = config.getScaleState();
 		const newblock = store.getData().block;
 		const unfocus = newblock.filter((v) => v.id !== id);
 		const { width, height } = resizeState.ref.current.getBoundingClientRect();

@@ -2,18 +2,19 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-03-14 12:10:16
- * @FilePath: \dooring-v2\src\core\focusHandler\index.tsx
+ * @LastEditTime: 2021-07-12 20:48:04
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\focusHandler\index.tsx
  */
-import { store } from '../../runtime/store';
 import { innerDragState } from '../innerDrag/state';
 import { IBlockType } from '../store/storetype';
 import { deepCopy } from '../utils';
 import { selectRangeMouseDown } from '../selectRange';
 import { unmountContextMenu } from '../contextMenu';
 import { focusState } from './state';
+import UserConfig from '../../config';
 
-export function containerFocusRemove() {
+export function containerFocusRemove(config: UserConfig) {
+	const store = config.getStore();
 	const onMouseDown = (e: React.MouseEvent) => {
 		const clonedata = deepCopy(store.getData());
 		const newBlock = clonedata.block.map((v: IBlockType) => {
@@ -23,7 +24,7 @@ export function containerFocusRemove() {
 		focusState.blocks = [];
 		store.setData({ ...clonedata, block: newBlock });
 		if (!innerDragState.item) {
-			selectRangeMouseDown(e);
+			selectRangeMouseDown(e, config);
 		}
 		unmountContextMenu();
 	};
@@ -32,7 +33,8 @@ export function containerFocusRemove() {
 	};
 }
 
-export function blockFocus(e: React.MouseEvent, item: IBlockType) {
+export function blockFocus(e: React.MouseEvent, item: IBlockType, config: UserConfig) {
+	const store = config.getStore();
 	const clonedata = deepCopy(store.getData());
 	if (e.shiftKey) {
 		const newBlock = clonedata.block.map((v: IBlockType) => {

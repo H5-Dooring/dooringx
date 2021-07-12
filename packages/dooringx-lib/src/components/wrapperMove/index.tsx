@@ -2,15 +2,18 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 15:24:29
+ * @LastEditTime: 2021-07-12 19:47:39
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\index.tsx
  */
 import { AllHTMLAttributes, CSSProperties, PropsWithChildren, useRef } from 'react';
 import { wrapperEvent } from './event';
 import { onWheelEvent } from '../../core/scale';
 import React from 'react';
+import Ticker from './ticker';
+import UserConfig from '../../config';
 
 export interface ContainerWrapperProps extends AllHTMLAttributes<HTMLDivElement> {
+	config: UserConfig;
 	classNames?: string;
 	style?: CSSProperties;
 }
@@ -33,11 +36,12 @@ function ContainerWrapper(props: PropsWithChildren<ContainerWrapperProps>) {
 				overflow: 'hidden',
 				...style,
 			}}
-			{...wrapperEvent(ref)}
-			{...onWheelEvent}
+			{...wrapperEvent(ref, props.config)}
+			{...onWheelEvent(props.config)}
 			{...rest}
 		>
 			{children}
+			<Ticker config={props.config}></Ticker>
 		</div>
 	);
 }

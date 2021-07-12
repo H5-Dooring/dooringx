@@ -2,22 +2,23 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-03-14 11:49:50
- * @FilePath: \dooring-v2\src\core\markline\calcRender.ts
+ * @LastEditTime: 2021-07-12 20:56:02
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\calcRender.ts
  */
-import { store } from '../../runtime/store';
 import { innerDragState } from '../innerDrag/state';
-import { scaleState } from '../scale/state';
 import { grideModeRender, gridModeDisplay } from './gridMode';
 import { switchMarklineDisplay } from './normalMode';
 import { resizeCurrentCalculate } from './resizeMarkline';
 import { marklineConfig } from './marklineConfig';
+import UserConfig from '../../config';
 export interface LinesTypes {
 	x: number[];
 	y: number[];
 }
 
-export function marklineCalRender() {
+export function marklineCalRender(config: UserConfig) {
+	const store = config.getStore();
+	const scaleState = config.getScaleState();
 	//focus可能好几个，做对比的是拖拽那个
 	const lines: LinesTypes = { x: [], y: [] };
 	if (innerDragState.item?.position === 'static' || innerDragState.item?.position === 'relative') {
@@ -65,15 +66,15 @@ export function marklineCalRender() {
 			}
 		});
 		if (marklineConfig.mode === 'grid' && marklineConfig.isAbsorb) {
-			gridModeDisplay(left, top, focus);
+			gridModeDisplay(left, top, focus, config);
 		}
 	}
 
 	if (marklineConfig.mode === 'grid') {
-		grideModeRender(lines);
+		grideModeRender(lines, config);
 	}
 
-	resizeCurrentCalculate(lines);
+	resizeCurrentCalculate(lines, config);
 
 	return lines;
 }

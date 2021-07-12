@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-03-09 15:19:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-03-14 04:52:57
- * @FilePath: \dooring-v2\src\core\resizeHandler\containerResizer.ts
+ * @LastEditTime: 2021-07-12 19:25:09
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\resizeHandler\containerResizer.ts
  */
 
 import { store } from '../../runtime/store';
@@ -15,6 +15,7 @@ export const containerState = {
 	isDrag: false,
 	startY: 0,
 	startIndex: 0,
+	minHeight: 667,
 };
 
 export const containerResizer = {
@@ -29,7 +30,8 @@ export const containerResizer = {
 			const diff = ((e.clientY - containerState.startY) / scale) * 2;
 			const clonedata: IStoreData = deepCopy(store.getData());
 			const height = clonedata.container.height;
-			let tmpHeight = height + diff < 600 ? 600 : height + diff;
+			let tmpHeight =
+				height + diff < containerState.minHeight ? containerState.minHeight : height + diff;
 			clonedata.container.height = tmpHeight;
 			store.setData(clonedata);
 			containerState.startY = e.clientY;

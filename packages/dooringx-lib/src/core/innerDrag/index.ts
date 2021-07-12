@@ -1,26 +1,30 @@
-import { store } from '../../runtime/store';
 import { RefObject } from 'react';
 import { blockFocus, containerFocusRemove } from '../focusHandler';
 import { marklineConfig } from '../markline/marklineConfig';
 import { resizerMouseMove, resizerMouseUp } from '../resizeHandler';
-import { scaleState } from '../scale/state';
 import { selectRangeMouseMove, selectData, selectRangeMouseUp } from '../selectRange';
 import { IBlockType } from '../store/storetype';
 import { deepCopy, isMac } from '../utils';
 import { wrapperMoveMouseUp } from '../../components/wrapperMove/event';
 import { contextMenuState } from '../contextMenu';
 import { innerDragState } from './state';
+import UserConfig from '../../config';
 
-export const innerDrag = function (item: IBlockType, ref: RefObject<HTMLDivElement>) {
+export const innerDrag = function (
+	item: IBlockType,
+	ref: RefObject<HTMLDivElement>,
+	config: UserConfig
+) {
+	const store = config.getStore();
 	return {
 		onMouseDown: (e: React.MouseEvent) => {
 			e.preventDefault();
 			e.stopPropagation();
 			if (!item.canDrag) {
-				containerFocusRemove().onMouseDown(e);
+				containerFocusRemove(config).onMouseDown(e);
 				return;
 			}
-			blockFocus(e, item);
+			blockFocus(e, item, config);
 			if (item.id && innerDragState.lastClick && item.id !== innerDragState.lastClick.id) {
 				contextMenuState.unmountContextMenu();
 			}
@@ -43,8 +47,10 @@ export const innerDrag = function (item: IBlockType, ref: RefObject<HTMLDivEleme
 	};
 };
 
-export const innerContainerDrag = function () {
+export const innerContainerDrag = function (config: UserConfig) {
 	let lastblock: null | IBlockType;
+	const store = config.getStore();
+	const scaleState = config.getScaleState();
 	const onMouseMove = (e: React.MouseEvent) => {
 		e.preventDefault();
 		if (isMac() && contextMenuState.state) {
@@ -96,7 +102,8 @@ export const innerContainerDrag = function () {
 		onMouseMove,
 	};
 };
-export const innerContainerDragUp = function () {
+export const innerContainerDragUp = function (config: UserConfig) {
+	const store = config.getStore();
 	const onMouseUp = (e: React.MouseEvent) => {
 		e.preventDefault();
 		wrapperMoveMouseUp();

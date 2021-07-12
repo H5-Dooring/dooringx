@@ -2,17 +2,18 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-03-14 11:49:43
- * @FilePath: \dooring-v2\src\core\markline\gridMode.ts
+ * @LastEditTime: 2021-07-12 20:56:19
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\gridMode.ts
  */
-import { store } from '../../runtime/store';
+import UserConfig from '../../config';
 import { IBlockType } from '../store/storetype';
 import { deepCopy } from '../utils';
 import { LinesTypes } from './calcRender';
 import { marklineConfig } from './marklineConfig';
-export function gridModeDisplay(left: number, top: number, focus: IBlockType) {
+export function gridModeDisplay(left: number, top: number, focus: IBlockType, config: UserConfig) {
 	// 有吸附走吸附，只吸top和left，宽高不需要
 	// 无吸附拖拽时显示所有网格。
+	const store = config.getStore();
 	const container = store.getData().container;
 	const containerWidth = container.width;
 	const containerHeight = container.height;
@@ -55,7 +56,8 @@ export const lastGridStatus: lastGridStatusProps = {
 	lastLine: { x: [], y: [] },
 };
 
-export function grideModeRender(lines: LinesTypes) {
+export function grideModeRender(lines: LinesTypes, config: UserConfig) {
+	const store = config.getStore();
 	const container = store.getData().container;
 	const containerWidth = container.width;
 	const containerHeight = container.height;

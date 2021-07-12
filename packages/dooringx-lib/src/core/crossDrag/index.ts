@@ -2,15 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 18:34:40
+ * @LastEditTime: 2021-07-12 20:11:56
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\crossDrag\index.ts
  */
-import { store } from '../../runtime/store';
-import { componentRegister } from '../../runtime';
 import { DragEvent, ReactNode } from 'react';
 import { createBlock } from '../components/createBlock';
 import { IBlockType } from '../store/storetype';
 import { deepCopy } from '../utils';
+import UserConfig from '../../config';
 
 /**
  *
@@ -43,42 +42,46 @@ export const dragEventResolve = function (item: LeftRegistComponentMapItem) {
 	};
 };
 
-export const containerDragResolve = {
-	onDragStart: () => {},
-	onDragOver: (e: DragEvent<HTMLDivElement>) => {
-		e.preventDefault();
-	},
-	onDrop: (e: DragEvent<HTMLDivElement>) => {
-		const offsetX = e.nativeEvent.offsetX;
-		const offestY = e.nativeEvent.offsetY;
-		//drop后修改store，
-		if (currentDrag) {
-			// 还需要拿到注册的组件状态
-			const origin = componentRegister.getComp(currentDrag.component);
-			if (!origin) {
-				console.log(currentDrag.component, 'wait the chunk pull compeletely and retry');
-				return;
-			}
-			const target = e.target as HTMLElement;
-			let newblock: IBlockType;
-			if (!origin.needPosition) {
-				newblock = createBlock(
-					origin.initData.top ?? offestY,
-					origin.initData.left ?? offsetX,
-					origin
-				);
-			} else {
-				if (target.id !== 'yh-container') {
-					newblock = createBlock(offestY + target.offsetTop, offsetX + target.offsetLeft, origin);
-				} else {
-					newblock = createBlock(offestY, offsetX, origin);
+export const containerDragResolve = (config: UserConfig) => {
+	const store = config.getStore();
+	const componentRegister = config.getComponentRegister();
+	return {
+		onDragStart: () => {},
+		onDragOver: (e: DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+		},
+		onDrop: (e: DragEvent<HTMLDivElement>) => {
+			const offsetX = e.nativeEvent.offsetX;
+			const offestY = e.nativeEvent.offsetY;
+			//drop后修改store，
+			if (currentDrag) {
+				// 还需要拿到注册的组件状态
+				const origin = componentRegister.getComp(currentDrag.component);
+				if (!origin) {
+					console.log(currentDrag.component, 'wait the chunk pull compeletely and retry');
+					return;
 				}
+				const target = e.target as HTMLElement;
+				let newblock: IBlockType;
+				if (!origin.needPosition) {
+					newblock = createBlock(
+						origin.initData.top ?? offestY,
+						origin.initData.left ?? offsetX,
+						origin
+					);
+				} else {
+					if (target.id !== 'yh-container') {
+						newblock = createBlock(offestY + target.offsetTop, offsetX + target.offsetLeft, origin);
+					} else {
+						newblock = createBlock(offestY, offsetX, origin);
+					}
+				}
+				const data = deepCopy(store.getData());
+				data.block.push(newblock);
+				store.setData({ ...data });
 			}
-			const data = deepCopy(store.getData());
-			data.block.push(newblock);
-			store.setData({ ...data });
-		}
-		currentDrag = null;
-	},
-	onDragEnd: () => {},
+			currentDrag = null;
+		},
+		onDragEnd: () => {},
+	};
 };

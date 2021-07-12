@@ -2,11 +2,12 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-03-14 11:45:22
- * @FilePath: \dooring-v2\src\core\markline\index.tsx
+ * @LastEditTime: 2021-07-12 20:59:27
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\index.tsx
  */
 import React from 'react';
 import { useMemo } from 'react';
+import UserConfig from '../../config';
 import { IBlockType } from '../store/storetype';
 import { marklineCalRender } from './calcRender';
 
@@ -62,8 +63,8 @@ export function MarklineY(props: any) {
 	);
 }
 
-export function NormalMarkLineRender() {
-	const lines = marklineCalRender();
+export function NormalMarkLineRender(props: { config: UserConfig }) {
+	const lines = marklineCalRender(props.config);
 	const render = useMemo(() => {
 		return (
 			<>

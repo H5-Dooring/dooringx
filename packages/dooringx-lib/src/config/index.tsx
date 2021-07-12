@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 14:49:32
+ * @LastEditTime: 2021-07-12 16:49:46
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import { IBlockType, IStoreData } from '../core/store/storetype';
@@ -321,6 +321,7 @@ export class UserConfig {
 	public eventCenter: EventCenter;
 	public dataCenter: DataCenter;
 	public scaleState = scaleState;
+	public collapsed = false;
 	constructor(initConfig?: Partial<InitConfig>) {
 		const mergeConfig = userConfigMerge(defaultConfig, initConfig);
 		this.initConfig = mergeConfig;
@@ -368,6 +369,10 @@ export class UserConfig {
 	init() {
 		this.store.resetToInitData(deepCopy(this.initConfig.initStoreData), true);
 		this.toRegist();
+	}
+
+	getCollapse() {
+		return this.collapsed;
 	}
 
 	getStoreJSON() {
