@@ -2,17 +2,16 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:51:17
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 19:07:10
+ * @LastEditTime: 2021-07-13 19:55:15
  * @FilePath: \dooringx\packages\dooringx-example\src\layouts\index.tsx
  */
 import { Button } from 'antd';
-import { UserConfig } from 'dooringx-lib/dist';
+import { UserConfig } from 'dooringx-lib';
 import 'dooringx-lib/dist/dooringx-lib.esm.css';
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 import { IRouteComponentProps } from 'umi';
 import plugin from '../plugin';
 import 'antd/dist/antd.css';
-import 'dooringx-lib/dist/dooringx-lib.esm';
 import '../global.less';
 import 'animate.css';
 
@@ -25,6 +24,10 @@ const commander = config.getCommanderRegister();
 const ContextMenu = () => {
 	const handleclick = () => {
 		unmountContextMenu();
+	};
+	const forceUpdate = useState(0)[1];
+	contextMenuState.forceUpdate = () => {
+		forceUpdate((pre) => pre + 1);
 	};
 	return (
 		<div

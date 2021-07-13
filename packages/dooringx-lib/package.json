@@ -1,5 +1,5 @@
 {
-	"version": "0.4.1",
+	"version": "0.4.2",
 	"license": "MIT",
 	"main": "dist/index.js",
 	"module": "dist/dooringx-lib.esm.js",
@@ -44,10 +44,10 @@
 		"tsdx": "^0.14.1"
 	},
 	"dependencies": {
+		"classnames": "^2.3.1",
 		"deepcopy": "^2.1.0",
 		"nanoid": "^3.1.23",
 		"react-color": "^2.19.3",
-		"react-sortable-hoc": "^2.0.0",
-		"uuid": "^8.3.2"
+		"react-sortable-hoc": "^2.0.0"
 	}
 }

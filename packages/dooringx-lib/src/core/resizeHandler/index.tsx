@@ -145,90 +145,41 @@ export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 	}
 };
 
+const directionArr: directionType[] = [
+	'top',
+	'topleft',
+	'left',
+	'topright',
+	'bottomleft',
+	'bottom',
+	'right',
+	'bottomright',
+];
+
 export function BlockResizer(props: BlockResizerProps) {
 	const render = useMemo(() => {
 		if (props.data.focus && props.data.resize) {
 			return (
 				<>
-					<div
-						className={classnames(styles.resizepoint, styles.top)}
-						onMouseDown={(e) => {
-							onMouseDown(e, 'top', props.data, props.rect, props.config);
-						}}
-						onMouseUp={() => {
-							resizerMouseUp(props.config);
-						}}
-					></div>
-					<div
-						className={classnames(styles.resizepoint, styles.topleft)}
-						onMouseDown={(e) => {
-							onMouseDown(e, 'topleft', props.data, props.rect, props.config);
-						}}
-						onMouseUp={() => {
-							resizerMouseUp(props.config);
-						}}
-					></div>
-					<div
-						className={classnames(styles.resizepoint, styles.left)}
-						onMouseDown={(e) => {
-							onMouseDown(e, 'left', props.data, props.rect, props.config);
-						}}
-						onMouseUp={() => {
-							resizerMouseUp(props.config);
-						}}
-					></div>
-					<div
-						className={classnames(styles.resizepoint, styles.topright)}
-						onMouseDown={(e) => {
-							onMouseDown(e, 'topright', props.data, props.rect, props.config);
-						}}
-						onMouseUp={() => {
-							resizerMouseUp(props.config);
-						}}
-					></div>
-					<div
-						className={classnames(styles.resizepoint, styles.bottomleft)}
-						onMouseDown={(e) => {
-							onMouseDown(e, 'bottomleft', props.data, props.rect, props.config);
-						}}
-						onMouseUp={() => {
-							resizerMouseUp(props.config);
-						}}
-					></div>
-					<div
-						className={classnames(styles.resizepoint, styles.bottom)}
-						onMouseDown={(e) => {
-							onMouseDown(e, 'bottom', props.data, props.rect, props.config);
-						}}
-						onMouseUp={() => {
-							resizerMouseUp(props.config);
-						}}
-					></div>
-					<div
-						className={classnames(styles.resizepoint, styles.right)}
-						onMouseDown={(e) => {
-							onMouseDown(e, 'right', props.data, props.rect, props.config);
-						}}
-						onMouseUp={() => {
-							resizerMouseUp(props.config);
-						}}
-					></div>
-					<div
-						className={classnames(styles.resizepoint, styles.bottomright)}
-						onMouseDown={(e) => {
-							onMouseDown(e, 'bottomright', props.data, props.rect, props.config);
-						}}
-						onMouseUp={() => {
-							resizerMouseUp(props.config);
-						}}
-					></div>
+					{directionArr.map((v) => {
+						return (
+							<div
+								className={classnames(styles.resizepoint, styles[v])}
+								onMouseDown={(e) => {
+									onMouseDown(e, v, props.data, props.rect, props.config);
+								}}
+								onMouseUp={() => {
+									resizerMouseUp(props.config);
+								}}
+							></div>
+						);
+					})}
 				</>
 			);
 		} else {
 			return null;
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [props.data.focus, props.data.resize]);
+	}, [props.config, props.data, props.rect]);
 
 	return <>{render}</>;
 }
