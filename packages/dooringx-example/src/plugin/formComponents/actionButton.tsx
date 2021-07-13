@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:46:01
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 10:17:28
+ * @LastEditTime: 2021-07-13 11:30:17
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\formComponents\actionButton.tsx
  */
 
@@ -233,7 +233,7 @@ function ActionButton(props: ActionButtonProps) {
 	};
 
 	return (
-		<div style={{ padding: '10px 20px' }}>
+		<div>
 			<Row
 				style={{
 					padding: 20,
