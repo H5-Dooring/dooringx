@@ -2,12 +2,16 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 21:00:48
+ * @LastEditTime: 2021-07-13 11:10:00
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
 ## Dooringx-lib 
 ## changelog
+
+- 0.3.1
+1、由uuid更换为nanoid。
+2、control组件增加标尺控制。
 
 - 0.3.0 
 1、增加标尺，ContainerWrapper需要传递config才可使用。
@@ -26,5 +30,4 @@
 
 ## todo
 
-1、制作标尺
-2、重构拖拽，优化性能与config传递。
+1、重构拖拽，优化性能与config传递。

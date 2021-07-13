@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 16:49:46
+ * @LastEditTime: 2021-07-13 10:48:14
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import { IBlockType, IStoreData } from '../core/store/storetype';
@@ -322,6 +322,7 @@ export class UserConfig {
 	public dataCenter: DataCenter;
 	public scaleState = scaleState;
 	public collapsed = false;
+	public ticker = true;
 	constructor(initConfig?: Partial<InitConfig>) {
 		const mergeConfig = userConfigMerge(defaultConfig, initConfig);
 		this.initConfig = mergeConfig;

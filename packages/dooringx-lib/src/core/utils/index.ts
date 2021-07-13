@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { RGBColor } from 'react-color';
-import * as uuid from 'uuid';
+import { nanoid } from 'nanoid';
 import Store from '../store';
 import { IBlockType, IStoreData } from '../store/storetype';
 import { specialCoList } from './special';
@@ -31,9 +31,9 @@ export function rgba2Obj(rgba = '') {
 
 export function createUid(name?: string) {
 	if (name) {
-		return name + '-' + uuid.v4();
+		return name + '-' + nanoid();
 	} else {
-		return uuid.v4();
+		return nanoid();
 	}
 }
 

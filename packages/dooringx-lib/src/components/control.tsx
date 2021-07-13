@@ -4,6 +4,7 @@ import {
 	FullscreenExitOutlined,
 	FullscreenOutlined,
 	GatewayOutlined,
+	LayoutOutlined,
 	MenuOutlined,
 	SyncOutlined,
 	UnorderedListOutlined,
@@ -13,7 +14,6 @@ import React, { CSSProperties, PropsWithChildren, useState } from 'react';
 import { UserConfig } from '..';
 import { IBlockType, IStoreData } from '../core/store/storetype';
 import { deepCopy, arrayMove, changeItem, changeLayer, focusEle } from '../core/utils';
-
 import { SortEnd, SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { wrapperMoveState } from './wrapperMove/event';
 export interface ControlProps {
@@ -151,8 +151,13 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 				<Popover style={{ minWidth: '208px' }} content={content} trigger="click">
 					<Button icon={<UnorderedListOutlined />}></Button>
 				</Popover>
-
-				{/* <Button icon={<FolderOpenOutlined />}></Button> */}
+				<Button
+					icon={<LayoutOutlined />}
+					onClick={() => {
+						props.config.ticker = !props.config.ticker;
+						props.config.getStore().forceUpdate();
+					}}
+				></Button>
 				<Popover
 					placement="left"
 					content={

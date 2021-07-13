@@ -14,6 +14,7 @@
 	const home = base + '/';
 	const docs = base + '/docs';
 	const api = base + '/api';
+	const changelog = base +'/changelog'
 </script>
 
 <header>
@@ -31,6 +32,9 @@
 			</div>
 			<div class:active={$page.path === '/api'}>
 				<Button href={api} color={$page.path === '/api' ? '#4569d4' : '#4d5164'}>API</Button>
+			</div>
+			<div class:active={$page.path === '/changelog'}>
+				<Button href={changelog} color={$page.path === '/changelog' ? '#4569d4' : '#4d5164'}>更新</Button>
 			</div>
 			<div class:active={$page.path === '/about'}>
 				<Button>Github</Button>

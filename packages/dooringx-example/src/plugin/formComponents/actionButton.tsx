@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:46:01
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 18:33:35
+ * @LastEditTime: 2021-07-13 10:17:28
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\formComponents\actionButton.tsx
  */
 
@@ -381,6 +381,7 @@ function ActionButton(props: ActionButtonProps) {
 										<Col span={6}>选择函数：</Col>
 										<Col span={14}>
 											<Select
+												showSearch
 												value={current?.value || ''}
 												style={{ width: '100%' }}
 												optionFilterProp="children"
