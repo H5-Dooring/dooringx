@@ -1,18 +1,14 @@
 {
-  "plugins": [
-    [
-      "import-v2",
-      {
-        "libraryName": "@ant-design",
-        "libraryDirectory": "icons",
-        "camel2DashComponentName": false,
-        "style": false
-      }
-    ],
-    [
-      "import",
-      { "libraryName": "antd", "libraryDirectory": "lib", "style": true },
-      "antd"
-    ]
-  ]
+	"plugins": [
+		[
+			"import-v2",
+			{
+				"libraryName": "@ant-design",
+				"libraryDirectory": "icons",
+				"camel2DashComponentName": false,
+				"style": false
+			}
+		],
+		["import", { "libraryName": "antd", "libraryDirectory": "lib", "style": false }, "antd"]
+	]
 }

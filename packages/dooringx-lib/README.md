@@ -2,13 +2,16 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 15:14:42
+ * @LastEditTime: 2021-07-13 15:31:15
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
 ## Dooringx-lib 
 ## changelog
 
+## 0.4.1
+
+去除lib自动导入样式。
 
 ## 0.4.0
 
