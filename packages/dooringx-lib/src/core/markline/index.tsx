@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 20:59:27
+ * @LastEditTime: 2021-07-13 20:38:59
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\index.tsx
  */
 import React from 'react';
@@ -37,7 +37,7 @@ export function MarklineX(props: any) {
 		<div
 			className="yh-markline"
 			style={{
-				borderTop: '1px dashed black',
+				borderTop: '1px dotted #2196f3',
 				position: 'absolute',
 				width: '100%',
 				top: props.top,
@@ -52,7 +52,7 @@ export function MarklineY(props: any) {
 		<div
 			className="yh-markline"
 			style={{
-				borderLeft: '1px dashed black',
+				borderLeft: '1px dotted #2196f3',
 				position: 'absolute',
 				height: '100%',
 				left: props.left,

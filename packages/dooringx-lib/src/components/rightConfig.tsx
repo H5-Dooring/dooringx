@@ -2,14 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 20:36:30
+ * @LastEditTime: 2021-07-13 21:08:46
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
 import { IBlockType, IStoreData } from '../core/store/storetype';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import React from 'react';
-import { Tabs, Input, Row, Col, Checkbox } from 'antd';
+import { Tabs, Input, Row, Col, Checkbox, InputNumber } from 'antd';
 import UserConfig from '../config';
 import { RGBColor, SketchPicker } from 'react-color';
 import { rgba2Obj } from '../core/utils';
@@ -151,9 +151,13 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 			)}
 			{!current && !isEdit && !customGlobal && (
 				<div style={{ padding: '20px' }}>
-					<Row style={{ padding: '10 0 20px 0', fontWeight: 'bold' }}>全局设置</Row>
+					<Row style={{ padding: '10px 0 20px 0', fontWeight: 'bold', userSelect: 'none' }}>
+						全局设置
+					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={6}>标题</Col>
+						<Col span={6} style={{ userSelect: 'none' }}>
+							标题
+						</Col>
 						<Col span={18}>
 							<Input
 								value={title}
@@ -177,7 +181,36 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						</Col>
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={6}>容器底色</Col>
+						<Col span={6} style={{ userSelect: 'none' }}>
+							容器高度
+						</Col>
+						<Col span={18}>
+							<InputNumber
+								min={667}
+								value={props.config.getStore().getData().container.height}
+								onChange={(e) => {
+									const val = e;
+									console.log(val, 'kkkk');
+									const isEdit = props.config.getStoreChanger().isEdit();
+									if (isEdit) {
+										const originData: IStoreData = deepcopy(
+											props.config.getStoreChanger().getOrigin()!.now
+										);
+										originData.container.height = val;
+										props.config.getStoreChanger().updateOrigin(originData);
+									} else {
+										const originData = deepcopy(props.config.getStore().getData());
+										originData.container.height = val;
+										props.config.getStore().setData(originData);
+									}
+								}}
+							/>
+						</Col>
+					</Row>
+					<Row style={{ padding: '10px 0' }}>
+						<Col span={6} style={{ userSelect: 'none' }}>
+							容器底色
+						</Col>
 						<Col span={18}>
 							{
 								<div style={{ position: 'relative' }}>
@@ -243,7 +276,9 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						</Col>
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={6}>body底色</Col>
+						<Col span={6} style={{ userSelect: 'none' }}>
+							body底色
+						</Col>
 						<Col span={18}>
 							{
 								<div style={{ position: 'relative' }}>

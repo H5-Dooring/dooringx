@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-12 15:54:35
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 19:21:35
+ * @LastEditTime: 2021-07-13 21:07:22
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\ticker.tsx
  */
 import React, { useEffect, useRef, useState } from 'react';
@@ -51,6 +51,7 @@ function Ticker(props: { config: UserConfig }) {
 					height: width,
 					display: 'flex',
 					justifyContent: 'space-between',
+					userSelect: 'none',
 				}}
 			>
 				{Array(topRender)
@@ -65,6 +66,7 @@ function Ticker(props: { config: UserConfig }) {
 										width: '1px',
 										height: '12px',
 										position: 'relative',
+										userSelect: 'none',
 									}}
 								>
 									<div
@@ -101,6 +103,7 @@ function Ticker(props: { config: UserConfig }) {
 					display: 'flex',
 					justifyContent: 'space-between',
 					flexDirection: 'column',
+					userSelect: 'none',
 				}}
 			>
 				{Array(leftRender)
@@ -115,6 +118,7 @@ function Ticker(props: { config: UserConfig }) {
 										width: '12px',
 										height: '1px',
 										position: 'relative',
+										userSelect: 'none',
 									}}
 								>
 									<div
@@ -134,7 +138,12 @@ function Ticker(props: { config: UserConfig }) {
 							return (
 								<div
 									key={i}
-									style={{ background: 'rgb(204, 204, 204)', width: '6px', height: '1px' }}
+									style={{
+										background: 'rgb(204, 204, 204)',
+										width: '6px',
+										height: '1px',
+										userSelect: 'none',
+									}}
 								></div>
 							);
 						}

@@ -104,11 +104,10 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 	}, [props.data.animate]);
 	const animateCount = useMemo(() => {
 		const animate = props.data.animate;
-
 		if (Object.keys(animate).length > 0) {
 			return { animationIterationCount: animate.animationIterationCount };
 		}
-		return { animationIterationCount: 1 };
+		return { animationIterationCount: '' };
 	}, [props.data.animate]);
 
 	const render = useMemo(() => {
@@ -185,6 +184,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		state,
 		props.context,
 		props.data,
+		props.config,
 		innerDragData,
 		animatecss,
 		animateCount,

@@ -164,6 +164,7 @@ export function BlockResizer(props: BlockResizerProps) {
 					{directionArr.map((v) => {
 						return (
 							<div
+								key={v}
 								className={classnames(styles.resizepoint, styles[v])}
 								onMouseDown={(e) => {
 									onMouseDown(e, v, props.data, props.rect, props.config);

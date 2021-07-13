@@ -2,13 +2,20 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 15:31:15
+ * @LastEditTime: 2021-07-13 21:09:41
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
 ## Dooringx-lib 
 ## changelog
 
+## 0.4.2
+
+修复animate错误初始值。
+
+修改markline样式。
+
+全局设置增加容器高度。
 ## 0.4.1
 
 去除lib自动导入样式。
