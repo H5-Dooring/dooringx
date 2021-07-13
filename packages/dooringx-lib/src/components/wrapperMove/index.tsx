@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 10:49:33
+ * @LastEditTime: 2021-07-13 14:34:00
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\index.tsx
  */
 import { AllHTMLAttributes, CSSProperties, PropsWithChildren, useRef } from 'react';
@@ -19,7 +19,7 @@ export interface ContainerWrapperProps extends AllHTMLAttributes<HTMLDivElement>
 }
 
 function ContainerWrapper(props: PropsWithChildren<ContainerWrapperProps>) {
-	const { children, style, classNames, ...rest } = props;
+	const { children, style, classNames, config, ...rest } = props;
 	const ref = useRef<HTMLDivElement>(null);
 	const ticker = props.config.ticker;
 	return (

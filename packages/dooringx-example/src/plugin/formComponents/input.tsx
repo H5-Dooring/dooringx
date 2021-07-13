@@ -2,11 +2,10 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:32:55
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-07 14:33:06
- * @FilePath: \visual-editor\src\plugin\formComponents\input.tsx
+ * @LastEditTime: 2021-07-13 15:07:08
+ * @FilePath: \dooringx\packages\dooringx-example\src\plugin\formComponents\input.tsx
  */
-import { deepCopy } from 'dooringx-lib';
-import { store } from 'dooringx-lib';
+import { deepCopy, UserConfig } from 'dooringx-lib';
 import { Col, Input, Row } from 'antd';
 import { memo, useMemo } from 'react';
 import React from 'react';
@@ -17,12 +16,14 @@ import { IBlockType } from 'dooringx-lib/dist/core/store/storetype';
 interface MInputProps {
 	data: CreateOptionsRes<FormMap, 'input'>;
 	current: IBlockType;
+	config: UserConfig;
 }
 
 function MInput(props: MInputProps) {
 	const option = useMemo(() => {
 		return props.data?.option || {};
 	}, [props.data]);
+	const store = props.config.getStore();
 	return (
 		<Row style={{ padding: '10px 20px' }}>
 			<Col span={6} style={{ lineHeight: '30px' }}>

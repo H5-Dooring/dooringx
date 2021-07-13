@@ -2,18 +2,19 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 10:48:14
+ * @LastEditTime: 2021-07-13 14:57:06
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import { IBlockType, IStoreData } from '../core/store/storetype';
-import { store } from '../runtime/store';
-import { formRegister, componentRegister, storeChanger } from '../runtime';
 import { ComponentClass, FunctionComponent, ReactNode } from 'react';
 import { ComponentItemFactory } from '../core/components/abstract';
 import { marklineConfig } from '../core/markline/marklineConfig';
 import { CommanderItem } from '../core/command/commanderType';
 import { contextMenuState } from '../core/contextMenu';
-import { formComponentRegisterFn } from '../core/components/formComponentRegister';
+import {
+	FormComponentRegister,
+	formComponentRegisterFn,
+} from '../core/components/formComponentRegister';
 import { deepCopy } from '../core/utils';
 import { LeftRegistComponentMapItem } from '../core/crossDrag';
 import { FunctionCenterType } from '../core/functionCenter';
@@ -24,6 +25,10 @@ import { scaleState } from '../core/scale/state';
 import { CommanderItemFactory } from '../core/command/abstract';
 import MmodalMask from '../core/components/defaultFormComponents/modalMask';
 import CommanderWrapper from '../core/command';
+import { focusState } from '../core/focusHandler/state';
+import ComponentRegister from '../core/components';
+import { StoreChanger } from '../core/storeChanger';
+import Store from '../core/store';
 
 // 组件部分
 
@@ -309,24 +314,25 @@ export function userConfigMerge(a: Partial<InitConfig>, b?: Partial<InitConfig>)
  */
 export class UserConfig {
 	public initConfig: InitConfig;
-	public store = store;
-	public componentRegister = componentRegister;
+	public store = new Store();
+	public componentRegister = new ComponentRegister();
+	public formRegister = new FormComponentRegister();
+	public storeChanger = new StoreChanger();
 	public componentCache = {};
 	public asyncComponentUrlMap = {} as AsyncCacheComponentType;
 	public marklineConfig = marklineConfig;
 	public commanderRegister: CommanderWrapper;
 	public contextMenuState = contextMenuState;
-	public formRegister = formRegister;
-	public storeChanger = storeChanger;
 	public eventCenter: EventCenter;
 	public dataCenter: DataCenter;
 	public scaleState = scaleState;
+	public focusState = focusState;
 	public collapsed = false;
 	public ticker = true;
 	constructor(initConfig?: Partial<InitConfig>) {
 		const mergeConfig = userConfigMerge(defaultConfig, initConfig);
 		this.initConfig = mergeConfig;
-		this.commanderRegister = new CommanderWrapper(store, {}, this);
+		this.commanderRegister = new CommanderWrapper(this.store, {}, this);
 		this.eventCenter = new EventCenter({}, mergeConfig.initFunctionMap);
 		this.dataCenter = new DataCenter(mergeConfig.initDataCenterMap);
 		this.init();
@@ -335,7 +341,7 @@ export class UserConfig {
 
 	toRegist() {
 		const modules = this.initConfig.initFormComponents;
-		formComponentRegisterFn(formRegister, modules);
+		formComponentRegisterFn(this.formRegister, modules);
 
 		const cache = this.initConfig.initComponentCache;
 		this.componentCache = cache;
@@ -389,6 +395,9 @@ export class UserConfig {
 		this.toRegist();
 	}
 
+	getFocusState() {
+		return this.focusState;
+	}
 	getScaleState() {
 		return this.scaleState;
 	}
@@ -430,7 +439,7 @@ export class UserConfig {
 		const mergeConfig = userConfigMerge(defaultConfig, v);
 		this.initConfig = mergeConfig;
 		this.init();
-		store.forceUpdate();
+		this.store.forceUpdate();
 	}
 	/**
 	 *  会重置配置，请修改配置后增加
@@ -442,7 +451,7 @@ export class UserConfig {
 		obj.leftRenderListCategory = v;
 		this.initConfig = userConfigMerge(this.initConfig, obj);
 		this.init();
-		store.forceUpdate();
+		this.store.forceUpdate();
 	}
 
 	/**
@@ -455,7 +464,7 @@ export class UserConfig {
 		obj.rightRenderListCategory = v;
 		this.initConfig = userConfigMerge(this.initConfig, obj);
 		this.init();
-		store.forceUpdate();
+		this.store.forceUpdate();
 	}
 
 	/**
@@ -468,7 +477,7 @@ export class UserConfig {
 		obj.leftAllRegistMap = [v];
 		this.initConfig = userConfigMerge(this.initConfig, obj);
 		this.init();
-		store.forceUpdate();
+		this.store.forceUpdate();
 	}
 
 	/**
@@ -479,7 +488,7 @@ export class UserConfig {
 	setConfig(v: Partial<InitConfig>) {
 		this.initConfig = userConfigMerge(this.initConfig, v);
 		this.init();
-		store.forceUpdate();
+		this.store.forceUpdate();
 	}
 
 	/**

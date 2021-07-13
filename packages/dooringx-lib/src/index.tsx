@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:22:18
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 14:43:28
+ * @LastEditTime: 2021-07-13 14:57:13
  * @FilePath: \dooringx\packages\dooringx-lib\src\index.tsx
  */
 
@@ -24,10 +24,6 @@ export { default as ContainerWrapper } from './components/wrapperMove';
 export { default as Control } from './components/control';
 // 这个放到外层容器属性里 ...innerContainerDragUp()
 export { innerContainerDragUp } from './core/innerDrag';
-// 用于修改store
-export { store } from './runtime/store';
-// 用于获取运行中的实例
-export { componentRegister, formRegister, storeChanger } from './runtime';
 
 export { unmountContextMenu } from './core/contextMenu';
 

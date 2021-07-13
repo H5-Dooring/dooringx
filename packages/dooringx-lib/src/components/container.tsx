@@ -92,14 +92,9 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 						>
 							<IconFont
 								type="icon-suofang"
-								onMouseDown={containerResizer.onMousedown}
+								onMouseDown={(e) => containerResizer.onMousedown(e, props.config)}
 								style={{ fontSize: '20px', cursor: 's-resize' }}
 							></IconFont>
-							{/* <BoxPlotFilled
-                onMouseDown={containerResizer.onMousedown}
-                style={{ fontSize: '20px', cursor: 's-resize' }}
-                rotate={90}
-              /> */}
 						</div>
 					</div>
 				</>

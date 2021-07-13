@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 18:17:56
+ * @LastEditTime: 2021-07-13 14:58:30
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\index.ts
  */
 import { IStoreData } from './storetype';
@@ -11,7 +11,7 @@ import { storeChangerState } from '../storeChanger/state';
 export const initialData: IStoreData = {
 	container: {
 		width: 375,
-		height: 600,
+		height: 667,
 	},
 	block: [],
 	modalMap: {},

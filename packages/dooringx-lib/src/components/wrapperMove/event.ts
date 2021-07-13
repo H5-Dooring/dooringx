@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-21 22:17:29
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 20:33:14
+ * @LastEditTime: 2021-07-13 14:29:36
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\event.ts
  */
 import { RefObject } from 'react';
@@ -58,14 +58,14 @@ export const wrapperEvent = (ref: RefObject<HTMLDivElement>, config: UserConfig)
 
 				store.forceUpdate();
 			}
-			containerResizer.onMouseMove(e);
+			containerResizer.onMouseMove(e, config);
 		},
 	};
 };
-export const wrapperMoveMouseUp = () => {
+export const wrapperMoveMouseUp = (config: UserConfig) => {
 	if (wrapperMoveState.ref && wrapperMoveState.ref.current) {
 		wrapperMoveState.ref.current.style.cursor = 'default';
 	}
-	containerResizer.onMouseUp();
+	containerResizer.onMouseUp(config);
 	wrapperMoveState.isDrag = false;
 };

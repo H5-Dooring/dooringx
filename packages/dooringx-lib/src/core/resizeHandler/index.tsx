@@ -1,14 +1,14 @@
-import { store } from '../../runtime/store';
 import { RefObject, useMemo } from 'react';
-import { scaleState } from '../scale/state';
 import { IBlockType } from '../store/storetype';
 import { deepCopy } from '../utils';
 import React from 'react';
 import classnames from 'classnames';
 import styles from '../../index.less';
+import UserConfig from '../../config';
 interface BlockResizerProps {
 	data: IBlockType;
 	rect: RefObject<HTMLDivElement>;
+	config: UserConfig;
 }
 interface resizeStateType {
 	startX: number;
@@ -42,9 +42,11 @@ const onMouseDown = (
 	e: React.MouseEvent,
 	direction: directionType,
 	item: IBlockType,
-	ref: RefObject<HTMLDivElement>
+	ref: RefObject<HTMLDivElement>,
+	config: UserConfig
 ) => {
 	e.stopPropagation();
+	const store = config.getStore();
 	resizeState.isResize = true;
 	resizeState.item = item;
 	resizeState.startX = e.clientX;
@@ -54,9 +56,10 @@ const onMouseDown = (
 	resizeState.current = store.getIndex();
 };
 
-export const resizerMouseUp = () => {
+export const resizerMouseUp = (config: UserConfig) => {
 	resizeState.isResize = false;
 	resizeState.item = null;
+	const store = config.getStore();
 	if (resizeState.current) {
 		const endindex = store.getIndex();
 		store.getStoreList().splice(resizeState.current, endindex - resizeState.current);
@@ -64,7 +67,16 @@ export const resizerMouseUp = () => {
 	}
 	resizeState.current = 0;
 };
-const changePosition = (v: IBlockType, durX: number, durY: number) => {
+const changePosition = (
+	v: IBlockType,
+	durX: number,
+	durY: number,
+	scaleState: {
+		value: number;
+		maxValue: number;
+		minValue: number;
+	}
+) => {
 	const direction = resizeState.direction;
 	const { width, height } = resizeState.ref!.current!.getBoundingClientRect();
 	const scale = scaleState.value;
@@ -110,8 +122,10 @@ const changePosition = (v: IBlockType, durX: number, durY: number) => {
 	}
 };
 
-export const resizerMouseMove = (e: React.MouseEvent) => {
+export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 	//根据direction修改位置
+	const scaleState = config.getScaleState();
+	const store = config.getStore();
 	if (resizeState.isResize && resizeState.item) {
 		let { clientX: moveX, clientY: moveY } = e;
 		const { startX, startY } = resizeState;
@@ -121,7 +135,7 @@ export const resizerMouseMove = (e: React.MouseEvent) => {
 		const clonedata = deepCopy(store.getData());
 		const newblock: IBlockType[] = clonedata.block.map((v: IBlockType) => {
 			if (v.id === resizeState.item!.id) {
-				changePosition(v, durX, durY);
+				changePosition(v, durX, durY, scaleState);
 			}
 			return v;
 		});
@@ -139,58 +153,74 @@ export function BlockResizer(props: BlockResizerProps) {
 					<div
 						className={classnames(styles.resizepoint, styles.top)}
 						onMouseDown={(e) => {
-							onMouseDown(e, 'top', props.data, props.rect);
+							onMouseDown(e, 'top', props.data, props.rect, props.config);
 						}}
-						onMouseUp={resizerMouseUp}
+						onMouseUp={() => {
+							resizerMouseUp(props.config);
+						}}
 					></div>
 					<div
 						className={classnames(styles.resizepoint, styles.topleft)}
 						onMouseDown={(e) => {
-							onMouseDown(e, 'topleft', props.data, props.rect);
+							onMouseDown(e, 'topleft', props.data, props.rect, props.config);
 						}}
-						onMouseUp={resizerMouseUp}
+						onMouseUp={() => {
+							resizerMouseUp(props.config);
+						}}
 					></div>
 					<div
 						className={classnames(styles.resizepoint, styles.left)}
 						onMouseDown={(e) => {
-							onMouseDown(e, 'left', props.data, props.rect);
+							onMouseDown(e, 'left', props.data, props.rect, props.config);
 						}}
-						onMouseUp={resizerMouseUp}
+						onMouseUp={() => {
+							resizerMouseUp(props.config);
+						}}
 					></div>
 					<div
 						className={classnames(styles.resizepoint, styles.topright)}
 						onMouseDown={(e) => {
-							onMouseDown(e, 'topright', props.data, props.rect);
+							onMouseDown(e, 'topright', props.data, props.rect, props.config);
 						}}
-						onMouseUp={resizerMouseUp}
+						onMouseUp={() => {
+							resizerMouseUp(props.config);
+						}}
 					></div>
 					<div
 						className={classnames(styles.resizepoint, styles.bottomleft)}
 						onMouseDown={(e) => {
-							onMouseDown(e, 'bottomleft', props.data, props.rect);
+							onMouseDown(e, 'bottomleft', props.data, props.rect, props.config);
 						}}
-						onMouseUp={resizerMouseUp}
+						onMouseUp={() => {
+							resizerMouseUp(props.config);
+						}}
 					></div>
 					<div
 						className={classnames(styles.resizepoint, styles.bottom)}
 						onMouseDown={(e) => {
-							onMouseDown(e, 'bottom', props.data, props.rect);
+							onMouseDown(e, 'bottom', props.data, props.rect, props.config);
 						}}
-						onMouseUp={resizerMouseUp}
+						onMouseUp={() => {
+							resizerMouseUp(props.config);
+						}}
 					></div>
 					<div
 						className={classnames(styles.resizepoint, styles.right)}
 						onMouseDown={(e) => {
-							onMouseDown(e, 'right', props.data, props.rect);
+							onMouseDown(e, 'right', props.data, props.rect, props.config);
 						}}
-						onMouseUp={resizerMouseUp}
+						onMouseUp={() => {
+							resizerMouseUp(props.config);
+						}}
 					></div>
 					<div
 						className={classnames(styles.resizepoint, styles.bottomright)}
 						onMouseDown={(e) => {
-							onMouseDown(e, 'bottomright', props.data, props.rect);
+							onMouseDown(e, 'bottomright', props.data, props.rect, props.config);
 						}}
-						onMouseUp={resizerMouseUp}
+						onMouseUp={() => {
+							resizerMouseUp(props.config);
+						}}
 					></div>
 				</>
 			);

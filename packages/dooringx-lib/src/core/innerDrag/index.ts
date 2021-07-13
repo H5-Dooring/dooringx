@@ -93,7 +93,7 @@ export const innerContainerDrag = function (config: UserConfig) {
 			innerDragState.startY = moveY;
 			store.setData({ ...store.getData(), block: newblock });
 		}
-		resizerMouseMove(e);
+		resizerMouseMove(e, config);
 		if (selectData.selectDiv) {
 			selectRangeMouseMove(e);
 		}
@@ -106,13 +106,13 @@ export const innerContainerDragUp = function (config: UserConfig) {
 	const store = config.getStore();
 	const onMouseUp = (e: React.MouseEvent) => {
 		e.preventDefault();
-		wrapperMoveMouseUp();
+		wrapperMoveMouseUp(config);
 		selectRangeMouseUp(e, config);
 		if (innerDragState.ref && innerDragState.ref.current) {
 			innerDragState.ref.current.style.cursor = 'default';
 			innerDragState.ref.current.style.willChange = 'auto';
 		}
-		resizerMouseUp();
+		resizerMouseUp(config);
 		if (innerDragState.current) {
 			const endindex = store.getIndex();
 			store.getStoreList().splice(innerDragState.current, endindex - innerDragState.current);

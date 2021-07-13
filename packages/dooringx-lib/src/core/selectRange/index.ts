@@ -1,6 +1,5 @@
 import { IStoreData } from '../store/storetype';
 import { deepCopy } from '../utils';
-import { focusState } from '../focusHandler/state';
 import style from '../../index.less';
 import UserConfig from '../../config';
 export interface SelectDataProps {
@@ -57,6 +56,7 @@ function selectFocus(left: number, top: number, width: number, height: number, c
 	}
 	const store = config.getStore();
 	const clonedata: IStoreData = deepCopy(store.getData());
+	const focusState = config.getFocusState();
 	const blocks = clonedata.block;
 	let change = false;
 	const maxleft = left + width;

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 20:48:04
+ * @LastEditTime: 2021-07-13 14:43:14
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\focusHandler\index.tsx
  */
 import { innerDragState } from '../innerDrag/state';
@@ -10,12 +10,13 @@ import { IBlockType } from '../store/storetype';
 import { deepCopy } from '../utils';
 import { selectRangeMouseDown } from '../selectRange';
 import { unmountContextMenu } from '../contextMenu';
-import { focusState } from './state';
 import UserConfig from '../../config';
 
 export function containerFocusRemove(config: UserConfig) {
 	const store = config.getStore();
+
 	const onMouseDown = (e: React.MouseEvent) => {
+		const focusState = config.getFocusState();
 		const clonedata = deepCopy(store.getData());
 		const newBlock = clonedata.block.map((v: IBlockType) => {
 			v.focus = false;
@@ -36,6 +37,7 @@ export function containerFocusRemove(config: UserConfig) {
 export function blockFocus(e: React.MouseEvent, item: IBlockType, config: UserConfig) {
 	const store = config.getStore();
 	const clonedata = deepCopy(store.getData());
+	const focusState = config.getFocusState();
 	if (e.shiftKey) {
 		const newBlock = clonedata.block.map((v: IBlockType) => {
 			if (v.id === item.id) {

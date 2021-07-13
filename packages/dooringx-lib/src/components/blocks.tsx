@@ -159,7 +159,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 					{props.data.position === 'static' && props.data.display === 'inline' && (
 						<span style={{ pointerEvents: 'none' }}>{state}</span>
 					)}
-					<BlockResizer data={props.data} rect={ref}></BlockResizer>
+					<BlockResizer data={props.data} config={props.config} rect={ref}></BlockResizer>
 				</div>
 			);
 		} else {
