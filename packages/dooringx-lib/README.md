@@ -2,12 +2,18 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 21:09:41
+ * @LastEditTime: 2021-07-16 20:28:26
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
 ## Dooringx-lib 
 ## changelog
+
+## 0.5.0
+
+修复control组件宽度不够问题。
+
+移除antd自定义icon，容器底部icon可配置。
 
 ## 0.4.2
 

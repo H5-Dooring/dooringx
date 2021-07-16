@@ -11,7 +11,6 @@ import React from 'react';
 import UserConfig from '../config';
 import styles from '../index.less';
 import { getRealHeight } from '../core/transfer';
-import { IconFont } from '../core/utils/icon';
 interface ContainerProps {
 	state: IStoreData;
 	context: 'edit' | 'preview';
@@ -90,11 +89,12 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 								width: `${props.state.container.width}px`,
 							}}
 						>
-							<IconFont
-								type="icon-suofang"
-								onMouseDown={(e) => containerResizer.onMousedown(e, props.config)}
+							<div
 								style={{ fontSize: '20px', cursor: 's-resize' }}
-							></IconFont>
+								onMouseDown={(e) => containerResizer.onMousedown(e, props.config)}
+							>
+								{props.config.getConfig().containerIcon}
+							</div>
 						</div>
 					</div>
 				</>

@@ -40,7 +40,7 @@ const SortableItem = SortableElement(
 				{value.config.getComponentRegister().getMap()[value.value.name].display}
 			</div>
 			<Divider type="vertical"></Divider>
-			<div style={{ width: 50, textAlign: 'center' }}>{value.value.id.slice(-6)}</div>
+			<div style={{ width: 80, textAlign: 'center' }}>{value.value.id.slice(-6)}</div>
 			<Divider type="vertical"></Divider>
 			<div style={{ width: 50, textAlign: 'center' }}>{value.value.position}</div>
 			<Divider type="vertical"></Divider>

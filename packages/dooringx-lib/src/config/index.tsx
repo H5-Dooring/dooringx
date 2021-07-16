@@ -2,9 +2,10 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 14:57:06
+ * @LastEditTime: 2021-07-16 20:22:47
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
+import React from 'react';
 import { IBlockType, IStoreData } from '../core/store/storetype';
 import { ComponentClass, FunctionComponent, ReactNode } from 'react';
 import { ComponentItemFactory } from '../core/components/abstract';
@@ -29,6 +30,7 @@ import { focusState } from '../core/focusHandler/state';
 import ComponentRegister from '../core/components';
 import { StoreChanger } from '../core/storeChanger';
 import Store from '../core/store';
+import { VerticalAlignMiddleOutlined } from '@ant-design/icons';
 
 // 组件部分
 
@@ -145,6 +147,14 @@ export interface InitConfig {
 	 * @memberof InitConfig
 	 */
 	initFormComponents: Record<string, FunctionComponent<any> | ComponentClass<any, any>>;
+
+	/**
+	 *
+	 * 容器拉伸图标
+	 * @type {ReactNode}
+	 * @memberof InitConfig
+	 */
+	containerIcon: ReactNode;
 }
 
 export const defaultStore: IStoreData = {
@@ -217,6 +227,7 @@ export const defaultConfig: InitConfig = {
 	initDataCenterMap: {},
 	initCommandModule: [],
 	initFormComponents: {},
+	containerIcon: <VerticalAlignMiddleOutlined />,
 };
 
 /**
@@ -232,6 +243,7 @@ export const defaultConfig: InitConfig = {
  * initDataCenterMap合并
  * initCommandModule合并
  * initFormComponents合并
+ * containerIcon不合并
  *
  * @export InitConfig
  */
@@ -247,6 +259,7 @@ export function userConfigMerge(a: Partial<InitConfig>, b?: Partial<InitConfig>)
 		initCommandModule: [],
 		rightGlobalCustom: null,
 		initFormComponents: {},
+		containerIcon: null,
 	};
 	if (!b) {
 		return userConfigMerge(mergeConfig, a);
@@ -256,6 +269,8 @@ export function userConfigMerge(a: Partial<InitConfig>, b?: Partial<InitConfig>)
 		: a.initStoreData
 		? [...a.initStoreData]
 		: [defaultStore];
+
+	mergeConfig.containerIcon = b.containerIcon ? b.containerIcon : a.containerIcon;
 
 	mergeConfig.rightGlobalCustom = b.rightGlobalCustom ? b.rightGlobalCustom : a.rightGlobalCustom;
 
