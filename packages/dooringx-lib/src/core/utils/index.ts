@@ -279,3 +279,12 @@ export const changeUserValueRecord = (
 			return {};
 	}
 };
+
+export function postMessage(value: any, src: string, target = 'yh-container-iframe') {
+	const iframe = document.querySelector(`#${target}`) as HTMLIFrameElement;
+	if (iframe) {
+		iframe.contentWindow?.postMessage(value, src);
+	} else {
+		console.warn('can not find iframe');
+	}
+}

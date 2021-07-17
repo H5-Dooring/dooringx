@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-16 20:22:47
+ * @LastEditTime: 2021-07-17 20:57:16
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -31,7 +31,8 @@ import ComponentRegister from '../core/components';
 import { StoreChanger } from '../core/storeChanger';
 import Store from '../core/store';
 import { VerticalAlignMiddleOutlined } from '@ant-design/icons';
-
+import { wrapperMoveState } from '../components/wrapperMove/event';
+import { wrapperMoveState as iframeWrapperMoveState } from '../components/IframeWrapperMove/event';
 // 组件部分
 
 /**
@@ -344,6 +345,14 @@ export class UserConfig {
 	public focusState = focusState;
 	public collapsed = false;
 	public ticker = true;
+	public wrapperMoveState = wrapperMoveState;
+	public iframeWrapperMoveState = iframeWrapperMoveState;
+	public refreshIframe = () => {};
+	public sendParent = (message: any) => {
+		window.parent.postMessage(message, '*');
+	};
+	public iframeOrigin = '';
+	public iframeId = 'yh-container-iframe';
 	constructor(initConfig?: Partial<InitConfig>) {
 		const mergeConfig = userConfigMerge(defaultConfig, initConfig);
 		this.initConfig = mergeConfig;
@@ -408,6 +417,13 @@ export class UserConfig {
 	resetData(data: IStoreData[]) {
 		this.store.resetToInitData(data, true);
 		this.toRegist();
+	}
+
+	getWrapperMove() {
+		return {
+			data: this.wrapperMoveState,
+			iframe: this.iframeWrapperMoveState,
+		};
 	}
 
 	getFocusState() {

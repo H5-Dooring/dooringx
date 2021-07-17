@@ -6,6 +6,7 @@ import { selectRangeMouseMove, selectData, selectRangeMouseUp } from '../selectR
 import { IBlockType } from '../store/storetype';
 import { deepCopy, isMac } from '../utils';
 import { wrapperMoveMouseUp } from '../../components/wrapperMove/event';
+import { wrapperMoveMouseUp as iframeWrapperMove } from '../../components/IframeWrapperMove/event';
 import { contextMenuState } from '../contextMenu';
 import { innerDragState } from './state';
 import UserConfig from '../../config';
@@ -102,12 +103,15 @@ export const innerContainerDrag = function (config: UserConfig) {
 		onMouseMove,
 	};
 };
-export const innerContainerDragUp = function (config: UserConfig) {
+export const innerContainerDragUp = function (config: UserConfig, mode = 'normal') {
 	const store = config.getStore();
 	const onMouseUp = (e: React.MouseEvent) => {
 		e.preventDefault();
+		iframeWrapperMove(config);
 		wrapperMoveMouseUp(config);
 		selectRangeMouseUp(e, config);
+		if (mode !== 'normal') {
+		}
 		if (innerDragState.ref && innerDragState.ref.current) {
 			innerDragState.ref.current.style.cursor = 'default';
 			innerDragState.ref.current.style.willChange = 'auto';

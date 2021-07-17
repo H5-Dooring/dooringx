@@ -37,6 +37,7 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 			return props.state.globalState.containerColor;
 		}
 	};
+
 	return (
 		<>
 			{props.context === 'edit' && (

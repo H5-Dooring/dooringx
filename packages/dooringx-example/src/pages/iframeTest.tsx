@@ -1,24 +1,27 @@
 /*
  * @Author: yehuozhili
- * @Date: 2021-05-15 12:49:28
+ * @Date: 2021-07-17 10:12:11
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-17 10:12:53
- * @FilePath: \dooringx\packages\dooringx-example\src\pages\index.tsx
+ * @LastEditTime: 2021-07-17 22:13:20
+ * @FilePath: \dooringx\packages\dooringx-example\src\pages\iframeTest.tsx
  */
+
 import {
 	RightConfig,
 	Container,
 	useStoreState,
 	innerContainerDragUp,
 	LeftConfig,
-	ContainerWrapper,
+	IframeContainerWrapper,
 	Control,
 	postMessage,
+	useIframePostMessage,
 } from 'dooringx-lib';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { configContext } from '@/layouts';
 import { useCallback } from 'react';
 import { PREVIEWSTATE } from '@/constant';
+import { useEffect } from 'react';
 
 export const HeaderHeight = '40px';
 
@@ -33,8 +36,34 @@ export default function IndexPage() {
 
 	const [state] = useStoreState(config, subscribeFn, everyFn);
 
+	const [iframeReady, setIframeReady] = useState(false);
+	const [fnx] = useIframePostMessage(`${location.origin}/container`, config, iframeReady);
+	useEffect(() => {
+		const fn = (e: MessageEvent<any>) => {
+			console.log(e, '收到');
+			if (e.data === 'ready') {
+				setIframeReady(true);
+				fnx();
+			}
+			if (typeof e.data === 'object') {
+				if (e.data.type === 'update') {
+					if (e.data.column === 'scale') {
+						config.scaleState = e.data.data;
+						config.getStore().forceUpdate();
+						config.refreshIframe();
+					}
+				}
+			}
+		};
+		window.addEventListener('message', fn);
+		return () => {
+			window.removeEventListener('message', fn);
+		};
+	}, []);
+
+	const scaleState = config.getScaleState();
 	return (
-		<div {...innerContainerDragUp(config)}>
+		<div {...innerContainerDragUp(config, 'iframe')}>
 			<div style={{ height: HeaderHeight }}>
 				head
 				<button
@@ -65,15 +94,28 @@ export default function IndexPage() {
 					<LeftConfig config={config}></LeftConfig>
 				</div>
 
-				<ContainerWrapper config={config}>
-					<>
+				<IframeContainerWrapper
+					config={config}
+					extra={
 						<Control
 							config={config}
 							style={{ position: 'fixed', bottom: '60px', right: '450px', zIndex: 100 }}
 						></Control>
-						<Container state={state} config={config} context="edit"></Container>
+					}
+				>
+					<>
+						<iframe
+							id="yh-container-iframe"
+							style={{
+								width: state.container.width * scaleState.value,
+								height: state.container.height * scaleState.value + 1,
+								border: 'none',
+								userSelect: 'none',
+							}}
+							src="/container"
+						></iframe>
 					</>
-				</ContainerWrapper>
+				</IframeContainerWrapper>
 				<div className="rightrender" style={{ height: '100%' }}>
 					<RightConfig state={state} config={config}></RightConfig>
 				</div>

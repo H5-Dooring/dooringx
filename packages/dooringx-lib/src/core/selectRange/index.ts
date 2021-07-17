@@ -1,5 +1,5 @@
 import { IStoreData } from '../store/storetype';
-import { deepCopy } from '../utils';
+import { deepCopy, postMessage } from '../utils';
 import style from '../../index.less';
 import UserConfig from '../../config';
 export interface SelectDataProps {
@@ -94,6 +94,35 @@ export function selectRangeMouseUp(e: React.MouseEvent | MouseEvent, config: Use
 			left = selectData.startX - wwidth;
 			top = selectData.startY - wheight;
 		}
+		selectFocus(left, top, wwidth, wheight, config);
+		selectData.selectDiv.parentNode!.removeChild(selectData.selectDiv);
+		selectData.selectDiv = null;
+	}
+}
+
+export function iframeSelectRangeMouseUp(config: UserConfig) {
+	postMessage(
+		{
+			type: 'event',
+			column: 'select',
+			data: null,
+		},
+		config.iframeOrigin,
+		config.iframeId
+	);
+}
+
+export function forceRangeMouseLeave(config: UserConfig) {
+	if (selectData.selectDiv) {
+		let left = 0;
+		let top = 0;
+		const scaleState = config.getScaleState();
+		const { width, height } = selectData.selectDiv.getBoundingClientRect();
+		const scale = scaleState.value;
+		const wwidth = width / scale;
+		const wheight = height / scale;
+		left = selectData.startX;
+		top = selectData.startY;
 		selectFocus(left, top, wwidth, wheight, config);
 		selectData.selectDiv.parentNode!.removeChild(selectData.selectDiv);
 		selectData.selectDiv = null;

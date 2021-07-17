@@ -2,13 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:35:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 15:52:06
+ * @LastEditTime: 2021-07-17 20:59:26
  * @FilePath: \dooringx\packages\dooringx-lib\src\hooks\index.ts
  */
 import { useEffect, useMemo, useState } from 'react';
 import UserConfig from '../config';
 import { ComponentRenderConfigProps } from '../core/components/componentItem';
 import { registCommandFn, unRegistCommandFn } from '../core/command/runtime';
+import { postMessage } from '../core/utils';
 
 export function useStoreState(
 	config: UserConfig,
@@ -96,4 +97,56 @@ export function useDynamicAddEventCenter(
 		}
 	}, [displayName, eventCenter, eventName, props.data.eventMap, props.data.id, props.store]);
 	return;
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {string} origin iframe地址
+ * @param {UserConfig} config
+ * @param {boolean} sign iframe onload
+ * @param {string} [target]  iframeid 默认是yh-container-iframe
+ * @return {*}
+ */
+export function useIframePostMessage(
+	origin: string,
+	config: UserConfig,
+	sign: boolean,
+	target?: string
+) {
+	const store = config.getStore();
+
+	const fn = useMemo(() => {
+		config.iframeId = target || config.iframeId;
+		config.iframeOrigin = origin;
+		return () => {
+			const data = {
+				store: store.getData(),
+				scaleState: config.getScaleState(),
+				origin: config.getStoreChanger().getOrigin(),
+				isEdit: config.getStoreChanger().isEdit(),
+				wrapperState: config.getWrapperMove().iframe,
+			};
+
+			postMessage(data, origin, target);
+		};
+	}, [config, origin, store, target]);
+
+	useEffect(() => {
+		let unRegister = () => {};
+		if (sign) {
+			config.refreshIframe = fn;
+			unRegister = store.subscribe(() => {
+				// dom等无法传递
+				// config由context带去，传递store和必要state
+				fn();
+			});
+		}
+		return () => {
+			unRegister();
+		};
+	}, [config.refreshIframe, fn, sign, store]);
+
+	return [fn];
 }
