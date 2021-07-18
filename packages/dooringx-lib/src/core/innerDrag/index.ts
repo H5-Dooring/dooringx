@@ -19,7 +19,7 @@ export const innerDrag = function (
 	const store = config.getStore();
 	return {
 		onMouseDown: (e: React.MouseEvent) => {
-			e.preventDefault();
+			//e.preventDefault();
 			e.stopPropagation();
 			if (!item.canDrag) {
 				containerFocusRemove(config).onMouseDown(e);
@@ -106,7 +106,7 @@ export const innerContainerDrag = function (config: UserConfig) {
 export const innerContainerDragUp = function (config: UserConfig, mode = 'normal') {
 	const store = config.getStore();
 	const onMouseUp = (e: React.MouseEvent) => {
-		e.preventDefault();
+		// e.preventDefault(); 这个会导致无法取消选中
 		iframeWrapperMove(config);
 		wrapperMoveMouseUp(config);
 		selectRangeMouseUp(e, config);

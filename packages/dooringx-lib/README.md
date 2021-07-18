@@ -2,12 +2,17 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-16 20:28:26
+ * @LastEditTime: 2021-07-18 16:38:07
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
 ## Dooringx-lib 
 ## changelog
+
+
+## 0.5.1
+
+修复右侧选中不能取消选中问题。
 
 ## 0.5.0
 
