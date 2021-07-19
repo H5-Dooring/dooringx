@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 14:43:14
+ * @LastEditTime: 2021-07-19 17:34:54
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\focusHandler\index.tsx
  */
 import { innerDragState } from '../innerDrag/state';
@@ -12,7 +12,7 @@ import { selectRangeMouseDown } from '../selectRange';
 import { unmountContextMenu } from '../contextMenu';
 import UserConfig from '../../config';
 
-export function containerFocusRemove(config: UserConfig) {
+export function containerFocusRemove(config: UserConfig, iframe = false) {
 	const store = config.getStore();
 
 	const onMouseDown = (e: React.MouseEvent) => {
@@ -25,7 +25,7 @@ export function containerFocusRemove(config: UserConfig) {
 		focusState.blocks = [];
 		store.setData({ ...clonedata, block: newBlock });
 		if (!innerDragState.item) {
-			selectRangeMouseDown(e, config);
+			selectRangeMouseDown(e, config, iframe);
 		}
 		unmountContextMenu();
 	};

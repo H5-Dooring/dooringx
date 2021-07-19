@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-21 22:17:29
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-17 11:24:59
+ * @LastEditTime: 2021-07-19 10:11:14
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\IframeWrapperMove\event.ts
  */
 import { RefObject } from 'react';
@@ -53,7 +53,7 @@ export const wrapperEvent = (ref: RefObject<HTMLDivElement>, config: UserConfig)
 			}
 		},
 		onMouseMove: (e: React.MouseEvent) => {
-			e.preventDefault();
+			//e.preventDefault();
 			if (wrapperMoveState.isDrag) {
 				const diffX = e.clientX - wrapperMoveState.startX;
 				const diffY = e.clientY - wrapperMoveState.startY;

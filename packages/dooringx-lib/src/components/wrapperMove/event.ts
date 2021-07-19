@@ -47,7 +47,7 @@ export const wrapperEvent = (ref: RefObject<HTMLDivElement>, config: UserConfig)
 			}
 		},
 		onMouseMove: (e: React.MouseEvent) => {
-			e.preventDefault();
+			//e.preventDefault();
 			if (wrapperMoveState.isDrag) {
 				const diffX = e.clientX - wrapperMoveState.startX;
 				const diffY = e.clientY - wrapperMoveState.startY;

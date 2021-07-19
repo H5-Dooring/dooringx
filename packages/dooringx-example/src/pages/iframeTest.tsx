@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-17 10:12:11
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-17 22:13:20
+ * @LastEditTime: 2021-07-19 21:36:27
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\iframeTest.tsx
  */
 
@@ -14,14 +14,14 @@ import {
 	LeftConfig,
 	IframeContainerWrapper,
 	Control,
-	postMessage,
-	useIframePostMessage,
+	useIframeHook,
 } from 'dooringx-lib';
 import { useContext, useState } from 'react';
 import { configContext } from '@/layouts';
 import { useCallback } from 'react';
 import { PREVIEWSTATE } from '@/constant';
 import { useEffect } from 'react';
+import { useRef } from 'react';
 
 export const HeaderHeight = '40px';
 
@@ -35,33 +35,20 @@ export default function IndexPage() {
 	}, [config]);
 
 	const [state] = useStoreState(config, subscribeFn, everyFn);
-
-	const [iframeReady, setIframeReady] = useState(false);
-	const [fnx] = useIframePostMessage(`${location.origin}/container`, config, iframeReady);
-	useEffect(() => {
-		const fn = (e: MessageEvent<any>) => {
-			console.log(e, '收到');
-			if (e.data === 'ready') {
-				setIframeReady(true);
-				fnx();
-			}
-			if (typeof e.data === 'object') {
-				if (e.data.type === 'update') {
-					if (e.data.column === 'scale') {
-						config.scaleState = e.data.data;
-						config.getStore().forceUpdate();
-						config.refreshIframe();
-					}
-				}
-			}
-		};
-		window.addEventListener('message', fn);
-		return () => {
-			window.removeEventListener('message', fn);
-		};
-	}, []);
-
+	useIframeHook(`${location.origin}/container`, config);
 	const scaleState = config.getScaleState();
+
+	const ref = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (ref.current) {
+			ref.current.addEventListener('mousedown', (e) => {
+				console.log('mousedown');
+			});
+			ref.current.addEventListener('mouseup', (e) => {
+				console.log('mouseup,ss');
+			});
+		}
+	}, []);
 	return (
 		<div {...innerContainerDragUp(config, 'iframe')}>
 			<div style={{ height: HeaderHeight }}>
@@ -103,7 +90,14 @@ export default function IndexPage() {
 						></Control>
 					}
 				>
-					<>
+					<div
+						style={{
+							width: state.container.width * scaleState.value,
+							height: state.container.height * scaleState.value + 1,
+							position: 'relative',
+						}}
+					>
+						<div ref={ref} style={{ width: '100%', height: '100%', position: 'absolute' }}></div>
 						<iframe
 							id="yh-container-iframe"
 							style={{
@@ -114,7 +108,7 @@ export default function IndexPage() {
 							}}
 							src="/container"
 						></iframe>
-					</>
+					</div>
 				</IframeContainerWrapper>
 				<div className="rightrender" style={{ height: '100%' }}>
 					<RightConfig state={state} config={config}></RightConfig>

@@ -18,7 +18,7 @@ export const selectData: SelectDataProps = {
 	startY: 0,
 };
 
-export function selectRangeMouseDown(e: React.MouseEvent, config: UserConfig) {
+export function selectRangeMouseDown(e: React.MouseEvent, config: UserConfig, iframe: boolean) {
 	if (!selectData.selectDiv) {
 		selectData.selectDiv = document.createElement('div');
 	}
@@ -32,6 +32,18 @@ export function selectRangeMouseDown(e: React.MouseEvent, config: UserConfig) {
 		selectData.selectDiv.style.top = e.clientY + 'px';
 		selectData.selectDiv.style.position = 'fixed';
 		document.body.appendChild(selectData.selectDiv);
+		if (iframe) {
+			console.log('cxcxc');
+			window.parent.postMessage(
+				{
+					type: 'event',
+					column: 'mousedown',
+					data: null,
+				},
+				'*'
+			);
+		}
+
 		selectData.selectDiv.onmouseup = (e) => selectRangeMouseUp(e, config);
 		selectData.selectDiv.onmousemove = (e) => selectRangeMouseMove(e);
 	}

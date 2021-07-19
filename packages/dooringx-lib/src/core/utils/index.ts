@@ -281,10 +281,12 @@ export const changeUserValueRecord = (
 };
 
 export function postMessage(value: any, src: string, target = 'yh-container-iframe') {
-	const iframe = document.querySelector(`#${target}`) as HTMLIFrameElement;
+	const search = '#' + target;
+	const iframe = document.querySelector(search) as HTMLIFrameElement;
+
 	if (iframe) {
 		iframe.contentWindow?.postMessage(value, src);
 	} else {
-		console.warn('can not find iframe');
+		console.warn(`can not find iframe ${search}`);
 	}
 }

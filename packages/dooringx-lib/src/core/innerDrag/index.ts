@@ -53,7 +53,7 @@ export const innerContainerDrag = function (config: UserConfig) {
 	const store = config.getStore();
 	const scaleState = config.getScaleState();
 	const onMouseMove = (e: React.MouseEvent) => {
-		e.preventDefault();
+		//e.preventDefault();
 		if (isMac() && contextMenuState.state) {
 			//mac有bug
 			return;
@@ -111,6 +111,7 @@ export const innerContainerDragUp = function (config: UserConfig, mode = 'normal
 		wrapperMoveMouseUp(config);
 		selectRangeMouseUp(e, config);
 		if (mode !== 'normal') {
+			console.log('ggogogogogogo');
 		}
 		if (innerDragState.ref && innerDragState.ref.current) {
 			innerDragState.ref.current.style.cursor = 'default';

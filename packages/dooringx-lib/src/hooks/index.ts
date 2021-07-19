@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:35:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-17 20:59:26
+ * @LastEditTime: 2021-07-19 21:28:23
  * @FilePath: \dooringx\packages\dooringx-lib\src\hooks\index.ts
  */
 import { useEffect, useMemo, useState } from 'react';
@@ -149,4 +149,42 @@ export function useIframePostMessage(
 	}, [config.refreshIframe, fn, sign, store]);
 
 	return [fn];
+}
+
+export function useIframeHook(origin: string, config: UserConfig) {
+	const [iframeReady, setIframeReady] = useState(false);
+	const [fnx] = useIframePostMessage(origin, config, iframeReady);
+	useEffect(() => {
+		//@ts-ignore
+		const fn = (e: MessageEvent<any>) => {
+			console.log(e, '收到');
+			if (e.data === 'ready') {
+				setIframeReady(true);
+				fnx();
+			}
+			if (typeof e.data === 'object') {
+				if (e.data.type === 'update') {
+					if (e.data.column === 'scale') {
+						config.scaleState = e.data.data;
+						config.getStore().forceUpdate();
+						config.refreshIframe();
+					}
+				}
+				if (e.data.type === 'event') {
+					if (e.data.column === 'mousedown') {
+						// 发射mousedown
+					}
+				}
+			}
+		};
+		const parentMove = () => {
+			console.log('movessss');
+		};
+		window.addEventListener('mousemove', parentMove);
+		window.addEventListener('message', fn);
+		return () => {
+			window.removeEventListener('message', fn);
+			window.removeEventListener('mousemove', parentMove);
+		};
+	}, [config, fnx]);
 }

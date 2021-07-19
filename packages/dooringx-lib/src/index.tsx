@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:22:18
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-17 16:38:22
+ * @LastEditTime: 2021-07-19 21:24:13
  * @FilePath: \dooringx\packages\dooringx-lib\src\index.tsx
  */
 
@@ -57,4 +57,4 @@ export { specialCoList } from './core/utils/special';
 // iframe
 export { default as IframeContainer } from './components/iframeContainer';
 export { default as IframeContainerWrapper } from './components/IframeWrapperMove';
-export { useIframePostMessage } from './hooks';
+export { useIframePostMessage, useIframeHook } from './hooks';

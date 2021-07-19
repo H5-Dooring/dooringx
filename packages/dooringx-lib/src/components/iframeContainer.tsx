@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-17 10:08:08
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-17 22:13:51
+ * @LastEditTime: 2021-07-19 17:36:44
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\iframeContainer.tsx
  */
 import { containerDragResolve } from '../core/crossDrag';
@@ -138,7 +138,7 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 							}}
 							{...(props.context === 'edit' ? containerDragResolve(props.config) : null)}
 							{...(props.context === 'edit' ? innerContainerDrag(props.config) : null)}
-							{...(props.context === 'edit' ? containerFocusRemove(props.config) : null)}
+							{...(props.context === 'edit' ? containerFocusRemove(props.config, true) : null)}
 						>
 							{props.context === 'edit' && (
 								<NormalMarkLineRender config={props.config}></NormalMarkLineRender>
