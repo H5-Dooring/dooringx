@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-09 15:19:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 14:28:17
+ * @LastEditTime: 2021-07-20 11:31:44
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\resizeHandler\containerResizer.ts
  */
 
@@ -29,7 +29,7 @@ export const containerResizer = {
 			const scaleState = config.getScaleState();
 			const store = config.getStore();
 			const scale = scaleState.value;
-			const diff = ((e.clientY - containerState.startY) / scale) * 2;
+			const diff = ((e.clientY - containerState.startY) / scale) * 2; //可以直接使用movementy
 			const clonedata: IStoreData = deepCopy(store.getData());
 			const height = clonedata.container.height;
 			let tmpHeight =

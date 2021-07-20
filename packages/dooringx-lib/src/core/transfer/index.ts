@@ -2,14 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-04-21 22:59:57
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-07 19:50:12
- * @FilePath: \DooringV2\packages\dooringx-lib\src\core\transfer\index.ts
+ * @LastEditTime: 2021-07-20 16:19:21
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\transfer\index.ts
  */
 
 /**
  *
  *
- * @export 这里的转换可能有问题，需要都使用mobileWidth去转换
+ * @export
  * @param {number} top
  * @param {number} left
  * @param {(string | number | undefined)} height

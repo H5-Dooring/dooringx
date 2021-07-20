@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 14:34:00
+ * @LastEditTime: 2021-07-20 11:25:31
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\index.tsx
  */
 import { AllHTMLAttributes, CSSProperties, PropsWithChildren, useRef } from 'react';
@@ -35,6 +35,7 @@ function ContainerWrapper(props: PropsWithChildren<ContainerWrapperProps>) {
 				flex: 1,
 				position: 'relative',
 				overflow: 'hidden',
+				userSelect: 'none',
 				...style,
 			}}
 			{...wrapperEvent(ref, props.config)}

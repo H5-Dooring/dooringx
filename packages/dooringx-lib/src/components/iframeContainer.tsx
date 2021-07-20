@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-17 10:08:08
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-19 17:36:44
+ * @LastEditTime: 2021-07-20 16:26:24
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\iframeContainer.tsx
  */
 import { containerDragResolve } from '../core/crossDrag';
@@ -19,7 +19,6 @@ import styles from '../index.less';
 import { getRealHeight } from '../core/transfer';
 import { WrapperMoveStateProps } from './IframeWrapperMove/event';
 import { onWheelEventIframe } from '../core/scale';
-import { selectRangeMouseUp } from '../core/selectRange';
 interface ContainerProps {
 	context: 'edit' | 'preview';
 	config: UserConfig;
@@ -78,21 +77,15 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 
 	useEffect(() => {
 		const fn = (e: any) => {
-			console.log(e, 'ccccccccccccccc');
 			if (typeof e.data !== 'object') {
 				return;
 			}
 			if (!e.data.store) {
-				if (e.data.type === 'event') {
-					if (e.data.column === 'select') {
-					}
-				}
-
+				// 后续通信待定
 				return;
 			}
 
 			const data: IframeInnerState = e.data;
-			console.log(data, 'kkkkkkkkkk', !e.data.store, e.data.store);
 
 			setMessage(data);
 			props.config.resetData([data.store]);
@@ -103,25 +96,18 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 		return () => {
 			window.removeEventListener('message', fn);
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [props.config]);
 
 	return (
 		<>
 			{props.context === 'edit' && (
 				<>
 					<div
-						style={{ display: 'flex' }}
-						onMouseUp={(e) => {
-							selectRangeMouseUp(e, props.config);
-							// props.config.sendParent({
-							// 	type: 'event',
-							// 	column: 'select',
-							// 	data: null,
-							// });
-						}}
-						onMouseLeave={(e) => {
-							selectRangeMouseUp(e, props.config);
+						style={{
+							display: 'flex',
+							transform: `scale(${scaleState.value})`,
+							transformOrigin: 'left top',
+							position: 'absolute',
 						}}
 						{...onWheelEventIframe(props.config, scaleState)}
 					>
@@ -129,11 +115,12 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 							id="yh-container"
 							className={styles.yh_container}
 							style={{
-								height: `${state.container.height * scaleState.value}px`,
-								width: `${state.container.width * scaleState.value}px`,
+								height: `${state.container.height}px`,
+								width: `${state.container.width}px`,
 								backgroundColor: bgColor(),
 								position: 'relative',
 								overflow: 'hidden',
+
 								...editContainerStyle,
 							}}
 							{...(props.context === 'edit' ? containerDragResolve(props.config) : null)}

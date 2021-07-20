@@ -11,6 +11,7 @@ interface BlockProps {
 	data: IBlockType;
 	context: 'edit' | 'preview';
 	config: UserConfig;
+	iframe?: boolean;
 }
 
 /**
@@ -128,6 +129,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						height: props.data.height,
 						zIndex: props.data.zIndex,
 						display: props.data.display,
+						opacity: props.iframe ? 0 : 1,
 					}}
 					{...innerDragData}
 					onContextMenu={(e) => {
@@ -184,6 +186,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		state,
 		props.context,
 		props.data,
+		props.iframe,
 		props.config,
 		innerDragData,
 		animatecss,

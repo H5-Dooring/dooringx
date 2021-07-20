@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-21 22:17:29
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-19 10:11:14
+ * @LastEditTime: 2021-07-20 11:33:12
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\IframeWrapperMove\event.ts
  */
 import { RefObject } from 'react';
@@ -35,7 +35,6 @@ export const wrapperRefState: WrapperMoveRef = {
 };
 
 export const wrapperEvent = (ref: RefObject<HTMLDivElement>, config: UserConfig) => {
-	const scale = config.getScaleState().value;
 	const store = config.getStore();
 	return {
 		onMouseDown: (e: React.MouseEvent) => {
@@ -57,8 +56,8 @@ export const wrapperEvent = (ref: RefObject<HTMLDivElement>, config: UserConfig)
 			if (wrapperMoveState.isDrag) {
 				const diffX = e.clientX - wrapperMoveState.startX;
 				const diffY = e.clientY - wrapperMoveState.startY;
-				wrapperMoveState.needX = wrapperMoveState.needX + diffX / scale;
-				wrapperMoveState.needY = wrapperMoveState.needY + diffY / scale;
+				wrapperMoveState.needX = wrapperMoveState.needX + diffX;
+				wrapperMoveState.needY = wrapperMoveState.needY + diffY;
 				wrapperMoveState.startX = e.clientX;
 				wrapperMoveState.startY = e.clientY;
 

@@ -2,12 +2,19 @@
  * @Author: yehuozhili
  * @Date: 2021-01-31 20:44:16
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-18 16:38:07
+ * @LastEditTime: 2021-07-20 16:15:34
  * @FilePath: \dooringx\packages\dooringx-lib\README.md
 -->
 
 ## Dooringx-lib 
 ## changelog
+
+
+## 0.6.0
+
+已支持编辑模式使用Iframe！
+
+修复选中条件。
 
 
 ## 0.5.1

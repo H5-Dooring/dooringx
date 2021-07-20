@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-05-15 12:49:28
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-17 10:12:53
+ * @LastEditTime: 2021-07-20 16:30:12
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\index.tsx
  */
 import {
@@ -13,7 +13,6 @@ import {
 	LeftConfig,
 	ContainerWrapper,
 	Control,
-	postMessage,
 } from 'dooringx-lib';
 import { useContext } from 'react';
 import { configContext } from '@/layouts';

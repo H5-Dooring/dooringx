@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:35:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-19 21:28:23
+ * @LastEditTime: 2021-07-20 16:18:29
  * @FilePath: \dooringx\packages\dooringx-lib\src\hooks\index.ts
  */
 import { useEffect, useMemo, useState } from 'react';
@@ -157,7 +157,6 @@ export function useIframeHook(origin: string, config: UserConfig) {
 	useEffect(() => {
 		//@ts-ignore
 		const fn = (e: MessageEvent<any>) => {
-			console.log(e, '收到');
 			if (e.data === 'ready') {
 				setIframeReady(true);
 				fnx();
@@ -170,21 +169,12 @@ export function useIframeHook(origin: string, config: UserConfig) {
 						config.refreshIframe();
 					}
 				}
-				if (e.data.type === 'event') {
-					if (e.data.column === 'mousedown') {
-						// 发射mousedown
-					}
-				}
 			}
 		};
-		const parentMove = () => {
-			console.log('movessss');
-		};
-		window.addEventListener('mousemove', parentMove);
+
 		window.addEventListener('message', fn);
 		return () => {
 			window.removeEventListener('message', fn);
-			window.removeEventListener('mousemove', parentMove);
 		};
 	}, [config, fnx]);
 }

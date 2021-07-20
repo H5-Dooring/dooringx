@@ -1,5 +1,5 @@
 import { IStoreData } from '../store/storetype';
-import { deepCopy, postMessage } from '../utils';
+import { deepCopy } from '../utils';
 import style from '../../index.less';
 import UserConfig from '../../config';
 export interface SelectDataProps {
@@ -32,19 +32,7 @@ export function selectRangeMouseDown(e: React.MouseEvent, config: UserConfig, if
 		selectData.selectDiv.style.top = e.clientY + 'px';
 		selectData.selectDiv.style.position = 'fixed';
 		document.body.appendChild(selectData.selectDiv);
-		if (iframe) {
-			console.log('cxcxc');
-			window.parent.postMessage(
-				{
-					type: 'event',
-					column: 'mousedown',
-					data: null,
-				},
-				'*'
-			);
-		}
-
-		selectData.selectDiv.onmouseup = (e) => selectRangeMouseUp(e, config);
+		selectData.selectDiv.onmouseup = (e) => selectRangeMouseUp(e, config, iframe);
 		selectData.selectDiv.onmousemove = (e) => selectRangeMouseMove(e);
 	}
 }
@@ -76,7 +64,7 @@ function selectFocus(left: number, top: number, width: number, height: number, c
 	blocks.forEach((v) => {
 		const l = v.left;
 		const t = v.top;
-		if (l >= left && l <= maxleft && t >= top && t <= maxtop) {
+		if ((l >= left && l <= maxleft) || (t >= top && t <= maxtop)) {
 			change = true;
 			v.focus = true;
 			focusState.blocks.push(v);
@@ -87,7 +75,11 @@ function selectFocus(left: number, top: number, width: number, height: number, c
 	}
 }
 
-export function selectRangeMouseUp(e: React.MouseEvent | MouseEvent, config: UserConfig) {
+export function selectRangeMouseUp(
+	e: React.MouseEvent | MouseEvent,
+	config: UserConfig,
+	iframe = false
+) {
 	if (selectData.selectDiv) {
 		// 这里需要判定区域
 		// 如果是react触发 ，left和top就是起始值和终止值的最小值
@@ -106,35 +98,10 @@ export function selectRangeMouseUp(e: React.MouseEvent | MouseEvent, config: Use
 			left = selectData.startX - wwidth;
 			top = selectData.startY - wheight;
 		}
-		selectFocus(left, top, wwidth, wheight, config);
-		selectData.selectDiv.parentNode!.removeChild(selectData.selectDiv);
-		selectData.selectDiv = null;
-	}
-}
-
-export function iframeSelectRangeMouseUp(config: UserConfig) {
-	postMessage(
-		{
-			type: 'event',
-			column: 'select',
-			data: null,
-		},
-		config.iframeOrigin,
-		config.iframeId
-	);
-}
-
-export function forceRangeMouseLeave(config: UserConfig) {
-	if (selectData.selectDiv) {
-		let left = 0;
-		let top = 0;
-		const scaleState = config.getScaleState();
-		const { width, height } = selectData.selectDiv.getBoundingClientRect();
-		const scale = scaleState.value;
-		const wwidth = width / scale;
-		const wheight = height / scale;
-		left = selectData.startX;
-		top = selectData.startY;
+		if (iframe) {
+			left = left / scale;
+			top = top / scale;
+		}
 		selectFocus(left, top, wwidth, wheight, config);
 		selectData.selectDiv.parentNode!.removeChild(selectData.selectDiv);
 		selectData.selectDiv = null;

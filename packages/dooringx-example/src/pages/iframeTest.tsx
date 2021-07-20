@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-17 10:12:11
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-19 21:36:27
+ * @LastEditTime: 2021-07-20 16:16:33
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\iframeTest.tsx
  */
 
@@ -15,13 +15,12 @@ import {
 	IframeContainerWrapper,
 	Control,
 	useIframeHook,
+	IframeTarget,
 } from 'dooringx-lib';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { configContext } from '@/layouts';
 import { useCallback } from 'react';
 import { PREVIEWSTATE } from '@/constant';
-import { useEffect } from 'react';
-import { useRef } from 'react';
 
 export const HeaderHeight = '40px';
 
@@ -36,21 +35,9 @@ export default function IndexPage() {
 
 	const [state] = useStoreState(config, subscribeFn, everyFn);
 	useIframeHook(`${location.origin}/container`, config);
-	const scaleState = config.getScaleState();
 
-	const ref = useRef<HTMLDivElement>(null);
-	useEffect(() => {
-		if (ref.current) {
-			ref.current.addEventListener('mousedown', (e) => {
-				console.log('mousedown');
-			});
-			ref.current.addEventListener('mouseup', (e) => {
-				console.log('mouseup,ss');
-			});
-		}
-	}, []);
 	return (
-		<div {...innerContainerDragUp(config, 'iframe')}>
+		<div {...innerContainerDragUp(config, true)}>
 			<div style={{ height: HeaderHeight }}>
 				head
 				<button
@@ -90,25 +77,12 @@ export default function IndexPage() {
 						></Control>
 					}
 				>
-					<div
-						style={{
-							width: state.container.width * scaleState.value,
-							height: state.container.height * scaleState.value + 1,
-							position: 'relative',
+					<IframeTarget
+						config={config}
+						iframeProps={{
+							src: '/container',
 						}}
-					>
-						<div ref={ref} style={{ width: '100%', height: '100%', position: 'absolute' }}></div>
-						<iframe
-							id="yh-container-iframe"
-							style={{
-								width: state.container.width * scaleState.value,
-								height: state.container.height * scaleState.value + 1,
-								border: 'none',
-								userSelect: 'none',
-							}}
-							src="/container"
-						></iframe>
-					</div>
+					></IframeTarget>
 				</IframeContainerWrapper>
 				<div className="rightrender" style={{ height: '100%' }}>
 					<RightConfig state={state} config={config}></RightConfig>

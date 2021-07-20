@@ -103,16 +103,13 @@ export const innerContainerDrag = function (config: UserConfig) {
 		onMouseMove,
 	};
 };
-export const innerContainerDragUp = function (config: UserConfig, mode = 'normal') {
+export const innerContainerDragUp = function (config: UserConfig, iframe = false) {
 	const store = config.getStore();
 	const onMouseUp = (e: React.MouseEvent) => {
 		// e.preventDefault(); 这个会导致无法取消选中
 		iframeWrapperMove(config);
 		wrapperMoveMouseUp(config);
-		selectRangeMouseUp(e, config);
-		if (mode !== 'normal') {
-			console.log('ggogogogogogo');
-		}
+		selectRangeMouseUp(e, config, iframe);
 		if (innerDragState.ref && innerDragState.ref.current) {
 			innerDragState.ref.current.style.cursor = 'default';
 			innerDragState.ref.current.style.willChange = 'auto';
