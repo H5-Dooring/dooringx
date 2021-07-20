@@ -3,7 +3,7 @@
 	import { base } from '$app/paths';
 	import Button from '../Button/index.svelte';
 	import Switch from '../Switch/index.svelte';
-	import logo from './svelte-logo.svg';
+	import logo from './logo.svg';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	const lang = getContext<Writable<string>>('lang');
@@ -37,7 +37,7 @@
 				<Button href={changelog} color={$page.path === '/changelog' ? '#4569d4' : '#4d5164'}>更新</Button>
 			</div>
 			<div class:active={$page.path === '/about'}>
-				<Button>Github</Button>
+				<Button href={'https://github.com/H5-Dooring/dooringx'}>Github</Button>
 			</div>
 
 			<!-- <Switch

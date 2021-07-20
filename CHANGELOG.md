@@ -1,9 +1,3 @@
-
----
-title: CHANGELOG
-order: 1
----
-
 ## changelog
 
 ## 0.6.0

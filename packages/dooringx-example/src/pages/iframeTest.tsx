@@ -2,13 +2,12 @@
  * @Author: yehuozhili
  * @Date: 2021-07-17 10:12:11
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 16:16:33
+ * @LastEditTime: 2021-07-20 17:08:37
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\iframeTest.tsx
  */
 
 import {
 	RightConfig,
-	Container,
 	useStoreState,
 	innerContainerDragUp,
 	LeftConfig,
@@ -27,13 +26,11 @@ export const HeaderHeight = '40px';
 export default function IndexPage() {
 	const config = useContext(configContext);
 
-	const everyFn = () => {};
-
 	const subscribeFn = useCallback(() => {
 		localStorage.setItem(PREVIEWSTATE, JSON.stringify(config.getStore().getData()));
 	}, [config]);
 
-	const [state] = useStoreState(config, subscribeFn, everyFn);
+	const [state] = useStoreState(config, subscribeFn);
 	useIframeHook(`${location.origin}/container`, config);
 
 	return (

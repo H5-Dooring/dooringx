@@ -9,7 +9,8 @@
 		"start:doc":"lerna exec npm run start --scope=dooringx-doc",
 		"build": "lerna exec npm run build --scope=dooringx-lib",
 		"deploy": "lerna exec npm run deploy --scope=dooringx-doc",
-		"pub": "node ./script/publish.js"
+		"pub": "node ./script/publish.js",
+		"changelog": "node ./script/changelog.js"
 	},
 	"private": true,
 	"devDependencies": {
