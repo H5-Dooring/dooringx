@@ -290,3 +290,7 @@ export function postMessage(value: any, src: string, target = 'yh-container-ifra
 		console.warn(`can not find iframe ${search}`);
 	}
 }
+
+export function angleToRadian(angle: number) {
+	return (angle * Math.PI) / 180;
+}

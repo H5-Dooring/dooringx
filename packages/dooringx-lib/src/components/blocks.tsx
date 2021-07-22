@@ -7,6 +7,7 @@ import React from 'react';
 import { transfer } from '../core/transfer';
 import { UserConfig } from '../config';
 import styles from '../index.less';
+import { RotateResizer } from '../core/rotateHandler';
 interface BlockProps {
 	data: IBlockType;
 	context: 'edit' | 'preview';
@@ -15,7 +16,7 @@ interface BlockProps {
 }
 
 /**
- *
+ * block在modal中也要使用，所以该组件不应该接收容器ref
  * 用来从component里拿到渲染进行渲染,由于异步拉代码，所以需要等待代码拉取完毕
  * @param {*} props
  * @returns
@@ -72,7 +73,8 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 				props.data.left,
 				props.data.height,
 				props.data.width,
-				props.data.fixed
+				props.data.fixed,
+				props.data.rotate.value
 			);
 
 			setPreviewState({ top, left, width, height });
@@ -92,6 +94,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		props.data.top,
 		props.data.width,
 		props.data.fixed,
+		props.data.rotate,
 	]);
 
 	const animatecss = useMemo(() => {
@@ -130,6 +133,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						zIndex: props.data.zIndex,
 						display: props.data.display,
 						opacity: props.iframe ? 0 : 1,
+						transform: `rotate(${props.data.rotate.value}deg)`,
 					}}
 					{...innerDragData}
 					onContextMenu={(e) => {
@@ -138,12 +142,13 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						}
 					}}
 				>
+					{/* 绝对定位元素 */}
 					{props.data.position !== 'static' && (
 						<div className={animatecss} style={{ ...style, ...animateCount }}>
 							{state}
 						</div>
 					)}
-					{/* 这里暂不考虑布局影响 */}
+					{/* 静态定位 非行内 这里暂不考虑布局影响 */}
 					{props.data.position === 'static' && props.data.display !== 'inline' && (
 						<div
 							className={animatecss}
@@ -157,10 +162,12 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 							{state}
 						</div>
 					)}
+					{/* 静态定位 行内 这里暂不考虑布局影响 */}
 					{props.data.position === 'static' && props.data.display === 'inline' && (
 						<span style={{ pointerEvents: 'none' }}>{state}</span>
 					)}
 					<BlockResizer data={props.data} config={props.config} rect={ref}></BlockResizer>
+					<RotateResizer data={props.data} config={props.config} rect={ref}></RotateResizer>
 				</div>
 			);
 		} else {
@@ -175,6 +182,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						height: previewState.height,
 						zIndex: props.data.zIndex,
 						display: props.data.display,
+						transform: `rotate(${props.data.rotate}deg)`,
 						...animateCount,
 					}}
 				>

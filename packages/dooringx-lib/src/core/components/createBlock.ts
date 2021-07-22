@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-07 16:36:42
- * @FilePath: \DooringV2\packages\dooringx-lib\src\core\components\createBlock.ts
+ * @LastEditTime: 2021-07-21 20:56:01
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\components\createBlock.ts
  */
 import { IBlockType } from '../store/storetype';
 import { createUid } from '../utils';
@@ -30,5 +30,9 @@ export function createBlock(top: number, left: number, ComponentItem: ComponentI
 		functionList: ComponentItem.initData.functionList || [],
 		animate: ComponentItem.initData.animate || {},
 		fixed: ComponentItem.initData.fixed || false,
+		rotate: ComponentItem.initData.rotate || {
+			value: 0,
+			canRotate: true,
+		},
 	};
 }

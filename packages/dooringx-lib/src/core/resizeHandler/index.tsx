@@ -5,6 +5,7 @@ import React from 'react';
 import classnames from 'classnames';
 import styles from '../../index.less';
 import UserConfig from '../../config';
+import { getRect } from './calcWithRotate';
 interface BlockResizerProps {
 	data: IBlockType;
 	rect: RefObject<HTMLDivElement>;
@@ -15,11 +16,11 @@ interface resizeStateType {
 	startY: number;
 	item: null | IBlockType;
 	isResize: boolean;
-	direction: directionType;
+	direction: DirectionType;
 	ref: RefObject<HTMLDivElement> | null;
 	current: number;
 }
-type directionType =
+export type DirectionType =
 	| 'top'
 	| 'topleft'
 	| 'topright'
@@ -40,7 +41,7 @@ export const resizeState: resizeStateType = {
 
 const onMouseDown = (
 	e: React.MouseEvent,
-	direction: directionType,
+	direction: DirectionType,
 	item: IBlockType,
 	ref: RefObject<HTMLDivElement>,
 	config: UserConfig
@@ -67,7 +68,20 @@ export const resizerMouseUp = (config: UserConfig) => {
 	}
 	resizeState.current = 0;
 };
-const changePosition = (
+
+/**
+ *
+ * 无旋转时计算函数
+ * @param {IBlockType} v
+ * @param {number} durX
+ * @param {number} durY
+ * @param {{
+ * 		value: number;
+ * 		maxValue: number;
+ * 		minValue: number;
+ * 	}} scaleState
+ */
+export const changePosition = (
 	v: IBlockType,
 	durX: number,
 	durY: number,
@@ -122,20 +136,81 @@ const changePosition = (
 	}
 };
 
+// export const getRealStart = (rect: DOMRect): { realStartX: number; realStartY: number } => {
+// 	const direction = resizeState.direction;
+// 	switch (direction) {
+// 		case 'left':
+// 			return {
+// 				realStartX: rect.left,
+// 				realStartY: rect.top + rect.height / 2,
+// 			};
+// 		case 'top':
+// 			return {
+// 				realStartX: rect.left + rect.width / 2,
+// 				realStartY: rect.top,
+// 			};
+// 		case 'right':
+// 			return {
+// 				realStartX: rect.left + rect.width,
+// 				realStartY: rect.top + rect.height / 2,
+// 			};
+// 		case 'bottom':
+// 			return {
+// 				realStartX: rect.left + rect.width / 2,
+// 				realStartY: rect.top + rect.height,
+// 			};
+// 		case 'topleft':
+// 			return {
+// 				realStartX: rect.left,
+// 				realStartY: rect.top,
+// 			};
+// 		case 'topright':
+// 			return {
+// 				realStartX: rect.left + rect.width,
+// 				realStartY: rect.top,
+// 			};
+// 		case 'bottomleft':
+// 			break;
+// 		case 'bottomright':
+// 			break;
+// 		default:
+// 			break;
+// 	}
+// };
+
 export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 	//根据direction修改位置
 	const scaleState = config.getScaleState();
 	const store = config.getStore();
-	if (resizeState.isResize && resizeState.item) {
+	if (resizeState.isResize && resizeState.item && resizeState.ref?.current) {
 		let { clientX: moveX, clientY: moveY } = e;
 		const { startX, startY } = resizeState;
 		const scale = scaleState.value;
-		let durX = (moveX - startX) / scale;
-		let durY = (moveY - startY) / scale;
+		console.log(scale);
+		const rect = resizeState.ref.current.getBoundingClientRect();
+		const centerX = rect.left + rect.width / 2;
+		const centerY = rect.top + rect.height / 2;
+		// const durX = (moveX - startX) / scale;
+		// const durY = (moveY - startY) / scale;
+		// rect经过旋转后
+		// const { realStartX, realStartY } = getRealStart(rect);
+
+		const rotate = resizeState.item.rotate.value;
+		const curPositon = {
+			x: startX,
+			y: startY,
+		};
+		const symmetricPoint = {
+			x: centerX - (startX - centerX),
+			y: centerY - (startY - centerY),
+		};
+
+		console.log(centerX, centerY);
 		const clonedata = deepCopy(store.getData());
+		const id = resizeState.item.id;
 		const newblock: IBlockType[] = clonedata.block.map((v: IBlockType) => {
-			if (v.id === resizeState.item!.id) {
-				changePosition(v, durX, durY, scaleState);
+			if (v.id === id) {
+				getRect(resizeState.direction, v, rotate, curPositon, symmetricPoint);
 			}
 			return v;
 		});
@@ -145,7 +220,7 @@ export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 	}
 };
 
-const directionArr: directionType[] = [
+const directionArr: DirectionType[] = [
 	'top',
 	'topleft',
 	'left',

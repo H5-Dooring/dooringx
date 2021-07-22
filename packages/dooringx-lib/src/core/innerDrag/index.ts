@@ -10,6 +10,7 @@ import { wrapperMoveMouseUp as iframeWrapperMove } from '../../components/Iframe
 import { contextMenuState } from '../contextMenu';
 import { innerDragState } from './state';
 import UserConfig from '../../config';
+import { rotateMouseMove, rotateMouseUp } from '../rotateHandler';
 
 export const innerDrag = function (
 	item: IBlockType,
@@ -95,6 +96,7 @@ export const innerContainerDrag = function (config: UserConfig) {
 			store.setData({ ...store.getData(), block: newblock });
 		}
 		resizerMouseMove(e, config);
+		rotateMouseMove(e, config);
 		if (selectData.selectDiv) {
 			selectRangeMouseMove(e);
 		}
@@ -115,6 +117,7 @@ export const innerContainerDragUp = function (config: UserConfig, iframe = false
 			innerDragState.ref.current.style.willChange = 'auto';
 		}
 		resizerMouseUp(config);
+		rotateMouseUp(config);
 		if (innerDragState.current) {
 			const endindex = store.getIndex();
 			store.getStoreList().splice(innerDragState.current, endindex - innerDragState.current);

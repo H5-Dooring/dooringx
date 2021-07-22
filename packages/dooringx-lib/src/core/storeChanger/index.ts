@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-04-05 14:55:31
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-09 18:31:24
- * @FilePath: \DooringV2\packages\dooringx-lib\src\core\storeChanger\index.ts
+ * @LastEditTime: 2021-07-21 20:55:03
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\storeChanger\index.ts
  */
 
 import { message } from 'antd';
@@ -42,6 +42,10 @@ function createDefaultModalBlock(): IStoreData['block'] {
 			functionList: [],
 			animate: {},
 			fixed: false,
+			rotate: {
+				value: 0,
+				canRotate: false,
+			},
 		},
 	];
 }

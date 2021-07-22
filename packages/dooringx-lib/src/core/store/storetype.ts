@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-09 17:22:14
- * @FilePath: \DooringV2\packages\dooringx-lib\src\core\store\storetype.ts
+ * @LastEditTime: 2021-07-21 20:54:38
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\storetype.ts
  */
 
 import { EventCenterMapType } from '../eventCenter';
@@ -37,6 +37,10 @@ export interface IBlockType {
 	syncList: Array<string>;
 	eventMap: EventCenterMapType; //调用的event 与对应的函数名 如果要增加参数，则类型不能是Array<string>,需要[{name:string,...args}]
 	functionList: Array<string>; //抛出的函数名
+	rotate: {
+		value: number;
+		canRotate: boolean;
+	};
 	animate: {
 		animate?: string; //动画名
 		animationIterationCount?: number | string;
