@@ -2,11 +2,11 @@
  * @Author: yehuozhili
  * @Date: 2021-02-18 11:52:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 20:54:50
+ * @LastEditTime: 2021-07-23 20:37:17
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\resizeMarkline.ts
  */
 
-import { resizeState } from '../resizeHandler';
+import { resizeState } from '../resizeHandler/state';
 import { LinesTypes } from './calcRender';
 import { switchMarklineResizeDisplay } from './normalMode';
 import { marklineConfig } from './marklineConfig';

@@ -6,38 +6,12 @@ import classnames from 'classnames';
 import styles from '../../index.less';
 import UserConfig from '../../config';
 import { getRect } from './calcWithRotate';
+import { DirectionType, resizeState } from './state';
 interface BlockResizerProps {
 	data: IBlockType;
 	rect: RefObject<HTMLDivElement>;
 	config: UserConfig;
 }
-interface resizeStateType {
-	startX: number;
-	startY: number;
-	item: null | IBlockType;
-	isResize: boolean;
-	direction: DirectionType;
-	ref: RefObject<HTMLDivElement> | null;
-	current: number;
-}
-export type DirectionType =
-	| 'top'
-	| 'topleft'
-	| 'topright'
-	| 'left'
-	| 'bottomleft'
-	| 'bottom'
-	| 'bottomright'
-	| 'right';
-export const resizeState: resizeStateType = {
-	startX: 0,
-	startY: 0,
-	item: null,
-	isResize: false,
-	direction: 'bottom',
-	ref: null,
-	current: 0,
-};
 
 const onMouseDown = (
 	e: React.MouseEvent,
@@ -55,6 +29,42 @@ const onMouseDown = (
 	resizeState.direction = direction;
 	resizeState.ref = ref;
 	resizeState.current = store.getIndex();
+	resizeState.currentTarget = e.nativeEvent.target as HTMLDivElement;
+	const curDiv = resizeState.ref.current;
+	let container = document.querySelector('#yh-container');
+	if (!container) {
+		container = document.querySelector('#yh-container-iframe');
+	}
+	if (!container) {
+		return;
+	}
+	if (curDiv && ref.current) {
+		const containerRect = container.getBoundingClientRect();
+		const scale = config.getScaleState().value;
+		const centerX = curDiv.offsetLeft + curDiv.offsetWidth / 2;
+		const centerY = curDiv.offsetTop + curDiv.offsetHeight / 2;
+		const poffsetLeft = resizeState.currentTarget.getBoundingClientRect().left - containerRect.left;
+		const poffsetTop = resizeState.currentTarget.getBoundingClientRect().top - containerRect.top;
+		//点相对于画布位置 未缩放
+		const curPosition = {
+			x: poffsetLeft / scale,
+			y: poffsetTop / scale,
+		};
+
+		console.log(
+			curPosition,
+			'ww',
+			centerX,
+			centerY,
+			resizeState.currentTarget.getBoundingClientRect().top,
+			containerRect.top
+		);
+		resizeState.symmetricPoint = {
+			x: centerX - (curPosition.x - centerX),
+			y: centerY - (curPosition.y - centerY),
+		};
+		resizeState.curPosition = curPosition;
+	}
 };
 
 export const resizerMouseUp = (config: UserConfig) => {
@@ -136,81 +146,42 @@ export const changePosition = (
 	}
 };
 
-// export const getRealStart = (rect: DOMRect): { realStartX: number; realStartY: number } => {
-// 	const direction = resizeState.direction;
-// 	switch (direction) {
-// 		case 'left':
-// 			return {
-// 				realStartX: rect.left,
-// 				realStartY: rect.top + rect.height / 2,
-// 			};
-// 		case 'top':
-// 			return {
-// 				realStartX: rect.left + rect.width / 2,
-// 				realStartY: rect.top,
-// 			};
-// 		case 'right':
-// 			return {
-// 				realStartX: rect.left + rect.width,
-// 				realStartY: rect.top + rect.height / 2,
-// 			};
-// 		case 'bottom':
-// 			return {
-// 				realStartX: rect.left + rect.width / 2,
-// 				realStartY: rect.top + rect.height,
-// 			};
-// 		case 'topleft':
-// 			return {
-// 				realStartX: rect.left,
-// 				realStartY: rect.top,
-// 			};
-// 		case 'topright':
-// 			return {
-// 				realStartX: rect.left + rect.width,
-// 				realStartY: rect.top,
-// 			};
-// 		case 'bottomleft':
-// 			break;
-// 		case 'bottomright':
-// 			break;
-// 		default:
-// 			break;
-// 	}
-// };
-
 export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 	//根据direction修改位置
 	const scaleState = config.getScaleState();
 	const store = config.getStore();
-	if (resizeState.isResize && resizeState.item && resizeState.ref?.current) {
+	if (
+		resizeState.isResize &&
+		resizeState.item &&
+		resizeState.ref?.current &&
+		resizeState.currentTarget
+	) {
 		let { clientX: moveX, clientY: moveY } = e;
-		const { startX, startY } = resizeState;
 		const scale = scaleState.value;
-		console.log(scale);
-		const rect = resizeState.ref.current.getBoundingClientRect();
-		const centerX = rect.left + rect.width / 2;
-		const centerY = rect.top + rect.height / 2;
-		// const durX = (moveX - startX) / scale;
-		// const durY = (moveY - startY) / scale;
-		// rect经过旋转后
-		// const { realStartX, realStartY } = getRealStart(rect);
+
+		let container = document.querySelector('#yh-container');
+		if (!container) {
+			container = document.querySelector('#yh-container-iframe');
+		}
+		if (!container) {
+			return;
+		}
+		const containerRect = container.getBoundingClientRect();
 
 		const rotate = resizeState.item.rotate.value;
-		const curPositon = {
-			x: startX,
-			y: startY,
-		};
-		const symmetricPoint = {
-			x: centerX - (startX - centerX),
-			y: centerY - (startY - centerY),
+
+		const movePoint = {
+			x: (moveX - containerRect.left) / scale,
+			y: (moveY - containerRect.top) / scale,
 		};
 
-		console.log(centerX, centerY);
+		const symmetricPoint = resizeState.symmetricPoint;
+		console.log(symmetricPoint, 'cc');
 		const clonedata = deepCopy(store.getData());
 		const id = resizeState.item.id;
 		const newblock: IBlockType[] = clonedata.block.map((v: IBlockType) => {
 			if (v.id === id) {
-				getRect(resizeState.direction, v, rotate, curPositon, symmetricPoint);
+				getRect(resizeState.direction, v, rotate, movePoint, symmetricPoint);
 			}
 			return v;
 		});

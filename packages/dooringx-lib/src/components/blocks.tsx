@@ -182,7 +182,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						height: previewState.height,
 						zIndex: props.data.zIndex,
 						display: props.data.display,
-						transform: `rotate(${props.data.rotate}deg)`,
+						transform: `rotate(${props.data.rotate.value}deg)`,
 						...animateCount,
 					}}
 				>
