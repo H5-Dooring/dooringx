@@ -2,11 +2,10 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 20:56:02
+ * @LastEditTime: 2021-07-26 11:38:11
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\calcRender.ts
  */
 import { innerDragState } from '../innerDrag/state';
-import { grideModeRender, gridModeDisplay } from './gridMode';
 import { switchMarklineDisplay } from './normalMode';
 import { resizeCurrentCalculate } from './resizeMarkline';
 import { marklineConfig } from './marklineConfig';
@@ -65,14 +64,14 @@ export function marklineCalRender(config: UserConfig) {
 				}
 			}
 		});
-		if (marklineConfig.mode === 'grid' && marklineConfig.isAbsorb) {
-			gridModeDisplay(left, top, focus, config);
-		}
+		// if (marklineConfig.mode === 'grid' && marklineConfig.isAbsorb) {
+		// 	gridModeDisplay(left, top, focus, config);该模式暂废弃
+		// }
 	}
 
-	if (marklineConfig.mode === 'grid') {
-		grideModeRender(lines, config);
-	}
+	// if (marklineConfig.mode === 'grid') {
+	// 	grideModeRender(lines, config);该模式暂废弃
+	// }
 
 	resizeCurrentCalculate(lines, config);
 

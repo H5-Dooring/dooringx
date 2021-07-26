@@ -73,8 +73,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 				props.data.left,
 				props.data.height,
 				props.data.width,
-				props.data.fixed,
-				props.data.rotate.value
+				props.data.fixed
 			);
 
 			setPreviewState({ top, left, width, height });
@@ -94,7 +93,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		props.data.top,
 		props.data.width,
 		props.data.fixed,
-		props.data.rotate,
 	]);
 
 	const animatecss = useMemo(() => {

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 23:04:56
+ * @LastEditTime: 2021-07-26 14:03:01
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -124,6 +124,12 @@ const MButton = new ComponentItemFactory(
 				color: 'rgba(255,255,255,1)',
 				fontWeight: 'normal',
 			},
+		},
+		width: 100, // 绝对定位元素初始必须有宽高，否则适配会有问题。
+		height: 30, // 绝对定位元素初始必须有宽高，否则适配会有问题。
+		rotate: {
+			canRotate: true,
+			value: 0,
 		},
 	},
 	(data, context, store, config) => {

@@ -51,15 +51,6 @@ const onMouseDown = (
 			x: poffsetLeft / scale,
 			y: poffsetTop / scale,
 		};
-
-		console.log(
-			curPosition,
-			'ww',
-			centerX,
-			centerY,
-			resizeState.currentTarget.getBoundingClientRect().top,
-			containerRect.top
-		);
 		resizeState.symmetricPoint = {
 			x: centerX - (curPosition.x - centerX),
 			y: centerY - (curPosition.y - centerY),
@@ -176,12 +167,18 @@ export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 			y: (moveY - containerRect.top) / scale,
 		};
 
+		const itemRef = resizeState.ref.current.getBoundingClientRect();
+		const itemWH = {
+			width: itemRef.width,
+			height: itemRef.height,
+		};
+
 		const symmetricPoint = resizeState.symmetricPoint;
 		const clonedata = deepCopy(store.getData());
 		const id = resizeState.item.id;
 		const newblock: IBlockType[] = clonedata.block.map((v: IBlockType) => {
 			if (v.id === id) {
-				getRect(resizeState.direction, v, rotate, movePoint, symmetricPoint);
+				getRect(resizeState.direction, v, rotate, movePoint, symmetricPoint, itemWH);
 			}
 			return v;
 		});

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-22 16:55:10
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-26 11:10:48
+ * @LastEditTime: 2021-07-26 14:01:14
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\resizeHandler\calcWithRotate.ts
  */
 
@@ -34,23 +34,27 @@ export function getRect(
 	item: IBlockType,
 	rotate: number,
 	curPositon: Point,
-	symmetricPoint: Point
+	symmetricPoint: Point,
+	itemWH: {
+		width: number;
+		height: number;
+	}
 ) {
 	switch (direction) {
 		case 'lt':
 			calculateTopLeft(item, rotate, curPositon, symmetricPoint);
 			break;
 		case 'r':
-			calculateRight(item, rotate, curPositon, symmetricPoint);
+			calculateRight(item, rotate, curPositon, symmetricPoint, itemWH);
 			break;
 		case 'b':
-			calculateBottom(item, rotate, curPositon, symmetricPoint);
+			calculateBottom(item, rotate, curPositon, symmetricPoint, itemWH);
 			break;
 		case 'l':
-			calculateLeft(item, rotate, curPositon, symmetricPoint);
+			calculateLeft(item, rotate, curPositon, symmetricPoint, itemWH);
 			break;
 		case 't':
-			calculateTop(item, rotate, curPositon, symmetricPoint);
+			calculateTop(item, rotate, curPositon, symmetricPoint, itemWH);
 			break;
 		case 'rb':
 			calculateBottomRight(item, rotate, curPositon, symmetricPoint);
@@ -72,15 +76,15 @@ function calculateTopLeft(
 	curPositon: Point,
 	symmetricPoint: Point
 ) {
-	let newCenterPoint = getCenterPoint(curPositon, symmetricPoint);
-	let newTopLeftPoint = calculateRotatedPointCoordinate(curPositon, newCenterPoint, -rotate);
-	let newBottomRightPoint = calculateRotatedPointCoordinate(
+	const newCenterPoint = getCenterPoint(curPositon, symmetricPoint);
+	const newTopLeftPoint = calculateRotatedPointCoordinate(curPositon, newCenterPoint, -rotate);
+	const newBottomRightPoint = calculateRotatedPointCoordinate(
 		symmetricPoint,
 		newCenterPoint,
 		-rotate
 	);
-	let newWidth = newBottomRightPoint.x - newTopLeftPoint.x;
-	let newHeight = newBottomRightPoint.y - newTopLeftPoint.y;
+	const newWidth = newBottomRightPoint.x - newTopLeftPoint.x;
+	const newHeight = newBottomRightPoint.y - newTopLeftPoint.y;
 	if (newWidth > 0 && newHeight > 0) {
 		item.width = Math.round(newWidth);
 		item.height = Math.round(newHeight);
@@ -95,12 +99,16 @@ function calculateTopRight(
 	curPositon: Point,
 	symmetricPoint: Point
 ) {
-	let newCenterPoint = getCenterPoint(curPositon, symmetricPoint);
-	let newTopRightPoint = calculateRotatedPointCoordinate(curPositon, newCenterPoint, -rotate);
-	let newBottomLeftPoint = calculateRotatedPointCoordinate(symmetricPoint, newCenterPoint, -rotate);
+	const newCenterPoint = getCenterPoint(curPositon, symmetricPoint);
+	const newTopRightPoint = calculateRotatedPointCoordinate(curPositon, newCenterPoint, -rotate);
+	const newBottomLeftPoint = calculateRotatedPointCoordinate(
+		symmetricPoint,
+		newCenterPoint,
+		-rotate
+	);
 
-	let newWidth = newTopRightPoint.x - newBottomLeftPoint.x;
-	let newHeight = newBottomLeftPoint.y - newTopRightPoint.y;
+	const newWidth = newTopRightPoint.x - newBottomLeftPoint.x;
+	const newHeight = newBottomLeftPoint.y - newTopRightPoint.y;
 
 	if (newWidth > 0 && newHeight > 0) {
 		item.width = Math.round(newWidth);
@@ -116,12 +124,12 @@ function calculateBottomRight(
 	curPositon: Point,
 	symmetricPoint: Point
 ) {
-	let newCenterPoint = getCenterPoint(curPositon, symmetricPoint);
-	let newTopLeftPoint = calculateRotatedPointCoordinate(symmetricPoint, newCenterPoint, -rotate);
-	let newBottomRightPoint = calculateRotatedPointCoordinate(curPositon, newCenterPoint, -rotate);
+	const newCenterPoint = getCenterPoint(curPositon, symmetricPoint);
+	const newTopLeftPoint = calculateRotatedPointCoordinate(symmetricPoint, newCenterPoint, -rotate);
+	const newBottomRightPoint = calculateRotatedPointCoordinate(curPositon, newCenterPoint, -rotate);
 
-	let newWidth = newBottomRightPoint.x - newTopLeftPoint.x;
-	let newHeight = newBottomRightPoint.y - newTopLeftPoint.y;
+	const newWidth = newBottomRightPoint.x - newTopLeftPoint.x;
+	const newHeight = newBottomRightPoint.y - newTopLeftPoint.y;
 
 	if (newWidth > 0 && newHeight > 0) {
 		item.width = Math.round(newWidth);
@@ -137,12 +145,12 @@ function calculateBottomLeft(
 	curPositon: Point,
 	symmetricPoint: Point
 ) {
-	let newCenterPoint = getCenterPoint(curPositon, symmetricPoint);
-	let newTopRightPoint = calculateRotatedPointCoordinate(symmetricPoint, newCenterPoint, -rotate);
-	let newBottomLeftPoint = calculateRotatedPointCoordinate(curPositon, newCenterPoint, -rotate);
+	const newCenterPoint = getCenterPoint(curPositon, symmetricPoint);
+	const newTopRightPoint = calculateRotatedPointCoordinate(symmetricPoint, newCenterPoint, -rotate);
+	const newBottomLeftPoint = calculateRotatedPointCoordinate(curPositon, newCenterPoint, -rotate);
 
-	let newWidth = newTopRightPoint.x - newBottomLeftPoint.x;
-	let newHeight = newBottomLeftPoint.y - newTopRightPoint.y;
+	const newWidth = newTopRightPoint.x - newBottomLeftPoint.x;
+	const newHeight = newBottomLeftPoint.y - newTopRightPoint.y;
 
 	if (newWidth > 0 && newHeight > 0) {
 		item.width = Math.round(newWidth);
@@ -152,10 +160,19 @@ function calculateBottomLeft(
 	}
 }
 
-function calculateTop(item: IBlockType, rotate: number, curPositon: Point, symmetricPoint: Point) {
+function calculateTop(
+	item: IBlockType,
+	rotate: number,
+	curPositon: Point,
+	symmetricPoint: Point,
+	itemWH: {
+		width: number;
+		height: number;
+	}
+) {
 	const curPoint = resizeState.curPosition;
-	let rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -rotate);
-	let rotatedTopMiddlePoint = calculateRotatedPointCoordinate(
+	const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -rotate);
+	const rotatedTopMiddlePoint = calculateRotatedPointCoordinate(
 		{
 			x: curPoint.x,
 			y: rotatedcurPositon.y,
@@ -164,23 +181,20 @@ function calculateTop(item: IBlockType, rotate: number, curPositon: Point, symme
 		rotate
 	);
 
-	let newHeight = Math.sqrt(
+	const newHeight = Math.sqrt(
 		(rotatedTopMiddlePoint.x - symmetricPoint.x) ** 2 +
 			(rotatedTopMiddlePoint.y - symmetricPoint.y) ** 2
 	);
-
 	if (newHeight > 0) {
 		const newCenter = {
 			x: rotatedTopMiddlePoint.x - (rotatedTopMiddlePoint.x - symmetricPoint.x) / 2,
 			y: rotatedTopMiddlePoint.y + (symmetricPoint.y - rotatedTopMiddlePoint.y) / 2,
 		};
-		if (typeof item.width === 'number') {
-			let width = item.width;
-			item.width = width;
-			item.height = Math.round(newHeight);
-			item.top = Math.round(newCenter.y - newHeight / 2);
-			item.left = Math.round(newCenter.x - item.width / 2);
-		}
+		const width = typeof item.width === 'number' ? item.width : itemWH.width;
+		item.width = width;
+		item.height = Math.round(newHeight);
+		item.top = Math.round(newCenter.y - newHeight / 2);
+		item.left = Math.round(newCenter.x - width / 2);
 	}
 }
 
@@ -188,7 +202,11 @@ function calculateRight(
 	item: IBlockType,
 	rotate: number,
 	curPositon: Point,
-	symmetricPoint: Point
+	symmetricPoint: Point,
+	itemWH: {
+		width: number;
+		height: number;
+	}
 ) {
 	const curPoint = resizeState.curPosition;
 	const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -rotate);
@@ -201,7 +219,7 @@ function calculateRight(
 		rotate
 	);
 
-	let newWidth = Math.sqrt(
+	const newWidth = Math.sqrt(
 		(rotatedRightMiddlePoint.x - symmetricPoint.x) ** 2 +
 			(rotatedRightMiddlePoint.y - symmetricPoint.y) ** 2
 	);
@@ -210,13 +228,11 @@ function calculateRight(
 			x: rotatedRightMiddlePoint.x - (rotatedRightMiddlePoint.x - symmetricPoint.x) / 2,
 			y: rotatedRightMiddlePoint.y + (symmetricPoint.y - rotatedRightMiddlePoint.y) / 2,
 		};
-		if (typeof item.height === 'number') {
-			let height = item.height;
-			item.height = height;
-			item.width = Math.round(newWidth);
-			item.top = Math.round(newCenter.y - item.height / 2);
-			item.left = Math.round(newCenter.x - newWidth / 2);
-		}
+		const height = typeof item.height === 'number' ? item.height : itemWH.height;
+		item.height = height;
+		item.width = Math.round(newWidth);
+		item.top = Math.round(newCenter.y - height / 2);
+		item.left = Math.round(newCenter.x - newWidth / 2);
 	}
 }
 
@@ -224,7 +240,11 @@ function calculateBottom(
 	item: IBlockType,
 	rotate: number,
 	curPositon: Point,
-	symmetricPoint: Point
+	symmetricPoint: Point,
+	itemWH: {
+		width: number;
+		height: number;
+	}
 ) {
 	const curPoint = resizeState.curPosition;
 	const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -rotate);
@@ -246,17 +266,24 @@ function calculateBottom(
 			x: rotatedBottomMiddlePoint.x - (rotatedBottomMiddlePoint.x - symmetricPoint.x) / 2,
 			y: rotatedBottomMiddlePoint.y + (symmetricPoint.y - rotatedBottomMiddlePoint.y) / 2,
 		};
-		if (typeof item.width === 'number') {
-			let width = item.width;
-			item.width = width;
-			item.height = Math.round(newHeight);
-			item.top = Math.round(newCenter.y - newHeight / 2);
-			item.left = Math.round(newCenter.x - item.width / 2);
-		}
+		const width = typeof item.width === 'number' ? item.width : itemWH.width;
+		item.width = width;
+		item.height = Math.round(newHeight);
+		item.top = Math.round(newCenter.y - newHeight / 2);
+		item.left = Math.round(newCenter.x - width / 2);
 	}
 }
 
-function calculateLeft(item: IBlockType, rotate: number, curPositon: Point, symmetricPoint: Point) {
+function calculateLeft(
+	item: IBlockType,
+	rotate: number,
+	curPositon: Point,
+	symmetricPoint: Point,
+	itemWH: {
+		width: number;
+		height: number;
+	}
+) {
 	const curPoint = resizeState.curPosition;
 	const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -rotate);
 	const rotatedLeftMiddlePoint = calculateRotatedPointCoordinate(
@@ -277,12 +304,10 @@ function calculateLeft(item: IBlockType, rotate: number, curPositon: Point, symm
 			x: rotatedLeftMiddlePoint.x - (rotatedLeftMiddlePoint.x - symmetricPoint.x) / 2,
 			y: rotatedLeftMiddlePoint.y + (symmetricPoint.y - rotatedLeftMiddlePoint.y) / 2,
 		};
-		if (typeof item.height === 'number') {
-			let height = item.height;
-			item.height = height;
-			item.width = Math.round(newWidth);
-			item.top = Math.round(newCenter.y - item.height / 2);
-			item.left = Math.round(newCenter.x - newWidth / 2);
-		}
+		const height = typeof item.height === 'number' ? item.height : itemWH.height;
+		item.height = height;
+		item.width = Math.round(newWidth);
+		item.top = Math.round(newCenter.y - height / 2);
+		item.left = Math.round(newCenter.x - newWidth / 2);
 	}
 }

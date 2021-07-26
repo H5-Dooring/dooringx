@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-04-21 22:59:57
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-21 14:33:57
+ * @LastEditTime: 2021-07-26 11:47:19
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\transfer\index.ts
  */
 
@@ -22,10 +22,8 @@ export function transfer(
 	left: number,
 	height: string | number | undefined,
 	width: string | number | undefined,
-	isFixed: boolean,
-	rotate: number
+	isFixed: boolean
 ) {
-	console.log(rotate);
 	if (isFixed) {
 		// 由于是375x667基准，所以top大于667的，那么top为底部高度
 		let newtop = 0;
