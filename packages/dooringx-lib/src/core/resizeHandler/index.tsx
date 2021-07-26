@@ -6,7 +6,8 @@ import classnames from 'classnames';
 import styles from '../../index.less';
 import UserConfig from '../../config';
 import { getRect } from './calcWithRotate';
-import { DirectionType, resizeState } from './state';
+import { directionArr, DirectionType, resizeState } from './state';
+import { getCursor } from './cursor';
 interface BlockResizerProps {
 	data: IBlockType;
 	rect: RefObject<HTMLDivElement>;
@@ -107,36 +108,36 @@ export const changePosition = (
 	let tmpy = height / scale - durY;
 	let tmpx = width / scale - durX;
 	switch (direction) {
-		case 'right':
+		case 'r':
 			v.width = width / scale + durX;
 			break;
-		case 'bottom':
+		case 'b':
 			v.height = height / scale + durY;
 			break;
-		case 'left':
+		case 'l':
 			v.left = width / scale > 0 ? v.left + durX : v.left;
 			v.width = tmpx > 0 ? tmpx : 0;
 			break;
-		case 'top':
+		case 't':
 			v.top = height / scale > 0 ? v.top + durY : v.top;
 			v.height = tmpy > 0 ? tmpy : 0;
 			break;
-		case 'bottomright':
+		case 'rb':
 			v.width = width / scale + durX;
 			v.height = height / scale + durY;
 			break;
-		case 'topright':
+		case 'rt':
 			v.width = width / scale + durX;
 			v.top = height / scale > 0 ? v.top + durY : v.top;
 			v.height = tmpy > 0 ? tmpy : 0;
 			break;
-		case 'topleft':
+		case 'lt':
 			v.top = height / scale > 0 ? v.top + durY : v.top;
 			v.height = tmpy > 0 ? tmpy : 0;
 			v.left = width / scale > 0 ? v.left + durX : v.left;
 			v.width = tmpx > 0 ? tmpx : 0;
 			break;
-		case 'bottomleft':
+		case 'lb':
 			v.left = width / scale > 0 ? v.left + durX : v.left;
 			v.width = tmpx > 0 ? tmpx : 0;
 			v.height = height / scale + durY;
@@ -176,7 +177,6 @@ export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 		};
 
 		const symmetricPoint = resizeState.symmetricPoint;
-		console.log(symmetricPoint, 'cc');
 		const clonedata = deepCopy(store.getData());
 		const id = resizeState.item.id;
 		const newblock: IBlockType[] = clonedata.block.map((v: IBlockType) => {
@@ -190,19 +190,9 @@ export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 		store.setData({ ...clonedata, block: newblock });
 	}
 };
-
-const directionArr: DirectionType[] = [
-	'top',
-	'topleft',
-	'left',
-	'topright',
-	'bottomleft',
-	'bottom',
-	'right',
-	'bottomright',
-];
-
 export function BlockResizer(props: BlockResizerProps) {
+	const rotate = props.data.rotate.value;
+	const cursorMap = getCursor(rotate);
 	const render = useMemo(() => {
 		if (props.data.focus && props.data.resize) {
 			return (
@@ -210,6 +200,9 @@ export function BlockResizer(props: BlockResizerProps) {
 					{directionArr.map((v) => {
 						return (
 							<div
+								style={{
+									cursor: cursorMap[v],
+								}}
 								key={v}
 								className={classnames(styles.resizepoint, styles[v])}
 								onMouseDown={(e) => {
@@ -226,7 +219,7 @@ export function BlockResizer(props: BlockResizerProps) {
 		} else {
 			return null;
 		}
-	}, [props.config, props.data, props.rect]);
+	}, [cursorMap, props.config, props.data, props.rect]);
 
 	return <>{render}</>;
 }

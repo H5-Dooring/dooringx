@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-22 16:55:10
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-23 20:43:27
+ * @LastEditTime: 2021-07-26 11:10:48
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\resizeHandler\calcWithRotate.ts
  */
 
@@ -37,28 +37,28 @@ export function getRect(
 	symmetricPoint: Point
 ) {
 	switch (direction) {
-		case 'topleft':
+		case 'lt':
 			calculateTopLeft(item, rotate, curPositon, symmetricPoint);
 			break;
-		case 'right':
+		case 'r':
 			calculateRight(item, rotate, curPositon, symmetricPoint);
 			break;
-		case 'bottom':
+		case 'b':
 			calculateBottom(item, rotate, curPositon, symmetricPoint);
 			break;
-		case 'left':
+		case 'l':
 			calculateLeft(item, rotate, curPositon, symmetricPoint);
 			break;
-		case 'top':
+		case 't':
 			calculateTop(item, rotate, curPositon, symmetricPoint);
 			break;
-		case 'bottomright':
+		case 'rb':
 			calculateBottomRight(item, rotate, curPositon, symmetricPoint);
 			break;
-		case 'topright':
+		case 'rt':
 			calculateTopRight(item, rotate, curPositon, symmetricPoint);
 			break;
-		case 'bottomleft':
+		case 'lb':
 			calculateBottomLeft(item, rotate, curPositon, symmetricPoint);
 			break;
 		default:
