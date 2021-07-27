@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-20 10:36:55
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 16:13:07
+ * @LastEditTime: 2021-07-27 15:13:35
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\iframeTarget.tsx
  */
 import React from 'react';
@@ -10,6 +10,7 @@ import UserConfig from '../config';
 import { containerDragResolve } from '../core/crossDrag';
 import { containerFocusRemove } from '../core/focusHandler';
 import { innerContainerDrag } from '../core/innerDrag';
+import { NormalMarkLineRender } from '../core/markline';
 import { containerResizer } from '../core/resizeHandler/containerResizer';
 import Blocks from './blocks';
 
@@ -35,7 +36,7 @@ export function IframeTarget(props: IframeTargetProps) {
 			<div
 				{...containerDragResolve(props.config)}
 				{...innerContainerDrag(props.config)}
-				{...containerFocusRemove(props.config, true)}
+				{...containerFocusRemove(props.config)}
 				style={{
 					width: state.container.width * scaleState.value,
 					height: state.container.height * scaleState.value,
@@ -64,6 +65,7 @@ export function IframeTarget(props: IframeTargetProps) {
 							></Blocks>
 						);
 					})}
+					{<NormalMarkLineRender config={props.config} iframe={true}></NormalMarkLineRender>}
 				</div>
 			</div>
 			<iframe

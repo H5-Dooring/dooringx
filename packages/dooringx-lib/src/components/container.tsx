@@ -67,7 +67,7 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 								{...(props.context === 'edit' ? containerFocusRemove(props.config) : null)}
 							>
 								{props.context === 'edit' && (
-									<NormalMarkLineRender config={props.config}></NormalMarkLineRender>
+									<NormalMarkLineRender config={props.config} iframe={false}></NormalMarkLineRender>
 								)}
 								{props.state.block.map((v) => {
 									return (

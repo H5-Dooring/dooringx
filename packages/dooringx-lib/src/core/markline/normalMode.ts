@@ -99,9 +99,9 @@ export function newMarklineDisplay(
 		diffX = l + w / 2 - left - width;
 	}
 	// 头对尾
-	else if (Math.abs((l + w - left) / 2) < marklineConfig.indent) {
+	else if (Math.abs(l + w - left) < marklineConfig.indent) {
 		lines.y.push(l + w);
-		diffX = (l + w - left) / 2;
+		diffX = l + w - left;
 	}
 	// 中对尾
 	else if (Math.abs(l + w - left - width / 2) < marklineConfig.indent) {
@@ -109,9 +109,9 @@ export function newMarklineDisplay(
 		diffX = l + w - left - width / 2;
 	}
 	// 尾对尾
-	else if (Math.abs((l + w - left - width) / 2) < marklineConfig.indent) {
+	else if (Math.abs(l + w - left - width) < marklineConfig.indent) {
 		lines.y.push(l + w);
-		diffX = (l + w - left - width) / 2;
+		diffX = l + w - left - width;
 	}
 	focus.left = Math.round(focus.left + diffX);
 }

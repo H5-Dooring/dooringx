@@ -19,7 +19,7 @@ export const selectData: SelectDataProps = {
 	startY: 0,
 };
 
-export function selectRangeMouseDown(e: React.MouseEvent, config: UserConfig, iframe: boolean) {
+export function selectRangeMouseDown(e: React.MouseEvent, config: UserConfig) {
 	if (!selectData.selectDiv) {
 		selectData.selectDiv = document.createElement('div');
 	}
@@ -33,7 +33,7 @@ export function selectRangeMouseDown(e: React.MouseEvent, config: UserConfig, if
 		selectData.selectDiv.style.top = e.clientY + 'px';
 		selectData.selectDiv.style.position = 'fixed';
 		document.body.appendChild(selectData.selectDiv);
-		selectData.selectDiv.onmouseup = (e) => selectRangeMouseUp(e, config, iframe);
+		selectData.selectDiv.onmouseup = (e) => selectRangeMouseUp(e, config);
 		selectData.selectDiv.onmousemove = (e) => selectRangeMouseMove(e);
 	}
 }
@@ -92,11 +92,7 @@ function selectFocus(left: number, top: number, width: number, height: number, c
 	}
 }
 
-export function selectRangeMouseUp(
-	e: React.MouseEvent | MouseEvent,
-	config: UserConfig,
-	iframe = false
-) {
+export function selectRangeMouseUp(e: React.MouseEvent | MouseEvent, config: UserConfig) {
 	if (selectData.selectDiv) {
 		// 这里需要判定区域
 		// 如果是react触发 ，left和top就是起始值和终止值的最小值
@@ -114,10 +110,6 @@ export function selectRangeMouseUp(
 		} else {
 			left = selectData.startX - wwidth;
 			top = selectData.startY - wheight;
-		}
-		if (iframe) {
-			left = left / scale;
-			top = top / scale;
 		}
 		selectFocus(left, top, wwidth, wheight, config);
 		selectData.selectDiv.parentNode!.removeChild(selectData.selectDiv);

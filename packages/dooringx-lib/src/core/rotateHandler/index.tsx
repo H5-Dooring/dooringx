@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-21 20:51:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-22 20:51:08
+ * @LastEditTime: 2021-07-27 14:53:15
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\rotateHandler\index.tsx
  */
 import React from 'react';
@@ -11,6 +11,7 @@ import UserConfig from '../../config';
 import { IBlockType } from '../store/storetype';
 import styles from '../../index.less';
 import { deepCopy } from '../utils';
+import { ReloadOutlined } from '@ant-design/icons';
 
 interface rotateStateType {
 	startX: number;
@@ -96,7 +97,13 @@ export function RotateResizer(props: RotateResizerProps) {
 						onMouseDown(e, props.data, props.rect, props.config);
 					}}
 					className={styles.rotate}
-				></div>
+				>
+					<ReloadOutlined
+						style={{
+							color: '#2196f3',
+						}}
+					/>
+				</div>
 			);
 		} else {
 			return null;

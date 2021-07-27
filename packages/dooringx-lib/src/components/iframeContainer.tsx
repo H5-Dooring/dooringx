@@ -2,13 +2,12 @@
  * @Author: yehuozhili
  * @Date: 2021-07-17 10:08:08
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 16:26:24
+ * @LastEditTime: 2021-07-27 14:42:00
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\iframeContainer.tsx
  */
 import { containerDragResolve } from '../core/crossDrag';
 import { containerFocusRemove } from '../core/focusHandler';
 import { innerContainerDrag } from '../core/innerDrag';
-import { NormalMarkLineRender } from '../core/markline';
 import { IStoreData } from '../core/store/storetype';
 import { wrapperMoveState } from './IframeWrapperMove/event';
 import { CSSProperties, PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -125,11 +124,8 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 							}}
 							{...(props.context === 'edit' ? containerDragResolve(props.config) : null)}
 							{...(props.context === 'edit' ? innerContainerDrag(props.config) : null)}
-							{...(props.context === 'edit' ? containerFocusRemove(props.config, true) : null)}
+							{...(props.context === 'edit' ? containerFocusRemove(props.config) : null)}
 						>
-							{props.context === 'edit' && (
-								<NormalMarkLineRender config={props.config}></NormalMarkLineRender>
-							)}
 							{state.block.map((v) => {
 								return (
 									<Blocks

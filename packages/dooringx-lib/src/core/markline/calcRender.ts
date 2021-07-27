@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-27 11:18:48
+ * @LastEditTime: 2021-07-27 15:33:35
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\calcRender.ts
  */
 import { innerDragState } from '../innerDrag/state';
@@ -56,7 +56,7 @@ export function getComponentRotatedStyle(
 	return style;
 }
 
-export function marklineCalRender(config: UserConfig): LinesTypes {
+export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTypes {
 	const store = config.getStore();
 	//focus可能好几个，做对比的是拖拽那个
 	const lines: LinesTypes = { x: [], y: [] };
@@ -120,6 +120,11 @@ export function marklineCalRender(config: UserConfig): LinesTypes {
 					break;
 				}
 			}
+		}
+
+		// 如果是iframe 需要刷给iframe
+		if (iframe) {
+			config.refreshIframe();
 		}
 	}
 

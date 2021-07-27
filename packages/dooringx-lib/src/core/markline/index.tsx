@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-26 15:01:06
+ * @LastEditTime: 2021-07-27 15:14:34
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\index.tsx
  */
 import React from 'react';
@@ -41,8 +41,8 @@ export function MarklineY(props: any) {
 	);
 }
 
-export function NormalMarkLineRender(props: { config: UserConfig }) {
-	const lines = marklineCalRender(props.config);
+export function NormalMarkLineRender(props: { config: UserConfig; iframe: boolean }) {
+	const lines = marklineCalRender(props.config, props.iframe);
 	const render = useMemo(() => {
 		return (
 			<>
