@@ -2,6 +2,7 @@ import { IStoreData } from '../store/storetype';
 import { deepCopy } from '../utils';
 import style from '../../index.less';
 import UserConfig from '../../config';
+import { getComponentRotatedStyle } from '../markline/calcRender';
 export interface SelectDataProps {
 	selectDiv: HTMLDivElement | null;
 	posx: number;
@@ -64,10 +65,26 @@ function selectFocus(left: number, top: number, width: number, height: number, c
 	blocks.forEach((v) => {
 		const l = v.left;
 		const t = v.top;
-		if ((l >= left && l <= maxleft) || (t >= top && t <= maxtop)) {
-			change = true;
-			v.focus = true;
-			focusState.blocks.push(v);
+		const w = v.width;
+		const h = v.height;
+		if (
+			typeof l === 'number' &&
+			typeof t === 'number' &&
+			typeof w === 'number' &&
+			typeof h === 'number' &&
+			v.canDrag === true
+		) {
+			const style = getComponentRotatedStyle(v.rotate.value, w, h, l, t);
+			if (
+				style.left >= left &&
+				style.right <= maxleft &&
+				style.top >= top &&
+				style.bottom <= maxtop
+			) {
+				change = true;
+				v.focus = true;
+				focusState.blocks.push(v);
+			}
 		}
 	});
 	if (change) {

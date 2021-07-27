@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-26 20:51:41
+ * @LastEditTime: 2021-07-27 11:18:48
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\calcRender.ts
  */
 import { innerDragState } from '../innerDrag/state';
@@ -27,17 +27,15 @@ export function getComponentRotatedStyle(
 	width: number,
 	height: number,
 	left: number,
-	right: number,
-	top: number,
-	bottom: number
+	top: number
 ) {
 	const style = {
 		left,
 		width,
 		height,
-		right,
+		right: left + width,
 		top,
-		bottom,
+		bottom: top + height,
 	};
 	if (rotate !== 0) {
 		const newWidth = style.width * cos(rotate) + style.height * sin(rotate);
@@ -96,38 +94,33 @@ export function marklineCalRender(config: UserConfig): LinesTypes {
 		const rotate = focus.rotate.value;
 		const width = focus.width;
 		const height = focus.height;
-		const realStyle = getComponentRotatedStyle(
-			rotate,
-			width,
-			height,
-			left,
-			left + width,
-			top,
-			top + height
-		);
+		const realStyle = getComponentRotatedStyle(rotate, width, height, left, top);
 
 		if (typeof left !== 'number' || typeof top !== 'number') {
 			return lines; //可能没有这2值
 		}
-
-		marklineConfig.marklineUnfocus.forEach((v) => {
-			let l = v?.left;
-			let t = v?.top;
-			if (typeof l !== 'number' || typeof t !== 'number') {
-				console.warn(`${v} component miss top or left`);
-			} else {
-				// 如果拿实例可能有性能问题，暂直接计算。
-				const w = v.width;
-				const h = v.height;
-				if (typeof w === 'number' && typeof h === 'number') {
-					const ro = v.rotate.value;
-					const r = l + w;
-					const b = t + h;
-					const rstyle = getComponentRotatedStyle(ro, w, h, l, r, t, b);
-					newMarklineDisplay(realStyle, rstyle, lines, focus);
+		const unfocus = marklineConfig.marklineUnfocus;
+		const len = unfocus.length;
+		for (let i = 0; i < len; i++) {
+			const v = unfocus[i];
+			const l = v?.left;
+			const t = v?.top;
+			const w = v?.width;
+			const h = v?.height;
+			if (
+				typeof l === 'number' &&
+				typeof t === 'number' &&
+				typeof w === 'number' &&
+				typeof h === 'number'
+			) {
+				const ro = v.rotate.value;
+				const rstyle = getComponentRotatedStyle(ro, w, h, l, t);
+				newMarklineDisplay(realStyle, rstyle, lines, focus);
+				if (lines.x.length !== 0 || lines.y.length !== 0) {
+					break;
 				}
 			}
-		});
+		}
 	}
 
 	return lines;

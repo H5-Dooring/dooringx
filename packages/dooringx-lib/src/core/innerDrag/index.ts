@@ -42,6 +42,8 @@ export const innerDrag = function (
 			innerDragState.startX = Math.round(e.clientX);
 			innerDragState.startY = Math.round(e.clientY);
 			innerDragState.item = item;
+			innerDragState.itemX = item.left;
+			innerDragState.itemY = item.top;
 			innerDragState.isDrag = true;
 			innerDragState.ref = ref;
 			innerDragState.current = store.getIndex();
@@ -77,22 +79,20 @@ export const innerContainerDrag = function (config: UserConfig) {
 				lastblock = innerDragState.item;
 				newblock = cloneblock.map((v) => {
 					if (v.focus && v.position !== 'static') {
-						v.left = Math.round(v.left + durX);
-						v.top = Math.round(v.top + durY);
+						v.left = Math.round(innerDragState.itemX + durX);
+						v.top = Math.round(innerDragState.itemY + durY);
 					}
 					return v;
 				});
 			} else {
 				newblock = store.getData().block.map((v) => {
 					if (v.focus && v.position !== 'static') {
-						v.left = Math.round(v.left + durX);
-						v.top = Math.round(v.top + durY);
+						v.left = Math.round(innerDragState.itemX + durX);
+						v.top = Math.round(innerDragState.itemY + durY);
 					}
 					return v;
 				});
 			}
-			innerDragState.startX = Math.round(moveX);
-			innerDragState.startY = Math.round(moveY);
 			store.setData({ ...store.getData(), block: newblock });
 		}
 		resizerMouseMove(e, config);
