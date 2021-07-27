@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import { blockFocus } from '../focusHandler';
+import { blockFocus, containerFocusRemove } from '../focusHandler';
 import { marklineConfig } from '../markline/marklineConfig';
 import { resizerMouseMove, resizerMouseUp } from '../resizeHandler';
 import { selectRangeMouseMove, selectData, selectRangeMouseUp } from '../selectRange';
@@ -11,6 +11,7 @@ import { contextMenuState } from '../contextMenu';
 import { innerDragState } from './state';
 import UserConfig from '../../config';
 import { rotateMouseMove, rotateMouseUp } from '../rotateHandler';
+import { specialCoList } from '../utils/special';
 
 export const innerDrag = function (
 	item: IBlockType,
@@ -22,6 +23,11 @@ export const innerDrag = function (
 		onMouseDown: (e: React.MouseEvent) => {
 			//e.preventDefault();
 			e.stopPropagation();
+			//特殊元素不可操作
+			if (specialCoList.includes(item.name)) {
+				containerFocusRemove(config).onMouseDown(e);
+				return;
+			}
 
 			if (item.id && innerDragState.lastClick && item.id !== innerDragState.lastClick.id) {
 				contextMenuState.unmountContextMenu();
