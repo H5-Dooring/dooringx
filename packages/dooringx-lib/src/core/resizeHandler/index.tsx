@@ -185,7 +185,7 @@ export function BlockResizer(props: BlockResizerProps) {
 	const rotate = props.data.rotate.value;
 	const cursorMap = getCursor(rotate);
 	const render = useMemo(() => {
-		if (props.data.focus && props.data.resize) {
+		if (props.data.focus && props.data.resize && props.data.canDrag) {
 			return (
 				<>
 					{directionArr.map((v) => {

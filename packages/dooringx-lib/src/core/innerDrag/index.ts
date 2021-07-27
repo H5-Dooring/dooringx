@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import { blockFocus, containerFocusRemove } from '../focusHandler';
+import { blockFocus } from '../focusHandler';
 import { marklineConfig } from '../markline/marklineConfig';
 import { resizerMouseMove, resizerMouseUp } from '../resizeHandler';
 import { selectRangeMouseMove, selectData, selectRangeMouseUp } from '../selectRange';
@@ -22,13 +22,15 @@ export const innerDrag = function (
 		onMouseDown: (e: React.MouseEvent) => {
 			//e.preventDefault();
 			e.stopPropagation();
-			if (!item.canDrag) {
-				containerFocusRemove(config).onMouseDown(e);
-				return;
-			}
-			blockFocus(e, item, config);
+
 			if (item.id && innerDragState.lastClick && item.id !== innerDragState.lastClick.id) {
 				contextMenuState.unmountContextMenu();
+			}
+			//candrag给选中，不给拖
+			blockFocus(e, item, config);
+			if (!item.canDrag) {
+				//containerFocusRemove(config).onMouseDown(e);
+				return;
 			}
 			innerDragState.lastClick = item;
 

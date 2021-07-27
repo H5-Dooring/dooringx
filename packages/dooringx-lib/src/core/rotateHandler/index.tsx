@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-21 20:51:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-27 14:53:15
+ * @LastEditTime: 2021-07-27 16:32:30
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\rotateHandler\index.tsx
  */
 import React from 'react';
@@ -90,7 +90,7 @@ interface RotateResizerProps {
 }
 export function RotateResizer(props: RotateResizerProps) {
 	const render = useMemo(() => {
-		if (props.data.focus && props.data.rotate.canRotate) {
+		if (props.data.focus && props.data.rotate.canRotate && props.data.canDrag) {
 			return (
 				<div
 					onMouseDown={(e) => {

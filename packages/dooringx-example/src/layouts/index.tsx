@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:51:17
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 19:55:15
+ * @LastEditTime: 2021-07-27 16:24:29
  * @FilePath: \dooringx\packages\dooringx-example\src\layouts\index.tsx
  */
 import { Button } from 'antd';
@@ -46,6 +46,24 @@ const ContextMenu = () => {
 				}}
 			>
 				<Button>自定义</Button>
+			</div>
+			<div
+				style={{ width: '100%' }}
+				onClick={() => {
+					commander.exec('lock');
+					handleclick();
+				}}
+			>
+				<Button style={{ width: '100%' }}>锁定</Button>
+			</div>
+			<div
+				style={{ width: '100%' }}
+				onClick={() => {
+					commander.exec('unlock');
+					handleclick();
+				}}
+			>
+				<Button style={{ width: '100%' }}>解锁</Button>
 			</div>
 		</div>
 	);
