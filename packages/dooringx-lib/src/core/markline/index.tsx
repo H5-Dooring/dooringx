@@ -2,35 +2,13 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 20:38:59
+ * @LastEditTime: 2021-07-26 15:01:06
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\index.tsx
  */
 import React from 'react';
 import { useMemo } from 'react';
 import UserConfig from '../../config';
-import { IBlockType } from '../store/storetype';
 import { marklineCalRender } from './calcRender';
-
-// 主要逻辑需要注入组件内拖拽
-
-export interface MarklineConfigType {
-	indent: number;
-	isAbsorb: boolean;
-	mode: 'normal' | 'grid';
-	gridIndent: number;
-	resizeIndent: number;
-	marklineUnfocus: null | IBlockType[];
-}
-
-// 间隔距离执行吸附
-export const marklineConfig: MarklineConfigType = {
-	indent: 2,
-	isAbsorb: true,
-	mode: 'normal',
-	gridIndent: 50,
-	resizeIndent: 0,
-	marklineUnfocus: null,
-};
 
 export function MarklineX(props: any) {
 	return (

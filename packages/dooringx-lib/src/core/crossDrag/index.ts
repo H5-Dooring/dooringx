@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 16:12:55
+ * @LastEditTime: 2021-07-26 20:42:16
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\crossDrag\index.ts
  */
 import { DragEvent, ReactNode } from 'react';
@@ -51,8 +51,8 @@ export const containerDragResolve = (config: UserConfig) => {
 			e.preventDefault();
 		},
 		onDrop: (e: DragEvent<HTMLDivElement>) => {
-			const offsetX = e.nativeEvent.offsetX;
-			const offestY = e.nativeEvent.offsetY;
+			const offsetX = Math.round(e.nativeEvent.offsetX);
+			const offestY = Math.round(e.nativeEvent.offsetY);
 			//drop后修改store，
 			if (currentDrag) {
 				// 还需要拿到注册的组件状态

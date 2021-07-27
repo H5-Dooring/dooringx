@@ -1,6 +1,6 @@
 import { RefObject, useMemo } from 'react';
 import { IBlockType } from '../store/storetype';
-import { deepCopy } from '../utils';
+import { deepCopy, getContainer } from '../utils';
 import React from 'react';
 import classnames from 'classnames';
 import styles from '../../index.less';
@@ -32,10 +32,7 @@ const onMouseDown = (
 	resizeState.current = store.getIndex();
 	resizeState.currentTarget = e.nativeEvent.target as HTMLDivElement;
 	const curDiv = resizeState.ref.current;
-	let container = document.querySelector('#yh-container');
-	if (!container) {
-		container = document.querySelector('#yh-container-iframe');
-	}
+	const container = getContainer();
 	if (!container) {
 		return;
 	}
@@ -148,13 +145,10 @@ export const resizerMouseMove = (e: React.MouseEvent, config: UserConfig) => {
 		resizeState.ref?.current &&
 		resizeState.currentTarget
 	) {
-		let { clientX: moveX, clientY: moveY } = e;
+		const { clientX: moveX, clientY: moveY } = e;
 		const scale = scaleState.value;
 
-		let container = document.querySelector('#yh-container');
-		if (!container) {
-			container = document.querySelector('#yh-container-iframe');
-		}
+		const container = getContainer();
 		if (!container) {
 			return;
 		}

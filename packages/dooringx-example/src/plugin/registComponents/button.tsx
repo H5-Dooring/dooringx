@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-26 14:03:01
+ * @LastEditTime: 2021-07-27 10:46:07
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -131,6 +131,7 @@ const MButton = new ComponentItemFactory(
 			canRotate: true,
 			value: 0,
 		},
+		canDrag: true, // false就不能拖
 	},
 	(data, context, store, config) => {
 		return <ButtonTemp data={data} store={store} context={context} config={config}></ButtonTemp>;

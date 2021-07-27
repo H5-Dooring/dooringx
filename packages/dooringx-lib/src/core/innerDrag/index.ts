@@ -39,8 +39,8 @@ export const innerDrag = function (
 				ref.current.style.cursor = 'move';
 				ref.current.style.willChange = 'left,right,width,height';
 			}
-			innerDragState.startX = e.clientX;
-			innerDragState.startY = e.clientY;
+			innerDragState.startX = Math.round(e.clientX);
+			innerDragState.startY = Math.round(e.clientY);
 			innerDragState.item = item;
 			innerDragState.isDrag = true;
 			innerDragState.ref = ref;
@@ -69,30 +69,30 @@ export const innerContainerDrag = function (config: UserConfig) {
 			let { clientX: moveX, clientY: moveY } = e;
 			const { startX, startY } = innerDragState;
 			const scale = scaleState.value;
-			let durX = (moveX - startX) / scale;
-			let durY = (moveY - startY) / scale;
+			let durX = Math.round((moveX - startX) / scale);
+			let durY = Math.round((moveY - startY) / scale);
 			let newblock: IBlockType[];
 			if (lastblock !== innerDragState.item) {
 				const cloneblock: IBlockType[] = deepCopy(store.getData().block);
 				lastblock = innerDragState.item;
 				newblock = cloneblock.map((v) => {
 					if (v.focus && v.position !== 'static') {
-						v.left = v.left + durX;
-						v.top = v.top + durY;
+						v.left = Math.round(v.left + durX);
+						v.top = Math.round(v.top + durY);
 					}
 					return v;
 				});
 			} else {
 				newblock = store.getData().block.map((v) => {
 					if (v.focus && v.position !== 'static') {
-						v.left = v.left + durX;
-						v.top = v.top + durY;
+						v.left = Math.round(v.left + durX);
+						v.top = Math.round(v.top + durY);
 					}
 					return v;
 				});
 			}
-			innerDragState.startX = moveX;
-			innerDragState.startY = moveY;
+			innerDragState.startX = Math.round(moveX);
+			innerDragState.startY = Math.round(moveY);
 			store.setData({ ...store.getData(), block: newblock });
 		}
 		resizerMouseMove(e, config);

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 11:25:31
+ * @LastEditTime: 2021-07-27 10:17:01
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\index.tsx
  */
 import { AllHTMLAttributes, CSSProperties, PropsWithChildren, useRef } from 'react';

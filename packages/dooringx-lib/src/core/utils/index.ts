@@ -294,3 +294,11 @@ export function postMessage(value: any, src: string, target = 'yh-container-ifra
 export function angleToRadian(angle: number) {
 	return (angle * Math.PI) / 180;
 }
+
+export function getContainer() {
+	let container = document.querySelector('#yh-container');
+	if (!container) {
+		container = document.querySelector('#yh-container-iframe');
+	}
+	return container;
+}
