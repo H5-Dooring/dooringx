@@ -44,3 +44,8 @@ npm i dooringx-lib
 
 详情见文档
 
+
+### 问题
+
+有问题提issue或联系qq:673632758
+
