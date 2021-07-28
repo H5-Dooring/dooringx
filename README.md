@@ -42,7 +42,7 @@ npm i dooringx-lib
 
 ### 文档
 
-详情见文档
+详情见文档 https://h5-dooring.github.io/dooringx/
 
 
 ### 问题
