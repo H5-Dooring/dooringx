@@ -4,11 +4,11 @@
 
 
 
-dooringx-lib 是 dooringx 的基座，是移除了 dooringx 插件的无代码低代码框架。
+dooringx-lib 是 dooringx 的基座，是移除了 dooringx 插件的可视化拖拽框架。
 
 
 
-dooringx-lib 提供自己的一套数据流事件机制以及弹窗等解决方案，可以让你更快地自己定制开发无代码或低代码平台。
+dooringx-lib 提供自己的一套数据流事件机制以及弹窗等解决方案，可以让你更快地自己定制开发可视化拖拽平台。
 
 
 
