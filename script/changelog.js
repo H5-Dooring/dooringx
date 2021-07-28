@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-20 17:38:03
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 19:23:46
+ * @LastEditTime: 2021-07-28 10:30:54
  * @FilePath: \dooringx\script\changelog.js
  */
 
@@ -22,12 +22,10 @@ if (isExist) {
 	fs.removeSync(doclog);
 }
 
-const prepend = `
----
+const prepend = `---
 title: CHANGELOG
 order: 1
 ---
-
 `;
 
 const data = prepend + fs.readFileSync(changelog).toString();

@@ -3,7 +3,7 @@
 	import { base } from '$app/paths';
 	import Button from '../Button/index.svelte';
 	import Switch from '../Switch/index.svelte';
-	import logo from './logo.svg';
+	import logo from './logo.png';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	const lang = getContext<Writable<string>>('lang');
@@ -73,7 +73,6 @@
 		align-items: center;
 		margin-left: 20px;
 		img {
-			width: $height - 5px;
 			height: $height - 5px;
 		}
 	}
