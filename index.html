@@ -1,0 +1,100 @@
+<!--
+ * @Author: yehuozhili
+ * @Date: 2021-06-29 11:14:15
+ * @LastEditors: yehuozhili
+ * @LastEditTime: 2021-07-10 20:30:13
+ * @FilePath: \dooringx\packages\dooringx-doc\src\app.html
+-->
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>Home</title>
+
+		
+
+		<link rel="modulepreload" href="/dooringx/_app/start-8232e60a.js">
+		<link rel="modulepreload" href="/dooringx/_app/chunks/vendor-fc93f41b.js">
+		<link rel="modulepreload" href="/dooringx/_app/chunks/paths-45dac81d.js">
+		<link rel="modulepreload" href="/dooringx/_app/pages/__layout.svelte-dbf3b041.js">
+		<link rel="modulepreload" href="/dooringx/_app/pages/index.svelte-c1aa3855.js">
+		<link rel="stylesheet" href="/dooringx/_app/assets/start-a8cd1609.css">
+		<link rel="stylesheet" href="/dooringx/_app/assets/pages/__layout.svelte-3248fa8a.css">
+		<link rel="stylesheet" href="/dooringx/_app/assets/pages/index.svelte-af27bada.css">
+
+		<script type="module">
+			import { start } from "/dooringx/_app/start-8232e60a.js";
+			start({
+				target: document.querySelector("#svelte"),
+				paths: {"base":"/dooringx","assets":"/dooringx"},
+				session: {},
+				host: location.host,
+				route: true,
+				spa: false,
+				trailing_slash: "ignore",
+				hydrate: {
+					status: 200,
+					error: null,
+					nodes: [
+						import("/dooringx/_app/pages/__layout.svelte-dbf3b041.js"),
+						import("/dooringx/_app/pages/index.svelte-c1aa3855.js")
+					],
+					page: {
+						host: location.host, // TODO this is redundant
+						path: "/",
+						query: new URLSearchParams(""),
+						params: {}
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="svelte">
+
+
+<header class="svelte-183leg3"><div class="corner svelte-183leg3"><img src="/dooringx/_app/assets/logo.4226e1ca.png" alt="SvelteKit" class="svelte-183leg3"></div>
+
+	<nav style="width: 100%;"><div class="nav-item-wrapper svelte-183leg3"><div class="svelte-183leg3 active"><button class="yh-btn svelte-1aj0qns" style="color: #4569d4 ; background-color:white; ">首页
+</button></div>
+	<div class="svelte-183leg3"><button class="yh-btn svelte-1aj0qns" style="color: #4d5164 ; background-color:white; ">文档
+</button></div>
+	<div class="svelte-183leg3"><button class="yh-btn svelte-1aj0qns" style="color: #4d5164 ; background-color:white; ">API
+</button></div>
+	<div class="svelte-183leg3"><button class="yh-btn svelte-1aj0qns" style="color: #4d5164 ; background-color:white; ">更新
+</button></div>
+	<div class="svelte-183leg3"><button class="yh-btn svelte-1aj0qns" style="color: #4d5164 ; background-color:white; ">Github
+</button></div>
+
+	</div></nav>
+</header>
+<main class="svelte-1gyyk6m">
+
+<section class="svelte-63km9a"><div class="middle svelte-63km9a" style="background:#282c34"><div class="title svelte-63km9a">Dooringx-lib 文档
+		</div>
+		<div class="subtitle svelte-63km9a">快速高效搭建可视化拖拽平台
+		</div>
+		<div class="btn svelte-63km9a">快速入门
+		</div></div>
+<div class="bottom svelte-63km9a"><div class="card svelte-63km9a"><div class="stitle svelte-63km9a">上手简单</div>
+		<div class="description">无需编写拖拽、缩放、参考线等逻辑，只需要开发组件即可。
+		</div></div>
+	<div class="card svelte-63km9a"><div class="stitle svelte-63km9a">独特的弹窗与事件机制</div>
+		<div class="description">弹窗机制解决了很多编辑器无法配置弹窗的问题。独特的事件机制可以让组件间联动，使得组件无限可能。
+		</div></div>
+	<div class="card svelte-63km9a"><div class="stitle svelte-63km9a">可定制化</div>
+		<div class="description">编辑器完全拆分，提供了内置组件可供使用，如果觉得组件不能满足需求，也可以重写部分组件。
+		</div></div></div>
+
+</section>
+</main>
+
+
+
+	
+</div>
+	</body>
+</html>
