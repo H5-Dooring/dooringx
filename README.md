@@ -1,6 +1,6 @@
-<center>
+<div align=center >
 <img  src="https://img-blog.csdnimg.cn/img_convert/520863a38a93d960862f92c805bc97cc.png#pic_center"/>
-</center>
+</div>
 
 
 
