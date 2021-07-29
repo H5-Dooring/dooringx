@@ -50,8 +50,8 @@ export const innerDrag = function (
 			innerDragState.startX = Math.round(e.clientX);
 			innerDragState.startY = Math.round(e.clientY);
 			innerDragState.item = item;
-			innerDragState.itemX = item.left;
-			innerDragState.itemY = item.top;
+			// innerDragState.itemX = item.left; 会导致框选后移动问题
+			// innerDragState.itemY = item.top;
 			innerDragState.isDrag = true;
 			innerDragState.ref = ref;
 			innerDragState.current = store.getIndex();
@@ -87,21 +87,23 @@ export const innerContainerDrag = function (config: UserConfig) {
 				lastblock = innerDragState.item;
 				newblock = cloneblock.map((v) => {
 					if (v.focus && v.position !== 'static') {
-						v.left = Math.round(innerDragState.itemX + durX);
-						v.top = Math.round(innerDragState.itemY + durY);
+						v.left = Math.round(v.left + durX);
+						v.top = Math.round(v.top + durY);
 					}
 					return v;
 				});
 			} else {
 				newblock = store.getData().block.map((v) => {
 					if (v.focus && v.position !== 'static') {
-						v.left = Math.round(innerDragState.itemX + durX);
-						v.top = Math.round(innerDragState.itemY + durY);
+						v.left = Math.round(v.left + durX);
+						v.top = Math.round(v.top + durY);
 					}
 					return v;
 				});
 			}
 			store.setData({ ...store.getData(), block: newblock });
+			innerDragState.startX = moveX;
+			innerDragState.startY = moveY;
 		}
 		resizerMouseMove(e, config);
 		rotateMouseMove(e, config);
