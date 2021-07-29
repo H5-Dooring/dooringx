@@ -47,5 +47,21 @@ npm i dooringx-lib
 
 ### 问题
 
-有问题提issue或联系qq:673632758
+有问题可以提[issue](https://github.com/H5-Dooring/dooringx/issues)或联系qq:673632758
+
+### 团队介绍
+
+- [徐小夕 | 产品负责](https://github.com/MrXujiang)
+- [yehuozhili | 技术负责](https://github.com/yehuozhili)
+  - [XiaoZhaoxiaaa | 技术](https://github.com/XiaoZhaoxiaaa)
+  - [GeekQiaQia | 技术](https://github.com/GeekQiaQia)
+  - [RalapChen | 技术](https://github.com/RalapChen)
+  - [taozhi1010 | 技术](https://github.com/taozhi1010)
+- [47℃ | 设计/交互]()
+- [大风吹 | 后台管理产品]()
+
+### 技术交流
+
+<img src="http://cdn.dooring.cn/dr/WechatIMG679.jpeg" width=260 />
+
 
