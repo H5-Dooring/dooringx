@@ -7,7 +7,7 @@
  */
 import { AllHTMLAttributes, CSSProperties, PropsWithChildren, ReactNode, useRef } from 'react';
 import { wrapperEvent } from './event';
-import { onWheelEvent } from '../../core/scale';
+import { onWheelEventIframe } from '../../core/scale';
 import React from 'react';
 import Ticker from './ticker';
 import UserConfig from '../../config';
@@ -45,7 +45,7 @@ function ContainerWrapper(props: PropsWithChildren<ContainerWrapperProps>) {
 				...style,
 			}}
 			{...wrapperEvent(ref, props.config)}
-			{...onWheelEvent(props.config)}
+			{...onWheelEventIframe(props.config, scaleState)}
 			{...rest}
 		>
 			<div
