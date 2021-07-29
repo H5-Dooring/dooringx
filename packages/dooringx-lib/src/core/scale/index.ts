@@ -81,8 +81,9 @@ export const onWheelEventIframe = (
 			}
 			if (e.deltaY > 0) {
 				scaleCancelFn();
-				if (scale.value < scale.maxValue) {
-					scale.value = scale.value + 0.1;
+				//往下滚缩小
+				if (scale.value > scale.minValue) {
+					scale.value = scale.value - 0.1;
 					config.sendParent({
 						type: 'update',
 						column: 'scale',
@@ -91,9 +92,9 @@ export const onWheelEventIframe = (
 				}
 			} else {
 				scaleCancelFn();
-				//往上滚缩小
-				if (scale.value > scale.minValue) {
-					scale.value = scale.value - 0.1;
+				//往上滚放大
+				if (scale.value < scale.maxValue) {
+					scale.value = scale.value + 0.1;
 					config.sendParent({
 						type: 'update',
 						column: 'scale',
