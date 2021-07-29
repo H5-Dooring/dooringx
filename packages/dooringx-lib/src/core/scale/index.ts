@@ -20,16 +20,17 @@ export const onWheelEvent = (config: UserConfig) => {
 			}
 			if (e.deltaY > 0) {
 				scaleCancelFn();
-				if (scale.value < scale.maxValue) {
-					scale.value = scale.value + 0.1;
+				//往下滚缩小
+				if (scale.value > scale.minValue) {
+					scale.value = scale.value - 0.1;
 					store.forceUpdate();
 					config.refreshIframe();
 				}
 			} else {
 				scaleCancelFn();
-				//往上滚缩小
-				if (scale.value > scale.minValue) {
-					scale.value = scale.value - 0.1;
+				//往上滚放大
+				if (scale.value < scale.maxValue) {
+					scale.value = scale.value + 0.1;
 					store.forceUpdate();
 					config.refreshIframe();
 				}
