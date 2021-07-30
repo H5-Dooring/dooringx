@@ -100,7 +100,7 @@ Contributions, issues and feature requests are welcome!.
 [Change Log](./CHANGELOG.md)
 
 
-## 快照 | Screen Shots
+## ✂️ 快照 | Screen Shots
 
 <img src="https://yehuozhili-1259443377.cos.ap-nanjing.myqcloud.com/xxa.jpg"/>
 
