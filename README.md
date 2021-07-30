@@ -97,6 +97,7 @@ Contributions, issues and feature requests are welcome!.
 欢迎提Issues 或者 联系qq:673632758
 
 ## 持续升级 | Continuous Upgrades
+[Change Log](./CHANGELOG.md)
 
 
 ## 快照 | Screen Shots
