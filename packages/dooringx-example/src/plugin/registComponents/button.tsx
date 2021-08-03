@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-27 10:46:07
+ * @LastEditTime: 2021-08-03 11:01:06
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -25,7 +25,6 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 
 	useDynamicAddEventCenter(pr, `${pr.data.id}-init`, '初始渲染时机'); //注册名必须带id 约定！
 	useDynamicAddEventCenter(pr, `${pr.data.id}-click`, '点击执行时机');
-
 	useEffect(() => {
 		// 模拟抛出事件
 		if (pr.context === 'preview') {
@@ -34,38 +33,42 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 	}, [eventCenter, pr.config, pr.context, pr.data.id]);
 
 	const [text, setText] = useState('');
+	const op1 = props.op1;
 	useEffect(() => {
-		const functionCenter = eventCenter.getFunctionCenter();
-		const unregist = functionCenter.register(
-			`${pr.data.id}+改变文本函数`,
-			async (ctx, next, config, args: any, _eventList, iname) => {
-				const userSelect = iname.data;
-				const ctxVal = changeUserValue(
-					userSelect['改变文本数据源'],
-					args,
-					'_changeval',
-					config,
-					ctx
-				);
-				const text = ctxVal[0];
-				setText(text);
-				next();
-			},
-			[
-				{
-					name: '改变文本数据源',
-					data: ['ctx', 'input', 'dataSource'],
-					options: {
-						receive: '_changeval',
-						multi: false,
-					},
+		let unregist = () => {};
+		if (op1) {
+			const functionCenter = eventCenter.getFunctionCenter();
+			unregist = functionCenter.register(
+				`${pr.data.id}+改变文本函数`,
+				async (ctx, next, config, args: any, _eventList, iname) => {
+					const userSelect = iname.data;
+					const ctxVal = changeUserValue(
+						userSelect['改变文本数据源'],
+						args,
+						'_changeval',
+						config,
+						ctx
+					);
+					const text = ctxVal[0];
+					setText(text);
+					next();
 				},
-			]
-		);
+				[
+					{
+						name: '改变文本数据源',
+						data: ['ctx', 'input', 'dataSource'],
+						options: {
+							receive: '_changeval',
+							multi: false,
+						},
+					},
+				]
+			);
+		}
 		return () => {
 			unregist();
 		};
-	}, []);
+	}, [op1]);
 
 	return (
 		<Button
@@ -102,6 +105,13 @@ const MButton = new ComponentItemFactory(
 				text: 'yehuozhili',
 			}),
 		],
+		fn: [
+			createPannelOptions<FormMap, 'switch'>('switch', {
+				receive: 'op1',
+				label: '改变文本函数',
+				value: false,
+			}),
+		],
 		animate: [createPannelOptions<FormMap, 'animateControl'>('animateControl', {})],
 		actions: [createPannelOptions<FormMap, 'actionButton'>('actionButton', {})],
 	},
@@ -112,6 +122,7 @@ const MButton = new ComponentItemFactory(
 			backgroundColor: 'rgba(0,132,255,1)',
 			lineHeight: 1,
 			borderRadius: 0,
+			op1: false,
 			borderData: {
 				borderWidth: 0,
 				borderColor: 'rgba(0,0,0,1)',

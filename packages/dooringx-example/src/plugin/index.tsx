@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-27 21:33:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 19:32:16
+ * @LastEditTime: 2021-08-03 11:05:24
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\index.tsx
  */
 
@@ -14,16 +14,6 @@ import { functionMap } from './functionMap';
 import { Formmodules } from './formComponentModules';
 
 const LeftRegistMap: LeftRegistComponentMapItem[] = [
-	// build 时如果用代码分割会生成多个文件，这样就不能生成多类型文件。
-	// 建议基础包全部不分割。后面插件包可以用webpack的特性，所以插件包用新脚手架制作
-	// 基础包不独立出去的原因是部分左侧分类起始值最好规定住
-	// {
-	//   type: 'xxa',
-	//   component: 'asyncCo',
-	//   img: '',
-	//   urlFn: () => import('./registComponents/asyncCo'),
-	//  displayName:'xxx'
-	// },
 	{
 		type: 'basic',
 		component: 'button',
@@ -63,6 +53,14 @@ export const defaultConfig: Partial<InitConfig> = {
 			icon: (
 				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
 					动画
+				</div>
+			),
+		},
+		{
+			type: 'fn',
+			icon: (
+				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
+					函数
 				</div>
 			),
 		},
