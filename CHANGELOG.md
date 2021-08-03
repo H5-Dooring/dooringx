@@ -1,5 +1,9 @@
 ## changelog
 
+## 0.7.6
+
+右侧自定义rightGlobalCustom类型变更为函数传入config
+
 ## 0.7.5
 
 修改滚轮方向。

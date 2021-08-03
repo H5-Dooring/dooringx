@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-17 20:57:16
+ * @LastEditTime: 2021-08-03 23:19:24
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -105,10 +105,9 @@ export interface InitConfig {
 	/**
 	 *
 	 * 右侧全局自定义
-	 * @type {ReactNode}
 	 * @memberof InitConfig
 	 */
-	rightGlobalCustom: ReactNode;
+	rightGlobalCustom: ((config: UserConfig) => ReactNode) | null | undefined;
 
 	/**
 	 * 组件加载缓存判定，用来设置不异步加载的组件

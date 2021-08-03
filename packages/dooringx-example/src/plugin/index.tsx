@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-27 21:33:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-03 11:05:24
+ * @LastEditTime: 2021-08-03 23:21:01
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\index.tsx
  */
 

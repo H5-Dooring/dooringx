@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 21:08:46
+ * @LastEditTime: 2021-08-03 23:17:54
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
@@ -345,7 +345,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 					</Row>
 				</div>
 			)}
-			{!current && !isEdit && customGlobal && customGlobal}
+			{!current && !isEdit && customGlobal && customGlobal(props.config)}
 			{!current && isEdit && (
 				<div style={{ padding: '20px' }} className="yh-tcsz">
 					<Row style={{ padding: '10 0 20px 0', fontWeight: 'bold' }}>弹窗设置</Row>
