@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-17 10:12:11
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 17:08:37
+ * @LastEditTime: 2021-08-03 14:06:12
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\iframeTest.tsx
  */
 
@@ -34,7 +34,7 @@ export default function IndexPage() {
 	useIframeHook(`${location.origin}/container`, config);
 
 	return (
-		<div {...innerContainerDragUp(config, true)}>
+		<div {...innerContainerDragUp(config)}>
 			<div style={{ height: HeaderHeight }}>
 				head
 				<button

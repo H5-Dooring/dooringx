@@ -1,5 +1,10 @@
 ## changelog
 
+
+## 0.7.7
+
+优化画布拖拽逻辑，更平滑移动。
+
 ## 0.7.6
 
 右侧自定义rightGlobalCustom类型变更为函数传入config
