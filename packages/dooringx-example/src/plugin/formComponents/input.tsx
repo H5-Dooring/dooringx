@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:32:55
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 15:07:08
+ * @LastEditTime: 2021-08-05 15:27:21
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\formComponents\input.tsx
  */
 import { deepCopy, UserConfig } from 'dooringx-lib';
@@ -21,17 +21,17 @@ interface MInputProps {
 
 function MInput(props: MInputProps) {
 	const option = useMemo(() => {
-		return props.data?.option || {};
+		return props.data.option || {};
 	}, [props.data]);
 	const store = props.config.getStore();
 	return (
 		<Row style={{ padding: '10px 20px' }}>
 			<Col span={6} style={{ lineHeight: '30px' }}>
-				{(option as any)?.label || '文字'}：
+				{option.label || '文字'}：
 			</Col>
 			<Col span={18}>
 				<Input
-					value={props.current.props[(option as any).receive] || ''}
+					value={props.current.props[option.receive!] || ''}
 					onChange={(e) => {
 						const receive = (option as any).receive;
 						const clonedata = deepCopy(store.getData());
