@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-03 10:45:06
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-03 10:45:07
+ * @LastEditTime: 2021-08-05 14:35:49
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\formComponents\switch.tsx
  */
 import React, { useMemo, memo } from 'react';
@@ -25,10 +25,10 @@ const MSwitch = (props: MSwitchProps) => {
 	const store = props.config.getStore();
 	return (
 		<Row style={{ padding: '10px 20px' }}>
-			<Col span={6} style={{ lineHeight: '30px' }}>
+			<Col span={8} style={{ lineHeight: '30px' }}>
 				{(option as any)?.label || '文字'}：
 			</Col>
-			<Col span={18}>
+			<Col span={16}>
 				<Switch
 					checked={props.current.props[(option as any).receive] || ''}
 					onChange={(checked) => {

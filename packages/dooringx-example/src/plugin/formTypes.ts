@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:31:20
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-03 10:45:52
+ * @LastEditTime: 2021-08-05 15:10:23
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\formTypes.ts
  */
 export interface FormBaseType {
@@ -10,14 +10,12 @@ export interface FormBaseType {
 }
 export interface FormInputType extends FormBaseType {
 	label: string;
-	text: string;
 }
 export interface FormActionButtonType {}
 export interface FormAnimateControlType {}
 
 export interface FormSwitchType extends FormBaseType {
 	label: string;
-	value: boolean;
 }
 export interface FormMap {
 	input: FormInputType;

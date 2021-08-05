@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-03 11:01:06
+ * @LastEditTime: 2021-08-05 15:10:31
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -102,14 +102,12 @@ const MButton = new ComponentItemFactory(
 			createPannelOptions<FormMap, 'input'>('input', {
 				receive: 'text',
 				label: '文字',
-				text: 'yehuozhili',
 			}),
 		],
 		fn: [
 			createPannelOptions<FormMap, 'switch'>('switch', {
 				receive: 'op1',
 				label: '改变文本函数',
-				value: false,
 			}),
 		],
 		animate: [createPannelOptions<FormMap, 'animateControl'>('animateControl', {})],
