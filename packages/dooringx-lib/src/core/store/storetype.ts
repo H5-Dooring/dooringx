@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-21 20:54:38
+ * @LastEditTime: 2021-08-06 21:27:19
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\storetype.ts
  */
 
@@ -18,6 +18,13 @@ export interface IStoreData {
 	dataSource: Record<string, any>;
 	globalState: Record<string, any>;
 	modalConfig: Record<string, any>;
+}
+export interface AnimateItem {
+	animationName: string;
+	animationDuration: string;
+	animationDelay: string;
+	animationIterationCount: string;
+	animationTimingFunction: string;
 }
 
 export interface IBlockType {
@@ -41,13 +48,6 @@ export interface IBlockType {
 		value: number;
 		canRotate: boolean;
 	};
-	animate: {
-		animate?: string; //动画名
-		animationIterationCount?: number | string;
-		speed?: //动画速度
-		'animate__slow' | 'animate__slower' | 'animate__fast' | 'animate__faster' | '';
-		delay?: //首次延迟
-		'animate__delay-2s' | 'animate__delay-3s' | 'animate__delay-4s' | 'animate__delay-5s' | '';
-	};
+	animate: AnimateItem[];
 	fixed: boolean; // 用于制作fixed组件
 }

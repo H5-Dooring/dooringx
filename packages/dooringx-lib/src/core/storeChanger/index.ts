@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-04-05 14:55:31
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-27 16:50:09
+ * @LastEditTime: 2021-08-06 16:21:01
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\storeChanger\index.ts
  */
 
@@ -40,7 +40,7 @@ function createDefaultModalBlock(): IStoreData['block'] {
 			canDrag: false,
 			eventMap: {},
 			functionList: [],
-			animate: {},
+			animate: [],
 			fixed: true,
 			rotate: {
 				value: 0,

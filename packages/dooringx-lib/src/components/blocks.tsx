@@ -95,22 +95,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		props.data.fixed,
 	]);
 
-	const animatecss = useMemo(() => {
-		const animate = props.data.animate;
-		if (Object.keys(animate).length > 0) {
-			return `animate__animated ${animate.animate ?? ''} ${animate.delay ?? ''}  ${
-				animate.speed ?? ''
-			}`;
-		}
-		return '';
-	}, [props.data.animate]);
-	const animateCount = useMemo(() => {
-		const animate = props.data.animate;
-		if (Object.keys(animate).length > 0) {
-			return { animationIterationCount: animate.animationIterationCount };
-		}
-		return { animationIterationCount: '' };
-	}, [props.data.animate]);
+	console.log(props.data.animate);
 
 	const render = useMemo(() => {
 		// 如果是编辑模式下，则需要包裹不能选中层，位移层，缩放控制层，平面移动层。
@@ -141,20 +126,14 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 					}}
 				>
 					{/* 绝对定位元素 */}
-					{props.data.position !== 'static' && (
-						<div className={animatecss} style={{ ...style, ...animateCount }}>
-							{state}
-						</div>
-					)}
+					{props.data.position !== 'static' && <div style={{ ...style }}>{state}</div>}
 					{/* 静态定位 非行内 这里暂不考虑布局影响 */}
 					{props.data.position === 'static' && props.data.display !== 'inline' && (
 						<div
-							className={animatecss}
 							style={{
 								pointerEvents: 'none',
 								width: '100%',
 								height: '100%',
-								...animateCount,
 							}}
 						>
 							{state}
@@ -171,7 +150,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		} else {
 			return (
 				<div
-					className={animatecss}
 					style={{
 						position: props.data.fixed ? 'fixed' : props.data.position,
 						top: previewState.top,
@@ -181,7 +159,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						zIndex: props.data.zIndex,
 						display: props.data.display,
 						transform: `rotate(${props.data.rotate.value}deg)`,
-						...animateCount,
 					}}
 				>
 					{state}
@@ -195,8 +172,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		props.iframe,
 		props.config,
 		innerDragData,
-		animatecss,
-		animateCount,
 		previewState.top,
 		previewState.left,
 		previewState.width,

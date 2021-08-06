@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-21 20:56:01
+ * @LastEditTime: 2021-08-06 10:24:32
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\components\createBlock.ts
  */
 import { IBlockType } from '../store/storetype';
@@ -28,7 +28,7 @@ export function createBlock(top: number, left: number, ComponentItem: ComponentI
 		canDrag: ComponentItem.initData.canDrag ?? true,
 		eventMap: ComponentItem.initData.eventMap || {},
 		functionList: ComponentItem.initData.functionList || [],
-		animate: ComponentItem.initData.animate || {},
+		animate: ComponentItem.initData.animate || [],
 		fixed: ComponentItem.initData.fixed || false,
 		rotate: ComponentItem.initData.rotate || {
 			value: 0,
