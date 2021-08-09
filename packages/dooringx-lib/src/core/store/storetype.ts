@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-06 21:27:19
+ * @LastEditTime: 2021-08-09 11:30:52
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\storetype.ts
  */
 
@@ -20,9 +20,10 @@ export interface IStoreData {
 	modalConfig: Record<string, any>;
 }
 export interface AnimateItem {
+	uid: string;
 	animationName: string;
-	animationDuration: string;
-	animationDelay: string;
+	animationDuration: number;
+	animationDelay: number;
 	animationIterationCount: string;
 	animationTimingFunction: string;
 }

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-09 15:19:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-27 10:18:34
+ * @LastEditTime: 2021-08-09 14:37:55
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\resizeHandler\containerResizer.ts
  */
 
@@ -14,7 +14,7 @@ export const containerState = {
 	isDrag: false,
 	startY: 0,
 	startIndex: 0,
-	minHeight: 667,
+	minHeight: 0,
 };
 
 export const containerResizer = {

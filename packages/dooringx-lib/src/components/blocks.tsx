@@ -95,7 +95,40 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		props.data.fixed,
 	]);
 
-	console.log(props.data.animate);
+	const animateProps: CSSProperties = useMemo(() => {
+		const select: CSSProperties = {
+			animationName: '',
+			animationDelay: '',
+			animationDuration: '',
+			animationIterationCount: '',
+			animationFillMode: 'forwards',
+			animationTimingFunction: '',
+		};
+		props.data.animate.forEach((v) => {
+			select.animationName =
+				select.animationName === ''
+					? v.animationName
+					: select.animationName + ',' + v.animationName;
+			select.animationDelay =
+				select.animationDelay === ''
+					? v.animationDelay + 's'
+					: select.animationDelay + ',' + v.animationDelay + 's';
+			select.animationDuration =
+				select.animationDuration === ''
+					? v.animationDuration + 's'
+					: select.animationDuration + ',' + v.animationDuration + 's';
+			select.animationIterationCount =
+				select.animationIterationCount === ''
+					? v.animationIterationCount
+					: select.animationIterationCount + ',' + v.animationIterationCount;
+			select.animationTimingFunction =
+				select.animationTimingFunction === ''
+					? v.animationTimingFunction
+					: select.animationTimingFunction + ',' + v.animationTimingFunction;
+		});
+		return select;
+	}, [props.data.animate]);
+	console.log(animateProps);
 
 	const render = useMemo(() => {
 		// 如果是编辑模式下，则需要包裹不能选中层，位移层，缩放控制层，平面移动层。
@@ -126,7 +159,9 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 					}}
 				>
 					{/* 绝对定位元素 */}
-					{props.data.position !== 'static' && <div style={{ ...style }}>{state}</div>}
+					{props.data.position !== 'static' && (
+						<div style={{ ...style, ...animateProps }}>{state}</div>
+					)}
 					{/* 静态定位 非行内 这里暂不考虑布局影响 */}
 					{props.data.position === 'static' && props.data.display !== 'inline' && (
 						<div
@@ -134,6 +169,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 								pointerEvents: 'none',
 								width: '100%',
 								height: '100%',
+								...animateProps,
 							}}
 						>
 							{state}
@@ -141,7 +177,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 					)}
 					{/* 静态定位 行内 这里暂不考虑布局影响 */}
 					{props.data.position === 'static' && props.data.display === 'inline' && (
-						<span style={{ pointerEvents: 'none' }}>{state}</span>
+						<span style={{ pointerEvents: 'none', ...animateProps }}>{state}</span>
 					)}
 					<BlockResizer data={props.data} config={props.config} rect={ref}></BlockResizer>
 					<RotateResizer data={props.data} config={props.config} rect={ref}></RotateResizer>
@@ -159,6 +195,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						zIndex: props.data.zIndex,
 						display: props.data.display,
 						transform: `rotate(${props.data.rotate.value}deg)`,
+						...animateProps,
 					}}
 				>
 					{state}
@@ -172,6 +209,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		props.iframe,
 		props.config,
 		innerDragData,
+		animateProps,
 		previewState.top,
 		previewState.left,
 		previewState.width,

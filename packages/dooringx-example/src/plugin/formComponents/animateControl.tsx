@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { UserConfig, deepCopy } from 'dooringx-lib';
+import { UserConfig, deepCopy, createUid } from 'dooringx-lib';
 import { Col, Row, Select, InputNumber, Button } from 'antd';
 import { FormMap, FormBaseType } from '../formTypes';
 import { CreateOptionsRes } from 'dooringx-lib/dist/core/components/formTypes';
@@ -114,13 +114,9 @@ const animateCategory: Record<string, string> = {
 	animate__slideOutRight: 'slideOutRight',
 };
 
-const duration = ['0s', '1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', '10s'];
-
-const delay = ['0s', '1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', '10s'];
-
 const repeat = ['1', '2', '3', '4', '5', 'infinite'];
 
-const timeFunction = {
+const timeFunction: Record<string, string> = {
 	平滑: 'linear',
 	缓入: 'ease in',
 };
@@ -132,11 +128,27 @@ function AnimateControl(props: AnimateControlProps) {
 		<>
 			{animate.map((v, i) => {
 				return (
-					<div key={props.current.id + i}>
+					<div key={v.uid}>
 						<Row style={{ padding: '20px', alignItems: 'center' }}>
-							<Col span={3}>动画:</Col>
-							<Col span={8}>
-								<Select style={{ width: '80%' }}>
+							<Col span={5}>动画名称:</Col>
+							<Col span={7}>
+								<Select
+									value={animate[i].animationName}
+									style={{ width: '100%' }}
+									onChange={(d) => {
+										const cloneData: IStoreData = deepCopy(store.getData());
+										cloneData.block.forEach((w) => {
+											if (w.id === props.current.id) {
+												w.animate.forEach((f) => {
+													if (f.uid === v.uid) {
+														f.animationName = d;
+													}
+												});
+											}
+										});
+										store.setData(cloneData);
+									}}
+								>
 									{Object.keys(animateCategory).map((v, i) => {
 										return (
 											<Select.Option key={i} value={animateCategory[v]}>
@@ -146,35 +158,75 @@ function AnimateControl(props: AnimateControlProps) {
 									})}
 								</Select>
 							</Col>
-							<Col span={5}>持续时间:</Col>
-							<Col span={8}>
-								<Select style={{ width: '100%' }}>
-									{duration.map((v, i) => {
-										return (
-											<Select.Option key={i} value={v}>
-												{v}
-											</Select.Option>
-										);
-									})}
-								</Select>
+							<Col span={5} style={{ paddingLeft: '10px' }}>
+								持续时间:
+							</Col>
+							<Col span={7}>
+								<InputNumber
+									style={{ width: '100%' }}
+									value={animate[i].animationDuration}
+									formatter={(value) => `${value}s`}
+									min={0}
+									onChange={(d) => {
+										const cloneData: IStoreData = deepCopy(store.getData());
+										cloneData.block.forEach((w) => {
+											if (w.id === props.current.id) {
+												w.animate.forEach((f) => {
+													if (f.uid === v.uid) {
+														f.animationDuration = d;
+													}
+												});
+											}
+										});
+										store.setData(cloneData);
+									}}
+								/>
 							</Col>
 						</Row>
 						<Row style={{ padding: '20px', alignItems: 'center' }}>
-							<Col span={3}>延迟:</Col>
-							<Col span={8}>
-								<Select style={{ width: '80%' }}>
-									{delay.map((v, i) => {
-										return (
-											<Select.Option key={i} value={v}>
-												{v}
-											</Select.Option>
-										);
-									})}
-								</Select>
+							<Col span={5}>延迟时间:</Col>
+							<Col span={7}>
+								<InputNumber
+									style={{ width: '100%' }}
+									value={animate[i].animationDelay}
+									formatter={(value) => `${value}s`}
+									min={0}
+									onChange={(d) => {
+										const cloneData: IStoreData = deepCopy(store.getData());
+										cloneData.block.forEach((w) => {
+											if (w.id === props.current.id) {
+												w.animate.forEach((f) => {
+													if (f.uid === v.uid) {
+														f.animationDelay = d;
+													}
+												});
+											}
+										});
+										store.setData(cloneData);
+									}}
+								/>
 							</Col>
-							<Col span={5}>重复次数:</Col>
-							<Col span={8}>
-								<Select style={{ width: '100%' }}>
+							<Col span={5} style={{ paddingLeft: '10px' }}>
+								重复次数:
+							</Col>
+							<Col span={7}>
+								<Select
+									value={animate[i].animationIterationCount}
+									style={{ width: '100%' }}
+									onChange={(d) => {
+										const cloneData: IStoreData = deepCopy(store.getData());
+										cloneData.block.forEach((w) => {
+											if (w.id === props.current.id) {
+												w.animate.forEach((f) => {
+													if (f.uid === v.uid) {
+														f.animationIterationCount = d;
+													}
+												});
+											}
+										});
+										store.setData(cloneData);
+									}}
+								>
 									{repeat.map((v, i) => {
 										return (
 											<Select.Option key={i} value={v}>
@@ -185,20 +237,36 @@ function AnimateControl(props: AnimateControlProps) {
 								</Select>
 							</Col>
 						</Row>
-						<Row style={{ padding: '20px' }}>
-							<Col span={3}>延迟:</Col>
-							<Col span={8}>
-								<Select style={{ width: '80%' }}>
-									{delay.map((v, i) => {
+						<Row style={{ padding: '20px', alignItems: 'center' }}>
+							<Col span={5}>运动函数:</Col>
+							<Col span={7}>
+								<Select
+									value={animate[i].animationTimingFunction}
+									style={{ width: '100%' }}
+									onChange={(d) => {
+										const cloneData: IStoreData = deepCopy(store.getData());
+										cloneData.block.forEach((w) => {
+											if (w.id === props.current.id) {
+												w.animate.forEach((f) => {
+													if (f.uid === v.uid) {
+														f.animationTimingFunction = d;
+													}
+												});
+											}
+										});
+										store.setData(cloneData);
+									}}
+								>
+									{Object.keys(timeFunction).map((v, i) => {
 										return (
-											<Select.Option key={i} value={v}>
+											<Select.Option key={i} value={timeFunction[v]}>
 												{v}
 											</Select.Option>
 										);
 									})}
 								</Select>
 							</Col>
-							<Col span={8} style={{ justifyContent: 'flex-end' }}>
+							<Col style={{ justifyContent: 'flex-end', flex: 1, textAlign: 'end' }}>
 								<Button
 									danger
 									onClick={() => {
@@ -219,18 +287,43 @@ function AnimateControl(props: AnimateControlProps) {
 				);
 			})}
 
-			<Row style={{ padding: '20px', justifyContent: 'center' }}>
+			<Row style={{ padding: '20px', justifyContent: 'space-around' }}>
+				{animate.length > 0 && (
+					<Button
+						onClick={() => {
+							const cacheProps = animate;
+							const data: IStoreData = store.getData();
+							data.block.forEach((v) => {
+								if (v.id === props.current.id) {
+									v.animate = [];
+								}
+							});
+							store.forceUpdate();
+							setTimeout(() => {
+								data.block.forEach((v) => {
+									if (v.id === props.current.id) {
+										v.animate = cacheProps;
+									}
+								});
+								store.forceUpdate();
+							});
+						}}
+					>
+						运行动画
+					</Button>
+				)}
 				<Button
 					onClick={() => {
 						const cloneData: IStoreData = deepCopy(store.getData());
 						const newItem: AnimateItem = {
-							animationName: '',
-							animationDelay: '0s',
-							animationDuration: '1s',
+							uid: createUid(),
+							animationName: 'bounce',
+							animationDelay: 0,
+							animationDuration: 1,
 							animationTimingFunction: 'linear',
-							animationIterationCount: 1,
+							animationIterationCount: '1',
 						};
-						cloneData.block.map((v) => {
+						cloneData.block.forEach((v) => {
 							if (v.id === props.current.id) {
 								v.animate.push(newItem);
 							}

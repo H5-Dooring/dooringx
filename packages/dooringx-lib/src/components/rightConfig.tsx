@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-03 23:17:54
+ * @LastEditTime: 2021-08-09 14:37:24
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
@@ -186,11 +186,10 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						</Col>
 						<Col span={18}>
 							<InputNumber
-								min={667}
+								min={0}
 								value={props.config.getStore().getData().container.height}
 								onChange={(e) => {
 									const val = e;
-									console.log(val, 'kkkk');
 									const isEdit = props.config.getStoreChanger().isEdit();
 									if (isEdit) {
 										const originData: IStoreData = deepcopy(
