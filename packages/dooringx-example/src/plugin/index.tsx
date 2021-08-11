@@ -36,7 +36,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'basic',
 			icon: <HighlightOutlined />,
-			displayName: '基础组件',
+			displayName: '基础',
 		},
 		{
 			type: 'xxc',

@@ -15,6 +15,7 @@ import styles from '../index.less';
 
 interface LeftConfigProps {
 	config: UserConfig;
+	footerConfig?: ReactNode;
 }
 
 /**
@@ -153,10 +154,18 @@ function LeftConfig(props: LeftConfigProps) {
 				<Menu style={{ flex: 1 }} defaultSelectedKeys={[menuSelect]} mode="vertical">
 					{leftMapRenderListCategory.map((v, i) => {
 						return (
-							<Menu.Item key={i} onClick={() => setMenuSelect(i + '')} icon={v.icon}></Menu.Item>
+							<Menu.Item
+								key={i}
+								onClick={() => setMenuSelect(i + '')}
+								icon={v.icon}
+								className={`${styles.menuStyle}`}
+							>
+								{v.displayName}
+							</Menu.Item>
 						);
 					})}
 				</Menu>
+				<div className={`${styles.menu_footer}`}>{props.footerConfig}</div>
 				<Menu selectedKeys={[]}>
 					<Menu.Item
 						key="1"
