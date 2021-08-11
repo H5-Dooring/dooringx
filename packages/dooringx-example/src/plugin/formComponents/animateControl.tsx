@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { UserConfig, deepCopy, createUid } from 'dooringx-lib';
 import { Col, Row, Select, InputNumber, Button } from 'antd';
 import { FormMap, FormBaseType } from '../formTypes';
@@ -121,9 +121,19 @@ const timeFunction: Record<string, string> = {
 	缓入: 'ease in',
 };
 
+let lastAnimate: AnimateItem[] = [];
+let isOmit = false;
+
 function AnimateControl(props: AnimateControlProps) {
-	const animate = props.current.animate;
 	const store = props.config.getStore();
+
+	const animate = useMemo(() => {
+		if (isOmit) {
+			return lastAnimate;
+		}
+		lastAnimate = props.current.animate;
+		return props.current.animate;
+	}, [props.current.animate]);
 	return (
 		<>
 			{animate.map((v, i) => {
@@ -164,6 +174,7 @@ function AnimateControl(props: AnimateControlProps) {
 							<Col span={7}>
 								<InputNumber
 									style={{ width: '100%' }}
+									step="0.1"
 									value={animate[i].animationDuration}
 									formatter={(value) => `${value}s`}
 									min={0}
@@ -191,6 +202,7 @@ function AnimateControl(props: AnimateControlProps) {
 									value={animate[i].animationDelay}
 									formatter={(value) => `${value}s`}
 									min={0}
+									step="0.1"
 									onChange={(d) => {
 										const cloneData: IStoreData = deepCopy(store.getData());
 										cloneData.block.forEach((w) => {
@@ -291,22 +303,28 @@ function AnimateControl(props: AnimateControlProps) {
 				{animate.length > 0 && (
 					<Button
 						onClick={() => {
-							const cacheProps = animate;
-							const data: IStoreData = store.getData();
-							data.block.forEach((v) => {
-								if (v.id === props.current.id) {
-									v.animate = [];
-								}
-							});
-							store.forceUpdate();
-							setTimeout(() => {
+							if (!isOmit) {
+								isOmit = true;
+								const cacheProps = animate;
+								const data: IStoreData = store.getData();
 								data.block.forEach((v) => {
 									if (v.id === props.current.id) {
-										v.animate = cacheProps;
+										v.animate = [];
 									}
 								});
+								store.emit();
 								store.forceUpdate();
-							});
+								setTimeout(() => {
+									data.block.forEach((v) => {
+										if (v.id === props.current.id) {
+											v.animate = cacheProps;
+										}
+									});
+									store.emit();
+									store.forceUpdate();
+									isOmit = false;
+								});
+							}
 						}}
 					>
 						运行动画
