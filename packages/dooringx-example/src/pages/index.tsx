@@ -15,7 +15,7 @@ import {
 	Control,
 } from 'dooringx-lib';
 import { FormattedMessage } from 'react-intl';
-import { InsertRowBelowOutlined } from '@ant-design/icons';
+import { InsertRowBelowOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useContext } from 'react';
 import { configContext } from '@/layouts';
 import { useCallback } from 'react';
@@ -25,8 +25,8 @@ export const HeaderHeight = '40px';
 const footerConfig = function () {
 	return (
 		<>
-			<Popover content={'快捷键'} title={null} trigger="hover">
-				<Button type="text" icon={<InsertRowBelowOutlined />}></Button>
+			<Popover content={'日历'} title={null} trigger="hover">
+				<Button type="text" icon={<CalendarOutlined />}></Button>
 			</Popover>
 			<Popover content={'快捷键'} title={null} trigger="hover">
 				<Button type="text" icon={<InsertRowBelowOutlined />}></Button>
@@ -74,7 +74,7 @@ export default function IndexPage() {
 				}}
 			>
 				<div style={{ height: '100%' }}>
-					<LeftConfig footerConfig={footerConfig()} config={config}></LeftConfig>
+					<LeftConfig mode="vertical" footerConfig={footerConfig()} config={config}></LeftConfig>
 				</div>
 
 				<ContainerWrapper config={config}>

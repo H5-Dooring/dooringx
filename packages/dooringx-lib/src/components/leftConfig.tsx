@@ -13,16 +13,18 @@ import { DoubleLeftOutlined, DoubleRightOutlined, SearchOutlined } from '@ant-de
 
 import styles from '../index.less';
 
+declare type modeType = 'horizontal' | 'vertical';
 interface LeftConfigProps {
 	config: UserConfig;
 	footerConfig?: ReactNode;
+	mode?: modeType | undefined;
 }
 
 /**
  *
  * 注册加载左侧组件方法，由于异步拉取，所以要异步加载
  * 不同tab页可以使用不同type区分
- * @param {*} props
+ * @param {*} props -LeftConfigProps options可选项： mode:'horizontal' | 'vertical' icon与文案展示方向 ;footerConfig:底部功能配置ReactNode类型；
  * @returns
  */
 function LeftConfig(props: LeftConfigProps) {
@@ -158,7 +160,7 @@ function LeftConfig(props: LeftConfigProps) {
 								key={i}
 								onClick={() => setMenuSelect(i + '')}
 								icon={v.icon}
-								className={`${styles.menuStyle}`}
+								className={props.mode === 'vertical' ? `${styles.menuStyle}` : ''}
 							>
 								{v.displayName}
 							</Menu.Item>
