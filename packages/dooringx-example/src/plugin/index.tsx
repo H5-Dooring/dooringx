@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-27 21:33:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-05 10:54:22
+ * @LastEditTime: 2021-08-12 14:43:05
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\index.tsx
  */
 
@@ -47,6 +47,7 @@ export const defaultConfig: Partial<InitConfig> = {
 			type: 'xxc',
 			icon: <ContainerOutlined />,
 			custom: true,
+			displayName: '自定义',
 			customRender: <div>我是自定义渲染</div>,
 		},
 	],

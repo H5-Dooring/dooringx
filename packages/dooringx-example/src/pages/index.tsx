@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-05-15 12:49:28
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-11 16:26:46
+ * @LastEditTime: 2021-08-12 15:57:35
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\index.tsx
  */
 import {
@@ -14,7 +14,7 @@ import {
 	ContainerWrapper,
 	Control,
 } from 'dooringx-lib';
-import { InsertRowBelowOutlined, CalendarOutlined } from '@ant-design/icons';
+import { InsertRowBelowOutlined } from '@ant-design/icons';
 import { useContext } from 'react';
 import { configContext } from '@/layouts';
 import { useCallback } from 'react';
@@ -24,9 +24,6 @@ export const HeaderHeight = '40px';
 const footerConfig = function () {
 	return (
 		<>
-			<Popover content={'日历'} title={null} trigger="hover">
-				<Button type="text" icon={<CalendarOutlined />}></Button>
-			</Popover>
 			<Popover content={'快捷键'} title={null} trigger="hover">
 				<Button type="text" icon={<InsertRowBelowOutlined />}></Button>
 			</Popover>
@@ -72,12 +69,7 @@ export default function IndexPage() {
 				}}
 			>
 				<div style={{ height: '100%' }}>
-					<LeftConfig
-						mode="vertical"
-						showName={true}
-						footerConfig={footerConfig()}
-						config={config}
-					></LeftConfig>
+					<LeftConfig footerConfig={footerConfig()} config={config}></LeftConfig>
 				</div>
 
 				<ContainerWrapper config={config}>

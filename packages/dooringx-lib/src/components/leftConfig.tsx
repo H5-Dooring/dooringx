@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 17:12:35
+ * @LastEditTime: 2021-08-12 15:50:48
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
@@ -18,7 +18,7 @@ interface LeftConfigProps {
 	config: UserConfig;
 	showName?: Boolean;
 	footerConfig?: ReactNode;
-	mode?: modeType | undefined;
+	mode?: modeType;
 }
 
 /**
@@ -154,14 +154,20 @@ function LeftConfig(props: LeftConfigProps) {
 	return (
 		<div style={{ display: 'flex', height: '100%' }}>
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<Menu style={{ flex: 1 }} defaultSelectedKeys={[menuSelect]} mode="vertical">
+				<Menu
+					style={{ flex: 1 }}
+					defaultSelectedKeys={[menuSelect]}
+					mode="vertical"
+					inlineCollapsed={props.showName ? false : true}
+					className={`${styles.menuWidth} ${styles.menus}`}
+				>
 					{leftMapRenderListCategory.map((v, i) => {
 						return (
 							<Menu.Item
 								key={i}
 								onClick={() => setMenuSelect(i + '')}
 								icon={v.icon}
-								className={props.mode === 'vertical' ? `${styles.menuStyle}` : ''}
+								className={props.mode === 'vertical' ? `${styles.menuStyle} ${styles.menus}` : ''}
 							>
 								{props.showName && v.displayName}
 							</Menu.Item>
