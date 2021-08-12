@@ -14,7 +14,6 @@ import {
 	ContainerWrapper,
 	Control,
 } from 'dooringx-lib';
-import { FormattedMessage } from 'react-intl';
 import { InsertRowBelowOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useContext } from 'react';
 import { configContext } from '@/layouts';
