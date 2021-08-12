@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-27 10:17:01
+ * @LastEditTime: 2021-08-11 16:16:30
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\index.tsx
  */
 import { AllHTMLAttributes, CSSProperties, PropsWithChildren, useRef } from 'react';
@@ -11,6 +11,7 @@ import { onWheelEvent } from '../../core/scale';
 import React from 'react';
 import Ticker from './ticker';
 import UserConfig from '../../config';
+import TimeLine from '../timeLine/timeline';
 
 export interface ContainerWrapperProps extends AllHTMLAttributes<HTMLDivElement> {
 	config: UserConfig;
@@ -42,6 +43,7 @@ function ContainerWrapper(props: PropsWithChildren<ContainerWrapperProps>) {
 			{...onWheelEvent(props.config)}
 			{...rest}
 		>
+			{config.timeline && <TimeLine config={config}></TimeLine>}
 			{children}
 			{ticker && <Ticker config={props.config}></Ticker>}
 		</div>

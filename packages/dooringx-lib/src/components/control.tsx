@@ -8,6 +8,7 @@ import {
 	MenuOutlined,
 	SyncOutlined,
 	UnorderedListOutlined,
+	VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Divider, Form, Input, List, Modal, Popconfirm, Popover } from 'antd';
 import React, { CSSProperties, PropsWithChildren, useState } from 'react';
@@ -189,6 +190,13 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 					<Button icon={<GatewayOutlined />}></Button>
 				</Popover>
 
+				<Button
+					icon={<VideoCameraOutlined />}
+					onClick={() => {
+						props.config.timeline = !props.config.timeline;
+						props.config.getStore().forceUpdate();
+					}}
+				></Button>
 				<Button
 					icon={<SyncOutlined />}
 					onClick={() => {

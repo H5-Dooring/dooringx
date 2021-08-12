@@ -142,7 +142,7 @@ Contributions, issues and feature requests are welcome!.
 
 ### 技术交流 | Technical Communication
 
-<img src="http://cdn.dooring.cn/dr/WechatIMG679.jpeg" width=260 />
+<a href="http://cdn.dooring.cn/dr/gp.jpeg" target="_blank"><img src="http://cdn.dooring.cn/dr/gp.jpeg" width=260 />dooringx-lib交流群</a>
 
 ## License
 

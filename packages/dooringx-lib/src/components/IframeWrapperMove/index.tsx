@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 11:24:39
+ * @LastEditTime: 2021-08-11 16:39:24
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\IframeWrapperMove\index.tsx
  */
 import { AllHTMLAttributes, CSSProperties, PropsWithChildren, ReactNode, useRef } from 'react';
@@ -11,6 +11,7 @@ import { onWheelEventIframe } from '../../core/scale';
 import React from 'react';
 import Ticker from './ticker';
 import UserConfig from '../../config';
+import TimeLine from '../timeLine/timeline';
 
 export interface ContainerWrapperProps extends AllHTMLAttributes<HTMLDivElement> {
 	config: UserConfig;
@@ -48,6 +49,7 @@ function ContainerWrapper(props: PropsWithChildren<ContainerWrapperProps>) {
 			{...onWheelEventIframe(props.config, scaleState)}
 			{...rest}
 		>
+			{config.timeline && <TimeLine config={config}></TimeLine>}
 			<div
 				style={{
 					position: 'absolute',

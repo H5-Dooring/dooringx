@@ -128,7 +128,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		});
 		return select;
 	}, [props.data.animate]);
-	console.log(animateProps);
 
 	const render = useMemo(() => {
 		// 如果是编辑模式下，则需要包裹不能选中层，位移层，缩放控制层，平面移动层。
