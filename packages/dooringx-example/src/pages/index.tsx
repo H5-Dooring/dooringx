@@ -72,7 +72,12 @@ export default function IndexPage() {
 				}}
 			>
 				<div style={{ height: '100%' }}>
-					<LeftConfig mode="vertical" footerConfig={footerConfig()} config={config}></LeftConfig>
+					<LeftConfig
+						mode="vertical"
+						showName={true}
+						footerConfig={footerConfig()}
+						config={config}
+					></LeftConfig>
 				</div>
 
 				<ContainerWrapper config={config}>

@@ -8,7 +8,7 @@
 
 import { InitConfig } from 'dooringx-lib';
 import { LeftRegistComponentMapItem } from 'dooringx-lib/dist/core/crossDrag';
-import { ContainerOutlined, HighlightOutlined } from '@ant-design/icons';
+import { ContainerOutlined, PlayCircleOutlined, HighlightOutlined } from '@ant-design/icons';
 import commandModules from './commanderModules';
 import { functionMap } from './functionMap';
 import { Formmodules } from './formComponentModules';
@@ -37,6 +37,11 @@ export const defaultConfig: Partial<InitConfig> = {
 			type: 'basic',
 			icon: <HighlightOutlined />,
 			displayName: '基础',
+		},
+		{
+			type: 'media',
+			icon: <PlayCircleOutlined />,
+			displayName: '媒体组件',
 		},
 		{
 			type: 'xxc',

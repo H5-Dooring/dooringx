@@ -16,6 +16,7 @@ import styles from '../index.less';
 declare type modeType = 'horizontal' | 'vertical';
 interface LeftConfigProps {
 	config: UserConfig;
+	showName?: Boolean;
 	footerConfig?: ReactNode;
 	mode?: modeType | undefined;
 }
@@ -24,7 +25,7 @@ interface LeftConfigProps {
  *
  * 注册加载左侧组件方法，由于异步拉取，所以要异步加载
  * 不同tab页可以使用不同type区分
- * @param {*} props -LeftConfigProps options可选项： mode:'horizontal' | 'vertical' icon与文案展示方向 ;footerConfig:底部功能配置ReactNode类型；
+ * @param {*} props -LeftConfigProps options可选项：showName:是否显示displayName; mode:'horizontal' | 'vertical' icon与文案展示方向 ;footerConfig:底部功能配置ReactNode类型；
  * @returns
  */
 function LeftConfig(props: LeftConfigProps) {
@@ -162,7 +163,7 @@ function LeftConfig(props: LeftConfigProps) {
 								icon={v.icon}
 								className={props.mode === 'vertical' ? `${styles.menuStyle}` : ''}
 							>
-								{v.displayName}
+								{props.showName && v.displayName}
 							</Menu.Item>
 						);
 					})}
