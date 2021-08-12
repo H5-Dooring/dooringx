@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-12 17:12:35
+ * @LastEditTime: 2021-08-12 15:50:48
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
@@ -13,15 +13,19 @@ import { DoubleLeftOutlined, DoubleRightOutlined, SearchOutlined } from '@ant-de
 
 import styles from '../index.less';
 
+declare type modeType = 'horizontal' | 'vertical';
 interface LeftConfigProps {
 	config: UserConfig;
+	showName?: Boolean;
+	footerConfig?: ReactNode;
+	mode?: modeType;
 }
 
 /**
  *
  * 注册加载左侧组件方法，由于异步拉取，所以要异步加载
  * 不同tab页可以使用不同type区分
- * @param {*} props
+ * @param {*} props -LeftConfigProps options可选项：showName:是否显示displayName; mode:'horizontal' | 'vertical' icon与文案展示方向 ;footerConfig:底部功能配置ReactNode类型；
  * @returns
  */
 function LeftConfig(props: LeftConfigProps) {
@@ -150,13 +154,27 @@ function LeftConfig(props: LeftConfigProps) {
 	return (
 		<div style={{ display: 'flex', height: '100%' }}>
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<Menu style={{ flex: 1 }} defaultSelectedKeys={[menuSelect]} mode="vertical">
+				<Menu
+					style={{ flex: 1 }}
+					defaultSelectedKeys={[menuSelect]}
+					mode="vertical"
+					inlineCollapsed={props.showName ? false : true}
+					className={`${styles.menuWidth} ${styles.menus}`}
+				>
 					{leftMapRenderListCategory.map((v, i) => {
 						return (
-							<Menu.Item key={i} onClick={() => setMenuSelect(i + '')} icon={v.icon}></Menu.Item>
+							<Menu.Item
+								key={i}
+								onClick={() => setMenuSelect(i + '')}
+								icon={v.icon}
+								className={props.mode === 'vertical' ? `${styles.menuStyle} ${styles.menus}` : ''}
+							>
+								{props.showName && v.displayName}
+							</Menu.Item>
 						);
 					})}
 				</Menu>
+				<div className={`${styles.menu_footer}`}>{props.footerConfig}</div>
 				<Menu selectedKeys={[]}>
 					<Menu.Item
 						key="1"

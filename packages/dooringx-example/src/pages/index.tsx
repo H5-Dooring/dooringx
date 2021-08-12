@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-05-15 12:49:28
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-11 16:26:46
+ * @LastEditTime: 2021-08-12 15:57:35
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\index.tsx
  */
 import {
@@ -14,12 +14,22 @@ import {
 	ContainerWrapper,
 	Control,
 } from 'dooringx-lib';
+import { InsertRowBelowOutlined } from '@ant-design/icons';
 import { useContext } from 'react';
 import { configContext } from '@/layouts';
 import { useCallback } from 'react';
 import { PREVIEWSTATE } from '@/constant';
-
+import { Button, Popover } from 'antd';
 export const HeaderHeight = '40px';
+const footerConfig = function () {
+	return (
+		<>
+			<Popover content={'快捷键'} title={null} trigger="hover">
+				<Button type="text" icon={<InsertRowBelowOutlined />}></Button>
+			</Popover>
+		</>
+	);
+};
 
 export default function IndexPage() {
 	const config = useContext(configContext);
@@ -34,21 +44,20 @@ export default function IndexPage() {
 	return (
 		<div {...innerContainerDragUp(config)}>
 			<div style={{ height: HeaderHeight }}>
-				head
-				<button
+				<Button
 					onClick={() => {
 						window.open('/iframe');
 					}}
 				>
-					go preview
-				</button>
-				<button
+					iframe 预览
+				</Button>
+				<Button
 					onClick={() => {
 						window.open('/preview');
 					}}
 				>
-					go preview
-				</button>
+					普通预览
+				</Button>
 			</div>
 			<div
 				style={{
@@ -60,7 +69,7 @@ export default function IndexPage() {
 				}}
 			>
 				<div style={{ height: '100%' }}>
-					<LeftConfig config={config}></LeftConfig>
+					<LeftConfig footerConfig={footerConfig()} config={config}></LeftConfig>
 				</div>
 
 				<ContainerWrapper config={config}>

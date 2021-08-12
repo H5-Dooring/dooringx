@@ -2,13 +2,13 @@
  * @Author: yehuozhili
  * @Date: 2021-02-27 21:33:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-05 10:54:22
+ * @LastEditTime: 2021-08-12 14:43:05
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\index.tsx
  */
 
 import { InitConfig } from 'dooringx-lib';
 import { LeftRegistComponentMapItem } from 'dooringx-lib/dist/core/crossDrag';
-import { ContainerOutlined, HighlightOutlined } from '@ant-design/icons';
+import { ContainerOutlined, PlayCircleOutlined, HighlightOutlined } from '@ant-design/icons';
 import commandModules from './commanderModules';
 import { functionMap } from './functionMap';
 import { Formmodules } from './formComponentModules';
@@ -36,12 +36,18 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'basic',
 			icon: <HighlightOutlined />,
-			displayName: '基础组件',
+			displayName: '基础',
+		},
+		{
+			type: 'media',
+			icon: <PlayCircleOutlined />,
+			displayName: '媒体组件',
 		},
 		{
 			type: 'xxc',
 			icon: <ContainerOutlined />,
 			custom: true,
+			displayName: '自定义',
 			customRender: <div>我是自定义渲染</div>,
 		},
 	],
