@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-11 16:16:09
+ * @LastEditTime: 2021-08-16 10:17:55
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -345,6 +345,7 @@ export class UserConfig {
 	public collapsed = false;
 	public ticker = true;
 	public timeline = false;
+	public waitAnimate = false;
 	public wrapperMoveState = wrapperMoveState;
 	public iframeWrapperMoveState = iframeWrapperMoveState;
 	public refreshIframe = () => {};

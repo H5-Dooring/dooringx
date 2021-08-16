@@ -2,11 +2,11 @@
  * @Author: yehuozhili
  * @Date: 2021-08-09 15:15:25
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-11 17:03:54
+ * @LastEditTime: 2021-08-16 11:20:59
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\timeLine\timeline.tsx
  */
 import deepcopy from 'deepcopy';
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useMemo, useState } from 'react';
 import { SortableContainer, SortableElement, SortableHandle, SortEnd } from 'react-sortable-hoc';
 import UserConfig from '../../config';
 import { IBlockType, IStoreData } from '../../core/store/storetype';
@@ -82,6 +82,8 @@ const SortableList = SortableContainer(
 	}
 );
 
+let cacheBlock: IBlockType[] = [];
+
 export function TimeLine(props: TimeLineProps) {
 	const store = props.config.getStore();
 	const data = store.getData().block;
@@ -121,6 +123,14 @@ export function TimeLine(props: TimeLineProps) {
 			</div>
 		</div>
 	);
+
+	const renderData = useMemo(() => {
+		if (props.config.waitAnimate) {
+			return cacheBlock;
+		}
+		cacheBlock = data;
+		return cacheBlock;
+	}, [data, props.config.waitAnimate]);
 
 	return (
 		<div
@@ -168,6 +178,7 @@ export function TimeLine(props: TimeLineProps) {
 									//缓存所有animate后执行
 									if (!WAIT) {
 										WAIT = true;
+										props.config.waitAnimate = true;
 										const cache = data.map((v) => {
 											return v.animate;
 										});
@@ -182,6 +193,7 @@ export function TimeLine(props: TimeLineProps) {
 												v.animate = cache[i];
 											});
 											WAIT = false;
+											props.config.waitAnimate = false;
 											store.setData(cloneData);
 										});
 									}
@@ -256,7 +268,7 @@ export function TimeLine(props: TimeLineProps) {
 							}}
 							style={{ overflow: 'auto', height: `calc(100% - ${itemHeight}px)` }}
 						>
-							{data.map((v) => {
+							{renderData.map((v) => {
 								return (
 									<div
 										key={v.id}

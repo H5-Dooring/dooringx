@@ -126,9 +126,8 @@ let isOmit = false;
 
 function AnimateControl(props: AnimateControlProps) {
 	const store = props.config.getStore();
-
 	const animate = useMemo(() => {
-		if (isOmit) {
+		if (isOmit || props.config.waitAnimate) {
 			return lastAnimate;
 		}
 		lastAnimate = props.current.animate;
@@ -305,24 +304,27 @@ function AnimateControl(props: AnimateControlProps) {
 						onClick={() => {
 							if (!isOmit) {
 								isOmit = true;
+								props.config.waitAnimate = true;
 								const cacheProps = animate;
-								const data: IStoreData = store.getData();
+								const data: IStoreData = deepCopy(store.getData());
 								data.block.forEach((v) => {
 									if (v.id === props.current.id) {
 										v.animate = [];
 									}
 								});
-								store.emit();
-								store.forceUpdate();
+								store.setData(data);
 								setTimeout(() => {
-									data.block.forEach((v) => {
+									const clone: IStoreData = deepCopy(store.getData());
+									clone.block.forEach((v) => {
 										if (v.id === props.current.id) {
 											v.animate = cacheProps;
 										}
 									});
-									store.emit();
-									store.forceUpdate();
 									isOmit = false;
+									props.config.waitAnimate = false;
+									store.cleanLast();
+									store.setData(clone);
+									store.cleanLast();
 								});
 							}
 						}}

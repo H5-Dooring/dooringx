@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 14:58:30
+ * @LastEditTime: 2021-08-16 11:18:41
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\index.ts
  */
 import { IStoreData } from './storetype';
@@ -128,6 +128,15 @@ class Store {
 		}
 
 		this.emit();
+	}
+
+	cleanLast() {
+		if (this.current <= 1) {
+			return;
+		}
+		const removeIndex = this.current - 1;
+		this.storeDataList.splice(removeIndex, 1);
+		this.current = this.current - 1;
 	}
 
 	emit() {
