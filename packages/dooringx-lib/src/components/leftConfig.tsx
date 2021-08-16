@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-12 15:50:48
+ * @LastEditTime: 2021-08-16 20:32:23
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
@@ -158,8 +158,8 @@ function LeftConfig(props: LeftConfigProps) {
 					style={{ flex: 1 }}
 					defaultSelectedKeys={[menuSelect]}
 					mode="vertical"
-					inlineCollapsed={props.showName ? false : true}
-					className={`${styles.menuWidth} ${styles.menus}`}
+					inlineCollapsed={props.showName ? undefined : true}
+					className={`${styles.menuWidth} ${styles.menus} yh-menu`}
 				>
 					{leftMapRenderListCategory.map((v, i) => {
 						return (
@@ -167,14 +167,18 @@ function LeftConfig(props: LeftConfigProps) {
 								key={i}
 								onClick={() => setMenuSelect(i + '')}
 								icon={v.icon}
-								className={props.mode === 'vertical' ? `${styles.menuStyle} ${styles.menus}` : ''}
+								className={
+									props.mode === 'vertical'
+										? `${styles.menuStyle} ${styles.menus} yh-menuitem`
+										: 'yh-menuitem'
+								}
 							>
 								{props.showName && v.displayName}
 							</Menu.Item>
 						);
 					})}
 				</Menu>
-				<div className={`${styles.menu_footer}`}>{props.footerConfig}</div>
+				<div className={`${styles.menu_footer} yh-menufooter`}>{props.footerConfig}</div>
 				<Menu selectedKeys={[]}>
 					<Menu.Item
 						key="1"

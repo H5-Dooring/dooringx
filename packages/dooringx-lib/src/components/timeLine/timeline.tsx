@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-09 15:15:25
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-16 11:20:59
+ * @LastEditTime: 2021-08-16 20:30:03
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\timeLine\timeline.tsx
  */
 import deepcopy from 'deepcopy';
@@ -18,7 +18,9 @@ import {
 	TimeLineItemMouseMove,
 	TimeLineItemMouseOver,
 	interval,
+	iter,
 } from './timelineItem';
+import { specialCoList } from '../../core/utils/special';
 
 export interface TimeLineProps {
 	style?: CSSProperties;
@@ -26,7 +28,6 @@ export interface TimeLineProps {
 	config: UserConfig;
 }
 
-const iter = 500;
 const animateTicker = new Array(iter).fill(1).map((_, y) => y);
 
 const DragHandle = SortableHandle(() => <MenuOutlined />);
@@ -50,6 +51,18 @@ const SortableItem = SortableElement(
 			}}
 		>
 			<div
+				onClick={() => {
+					const store = value.config.getStore();
+					const clone = deepcopy(store.getData());
+					clone.block.forEach((v) => {
+						if (v.id === value.value.id && !specialCoList.includes(value.value.name)) {
+							v.focus = true;
+						} else {
+							v.focus = false;
+						}
+					});
+					store.setData(clone);
+				}}
 				style={{
 					display: 'flex',
 					alignItems: 'center',
@@ -58,6 +71,8 @@ const SortableItem = SortableElement(
 					minWidth: leftWidth,
 					borderRight: borderColor,
 					borderBottom: borderColor,
+					backgroundColor: value.value.focus ? '#eeeeee' : 'initial',
+					cursor: 'pointer',
 				}}
 			>
 				<div style={{ width: 30, cursor: 'move' }}>

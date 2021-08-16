@@ -94,6 +94,18 @@ const SortableList = SortableContainer(
 	}
 );
 
+const moveState = {
+	startX: 0,
+	startY: 0,
+	isMove: false,
+};
+
+const mouseUp = () => {
+	if (moveState.isMove) {
+		moveState.isMove = false;
+	}
+};
+
 export function Control(props: PropsWithChildren<ControlProps>) {
 	const { style } = props;
 	const [visible, setVisible] = useState(false);
@@ -136,16 +148,33 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 				></SortableList>
 			</div>
 		);
-
+	const [xy, setXy] = useState({ x: 0, y: 0 });
 	return (
 		<>
 			<div
 				className="ant-menu"
+				onMouseDown={(e) => {
+					moveState.startX = e.clientX;
+					moveState.startY = e.clientY;
+					moveState.isMove = true;
+				}}
+				onMouseMove={(e) => {
+					if (moveState.isMove) {
+						const diffx = e.clientX - moveState.startX;
+						const diffy = e.clientY - moveState.startY;
+						setXy((pre) => ({ x: pre.x + diffx, y: pre.y + diffy }));
+						moveState.startX = e.clientX;
+						moveState.startY = e.clientY;
+					}
+				}}
+				onMouseUp={mouseUp}
+				onMouseLeave={mouseUp}
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
 					alignItems: 'center',
+					transform: `translate(${xy.x}px,${xy.y}px)`,
 					...style,
 				}}
 			>
