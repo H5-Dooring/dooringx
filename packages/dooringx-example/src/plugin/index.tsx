@@ -1,8 +1,8 @@
 /*
  * @Author: yehuozhili
  * @Date: 2021-02-27 21:33:36
- * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-12 14:43:05
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-18 19:54:56
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\index.tsx
  */
 
@@ -19,6 +19,7 @@ const LeftRegistMap: LeftRegistComponentMapItem[] = [
 		type: 'basic',
 		component: 'button',
 		img: 'icon-anniu',
+		imgCustom: <PlayCircleOutlined />,
 		displayName: '按钮',
 		urlFn: () => import('./registComponents/button'),
 	},
@@ -58,7 +59,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'style',
 			icon: (
-				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
+				<div className='right-tab-item' style={{ width: 50, textAlign: 'center' }}>
 					外观
 				</div>
 			),
@@ -66,7 +67,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'animate',
 			icon: (
-				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
+				<div className='right-tab-item' style={{ width: 50, textAlign: 'center' }}>
 					动画
 				</div>
 			),
@@ -74,7 +75,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'fn',
 			icon: (
-				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
+				<div className='right-tab-item' style={{ width: 50, textAlign: 'center' }}>
 					函数
 				</div>
 			),
@@ -82,7 +83,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'actions',
 			icon: (
-				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
+				<div className='right-tab-item' style={{ width: 50, textAlign: 'center' }}>
 					事件
 				</div>
 			),
