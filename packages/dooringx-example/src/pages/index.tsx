@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-05-15 12:49:28
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-12 15:57:35
+ * @LastEditTime: 2021-08-19 16:52:35
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\index.tsx
  */
 import {
@@ -37,6 +37,7 @@ export default function IndexPage() {
 	const everyFn = () => {};
 
 	const subscribeFn = useCallback(() => {
+		//需要去预览前判断下弹窗。
 		localStorage.setItem(PREVIEWSTATE, JSON.stringify(config.getStore().getData()));
 	}, [config]);
 

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-16 10:17:55
+ * @LastEditTime: 2021-08-19 16:17:39
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -575,6 +575,25 @@ export class UserConfig {
 			};
 			this.componentRegister.emitEvent(name);
 		}
+	}
+
+	scriptRegistComponentSingle(item: ComponentItemFactory, leftProps: LeftRegistComponentMapItem) {
+		this.registComponent(item);
+		this.addCoRegistMap(leftProps);
+	}
+
+	scriptRegistComponentMulti(
+		items: ComponentItemFactory[],
+		leftProps: LeftRegistComponentMapItem[]
+	) {
+		items.forEach((item) => {
+			this.registComponent(item);
+		});
+		const obj = {} as InitConfig;
+		obj.leftAllRegistMap = leftProps;
+		this.initConfig = userConfigMerge(this.initConfig, obj);
+		this.init();
+		this.store.forceUpdate();
 	}
 }
 

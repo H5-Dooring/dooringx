@@ -1,208 +1,206 @@
 .yhLeftrender {
-  overflow: auto;
+	overflow: auto;
 
-  .leftco {
-    padding: 10px;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+	.leftco {
+		padding: 10px;
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
 
-    .coitem {
-      margin: 5px;
+		.coitem {
+			margin: 5px;
 
+			.redbox {
+				height: 68px;
+				width: 68px;
+				// background: var(--redbox-color);
+				background-color: #f7f8fa;
+				// line-height: 20px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 
-      .redbox {
-        height: 68px;
-        width: 68px;
-        // background: var(--redbox-color);
-        background-color: #F7F8FA;
-        // line-height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+				#icon-checkbox,
+				#icon-tabs,
+				#icon-jiantou path {
+					fill: currentColor;
+				}
 
-        #icon-checkbox,
-        #icon-tabs,
-        #icon-jiantou path {
-          fill: currentColor;
-        }
-
-        &:hover {
-          cursor: pointer;
-        }
-      }
-
-    }
-  }
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+	}
 }
 
 .yh_container {
-  // ::selection {
-  //     color: inherit;
-  //     background-color: inherit;
-  // }
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+	// ::selection {
+	//     color: inherit;
+	//     background-color: inherit;
+	// }
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 
-  :global(.am-list-item) {
-    background-color: rgba(255, 255, 255, 0);
-  }
+	:global(.am-list-item) {
+		background-color: rgba(255, 255, 255, 0);
+	}
 
-  :global(.am-list-body) {
-    background-color: rgba(255, 255, 255, 0);
-  }
+	:global(.am-list-body) {
+		background-color: rgba(255, 255, 255, 0);
+	}
 
-  :global(.ant-input) {
-    background-color: rgba(255, 255, 255, 0);
-  }
+	:global(.ant-input) {
+		background-color: rgba(255, 255, 255, 0);
+	}
 }
 
 .yh_container_preview {
-  :global(.am-list-item) {
-    background-color: rgba(255, 255, 255, 0);
-  }
+	:global(.am-list-item) {
+		background-color: rgba(255, 255, 255, 0);
+	}
 
-  :global(.am-list-body) {
-    background-color: rgba(255, 255, 255, 0);
-  }
+	:global(.am-list-body) {
+		background-color: rgba(255, 255, 255, 0);
+	}
 
-  :global(.ant-input) {
-    background-color: rgba(255, 255, 255, 0);
-  }
+	:global(.ant-input) {
+		background-color: rgba(255, 255, 255, 0);
+	}
 }
 
 .yh_block_focus {
-  &::before {
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    content: '';
-    border: 2px dashed #2196f3;
-  }
+	&::before {
+		position: absolute;
+		top: -3px;
+		left: -3px;
+		right: -3px;
+		bottom: -3px;
+		content: '';
+		border: 2px dashed #2196f3;
+	}
 }
 
 .yhTempDiv {
-  background-color: #7165fa2b;
+	background-color: #7165fa2b;
 }
 
 .resizepoint {
-  position: absolute;
-  height: 6px;
-  width: 6px;
-  background-color: #2196f3;
-  cursor: pointer;
-  border-radius: 50%;
+	position: absolute;
+	height: 6px;
+	width: 6px;
+	background-color: #2196f3;
+	cursor: pointer;
+	border-radius: 50%;
 
-  &.l {
-    left: -6px;
-    top: calc(50% - 3px);
+	&.l {
+		left: -6px;
+		top: calc(50% - 3px);
 
-    &:hover {
-      cursor: e-resize;
-    }
-  }
+		&:hover {
+			cursor: e-resize;
+		}
+	}
 
-  &.r {
-    right: -6px;
-    top: calc(50% - 3px);
+	&.r {
+		right: -6px;
+		top: calc(50% - 3px);
 
-    &:hover {
-      cursor: e-resize;
-    }
-  }
+		&:hover {
+			cursor: e-resize;
+		}
+	}
 
-  &.t {
-    top: -6px;
-    left: calc(50% - 3px);
+	&.t {
+		top: -6px;
+		left: calc(50% - 3px);
 
-    &:hover {
-      cursor: s-resize;
-    }
-  }
+		&:hover {
+			cursor: s-resize;
+		}
+	}
 
-  &.b {
-    bottom: -6px;
-    left: calc(50% - 3px);
+	&.b {
+		bottom: -6px;
+		left: calc(50% - 3px);
 
-    &:hover {
-      cursor: s-resize;
-    }
-  }
+		&:hover {
+			cursor: s-resize;
+		}
+	}
 
-  &.lt {
-    top: -6px;
-    left: -6px;
+	&.lt {
+		top: -6px;
+		left: -6px;
 
-    &:hover {
-      cursor: nw-resize;
-    }
-  }
+		&:hover {
+			cursor: nw-resize;
+		}
+	}
 
-  &.lb {
-    bottom: -6px;
-    left: -6px;
+	&.lb {
+		bottom: -6px;
+		left: -6px;
 
-    &:hover {
-      cursor: ne-resize;
-    }
-  }
+		&:hover {
+			cursor: ne-resize;
+		}
+	}
 
-  &.rb {
-    bottom: -6px;
-    right: -6px;
+	&.rb {
+		bottom: -6px;
+		right: -6px;
 
-    &:hover {
-      cursor: nw-resize;
-    }
-  }
+		&:hover {
+			cursor: nw-resize;
+		}
+	}
 
-  &.rt {
-    top: -6px;
-    right: -6px;
+	&.rt {
+		top: -6px;
+		right: -6px;
 
-    &:hover {
-      cursor: ne-resize;
-    }
-  }
+		&:hover {
+			cursor: ne-resize;
+		}
+	}
 }
 
 .menuWidth.menus {
-  width: initial;
+	width: initial;
 }
 
 .menuStyle.menus {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  height: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	height: auto;
 
-  span:nth-child(1) {
-    margin-top: 10px;
-  }
+	span:nth-child(1) {
+		margin-top: 10px;
+	}
 
-  span:nth-child(2) {
-    margin-left: 0;
-  }
+	span:nth-child(2) {
+		margin-left: 0;
+	}
 }
 
 .menu_footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  bottom: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	bottom: 0;
 }
 
 .rotate {
-  position: absolute;
-  top: -35px;
-  left: calc(50% - 10px);
-  cursor: grab;
-  font-size: 20px;
+	position: absolute;
+	top: -35px;
+	left: calc(50% - 10px);
+	cursor: grab;
+	font-size: 20px;
 }
