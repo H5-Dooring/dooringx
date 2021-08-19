@@ -1,6 +1,8 @@
 ## changelog
 
+## 0.8.4
 
+增加preview的属性，可外界控制loading。
 ## 0.8.3
 
 增加timeline拖动条与选中。
