@@ -2,19 +2,25 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-09 14:37:24
+ * @LastEditTime: 2021-08-27 16:20:29
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
 import { IBlockType, IStoreData } from '../core/store/storetype';
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import React from 'react';
 import { Tabs, Input, Row, Col, Checkbox, InputNumber } from 'antd';
 import UserConfig from '../config';
 import { RGBColor, SketchPicker } from 'react-color';
 import { rgba2Obj } from '../core/utils';
 import deepcopy from 'deepcopy';
+import { FormattedMessage } from 'react-intl';
 
+const colStyle: CSSProperties = {
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'flex-end',
+};
 interface RightConfigProps {
 	state: IStoreData;
 	config: UserConfig;
@@ -32,7 +38,6 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 	const rightMapRenderListCategory = useMemo(() => {
 		return props.config.getConfig().rightRenderListCategory;
 	}, [props.config]);
-
 	const store = props.config.getStore();
 
 	useEffect(() => {
@@ -79,7 +84,14 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						);
 					});
 				} else {
-					return <div>还没有配置属性</div>;
+					return (
+						<div>
+							<FormattedMessage
+								id="right.noprops"
+								defaultMessage="还没有配置属性"
+							></FormattedMessage>
+						</div>
+					);
 				}
 			}
 			return null;
@@ -152,13 +164,13 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 			{!current && !isEdit && !customGlobal && (
 				<div style={{ padding: '20px' }}>
 					<Row style={{ padding: '10px 0 20px 0', fontWeight: 'bold', userSelect: 'none' }}>
-						全局设置
+						<FormattedMessage id="right.global" defaultMessage="全局设置"></FormattedMessage>
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={6} style={{ userSelect: 'none' }}>
-							标题
+							<FormattedMessage id="title" defaultMessage="标题"></FormattedMessage>
 						</Col>
-						<Col span={18}>
+						<Col span={18} style={colStyle}>
 							<Input
 								value={title}
 								onChange={(e) => {
@@ -182,9 +194,12 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={6} style={{ userSelect: 'none' }}>
-							容器高度
+							<FormattedMessage
+								id="right.containerheight"
+								defaultMessage="容器高度"
+							></FormattedMessage>
 						</Col>
-						<Col span={18}>
+						<Col span={18} style={colStyle}>
 							<InputNumber
 								min={0}
 								value={props.config.getStore().getData().container.height}
@@ -208,9 +223,12 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={6} style={{ userSelect: 'none' }}>
-							容器底色
+							<FormattedMessage
+								id="right.containerColor"
+								defaultMessage="容器底色"
+							></FormattedMessage>
 						</Col>
-						<Col span={18}>
+						<Col span={18} style={colStyle}>
 							{
 								<div style={{ position: 'relative' }}>
 									<div
@@ -236,7 +254,13 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 									</div>
 									{colorPickerVisible && (
 										<>
-											<div style={{ position: 'absolute', zIndex: 2000 }}>
+											<div
+												style={{
+													position: 'absolute',
+													zIndex: 2000,
+													transform: `translate(-100%, 0px)`,
+												}}
+											>
 												<SketchPicker
 													color={color}
 													onChange={(c) => {
@@ -276,9 +300,9 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={6} style={{ userSelect: 'none' }}>
-							body底色
+							<FormattedMessage id="right.bodyColor" defaultMessage="body底色"></FormattedMessage>
 						</Col>
-						<Col span={18}>
+						<Col span={18} style={colStyle}>
 							{
 								<div style={{ position: 'relative' }}>
 									<div
@@ -304,7 +328,13 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 									</div>
 									{colorPickerVisible2 && (
 										<>
-											<div style={{ position: 'absolute', zIndex: 2000 }}>
+											<div
+												style={{
+													position: 'absolute',
+													zIndex: 2000,
+													transform: `translate(-100%, 0px)`,
+												}}
+											>
 												<SketchPicker
 													color={color2}
 													onChange={(c) => {
@@ -347,10 +377,17 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 			{!current && !isEdit && customGlobal && customGlobal(props.config)}
 			{!current && isEdit && (
 				<div style={{ padding: '20px' }} className="yh-tcsz">
-					<Row style={{ padding: '10 0 20px 0', fontWeight: 'bold' }}>弹窗设置</Row>
+					<Row style={{ padding: '10 0 20px 0', fontWeight: 'bold' }}>
+						<FormattedMessage id="modal.control" defaultMessage="弹窗配置"></FormattedMessage>
+					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={8}>取消点击删除弹窗</Col>
-						<Col span={16} style={{ textAlign: 'right' }}>
+						<Col span={8}>
+							<FormattedMessage
+								id="modal.control.remove"
+								defaultMessage="取消点击删除弹窗"
+							></FormattedMessage>
+						</Col>
+						<Col span={16} style={{ ...colStyle }}>
 							<Checkbox
 								checked={originData ? originData.modalConfig[modalName] : false}
 								onChange={(e) => {

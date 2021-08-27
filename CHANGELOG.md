@@ -1,5 +1,9 @@
 ## changelog
 
+## 0.9.0
+
+增加react-intl，修改部分样式。
+
 ## 0.8.4
 
 增加preview的属性，可外界控制loading。

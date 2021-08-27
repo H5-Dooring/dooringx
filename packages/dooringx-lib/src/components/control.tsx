@@ -10,13 +10,14 @@ import {
 	UnorderedListOutlined,
 	VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Button, Divider, Form, Input, List, Modal, Popconfirm, Popover } from 'antd';
+import { Button, Divider, Form, Input, List, message, Modal, Popconfirm, Popover } from 'antd';
 import React, { CSSProperties, PropsWithChildren, useState } from 'react';
 import { UserConfig } from '..';
 import { IBlockType, IStoreData } from '../core/store/storetype';
 import { deepCopy, arrayMove, changeItem, changeLayer, focusEle } from '../core/utils';
 import { SortEnd, SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { wrapperMoveState } from './wrapperMove/event';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 export interface ControlProps {
 	config: UserConfig;
 	style?: CSSProperties;
@@ -24,7 +25,7 @@ export interface ControlProps {
 
 const DragHandle = SortableHandle(() => <MenuOutlined />);
 const SortableItem = SortableElement(
-	({ value }: { value: { value: IBlockType; config: UserConfig } }) => (
+	({ value }: { value: { value: IBlockType; config: UserConfig; intl: IntlShape } }) => (
 		<div
 			style={{
 				userSelect: 'none',
@@ -47,47 +48,84 @@ const SortableItem = SortableElement(
 			<Divider type="vertical"></Divider>
 			<div style={{ width: 200 }}>
 				<Popconfirm
-					title="确认变更为绝对定位吗？"
+					title={value.intl.formatMessage({
+						id: 'contorl.popup.absolute',
+						defaultMessage: '确认变更为绝对定位吗',
+					})}
 					onConfirm={() => {
 						changeItem(value.config.getStore(), value.value.id, 'position', 'absolute');
 					}}
+					okText={value.intl.formatMessage({ id: 'yes' })}
+					cancelText={value.intl.formatMessage({ id: 'no' })}
 				>
-					<Button type="link" title="切换绝对定位" icon={<FullscreenOutlined />}></Button>
+					<Button
+						type="link"
+						title={value.intl.formatMessage({
+							id: 'contorl.absolute',
+							defaultMessage: '切换绝对定位',
+						})}
+						icon={<FullscreenOutlined />}
+					></Button>
 				</Popconfirm>
 				<Popconfirm
-					title="确认变更为静态定位吗？"
+					title={value.intl.formatMessage({
+						id: 'contorl.popup.static',
+						defaultMessage: '确认变更为静态定位吗',
+					})}
 					onConfirm={() => {
 						changeItem(value.config.getStore(), value.value.id, 'position', 'static');
 					}}
+					okText={value.intl.formatMessage({ id: 'yes' })}
+					cancelText={value.intl.formatMessage({ id: 'no' })}
 				>
-					<Button type="link" title="切换静态定位" icon={<FullscreenExitOutlined />}></Button>
+					<Button
+						type="link"
+						title={value.intl.formatMessage({
+							id: 'contorl.static',
+							defaultMessage: '切换静态定位',
+						})}
+						icon={<FullscreenExitOutlined />}
+					></Button>
 				</Popconfirm>
 				<Button
 					type="link"
-					title="选中聚焦"
+					title={value.intl.formatMessage({ id: 'control.focus', defaultMessage: '选中聚焦' })}
 					icon={<CompressOutlined />}
 					onClick={() => {
 						focusEle(value.config.getStore(), value.value.id);
 					}}
 				></Button>
 				<Popconfirm
-					title="确认删除操作吗？"
+					title={value.intl.formatMessage({
+						id: 'control.popup.delete',
+						defaultMessage: '确认删除吗',
+					})}
 					onConfirm={() => {
 						changeLayer(value.config.getStore(), value.value.id, 'delete');
 					}}
+					okText={value.intl.formatMessage({ id: 'yes' })}
+					cancelText={value.intl.formatMessage({ id: 'no' })}
 				>
-					<Button icon={<DeleteOutlined />} title="删除" type="link"></Button>
+					<Button
+						icon={<DeleteOutlined />}
+						title={value.intl.formatMessage({ id: 'control.delete', defaultMessage: '删除' })}
+						type="link"
+					></Button>
 				</Popconfirm>
 			</div>
 		</div>
 	)
 );
 const SortableList = SortableContainer(
-	({ items }: { items: { data: IBlockType[]; config: UserConfig } }) => {
+	({ items }: { items: { data: IBlockType[]; config: UserConfig; intl: IntlShape } }) => {
 		return (
 			<div>
 				{items.data.map((value, index: number) => (
-					<SortableItem key={value.id} index={index} value={{ value, config: items.config }} />
+					<SortableItem
+						key={value.id}
+						index={index}
+						value={{ value, config: items.config, intl: items.intl }}
+					/>
 				))}
 			</div>
 		);
@@ -131,9 +169,13 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 		store.setData(cloneData);
 	};
 
+	const intl = useIntl();
+
 	const content =
 		data.length === 0 ? (
-			<div>暂时没有组件</div>
+			<div>
+				<FormattedMessage id="control.no-component" defaultMessage="暂无组件"></FormattedMessage>
+			</div>
 		) : (
 			<div style={{ maxHeight: 300, overflow: 'auto' }}>
 				<SortableList
@@ -142,6 +184,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 					items={{
 						data,
 						config: props.config,
+						intl: intl,
 					}}
 					onSortEnd={onSortEnd}
 					axis="y"
@@ -203,15 +246,17 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 								onClick={() => {
 									setVisible(true);
 								}}
+								style={{ width: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}
 							>
-								新建弹窗
+								<FormattedMessage id="modal.new" defaultMessage="新建弹窗"></FormattedMessage>
 							</Button>
 							<Button
 								onClick={() => {
 									setConfigVisible(true);
 								}}
+								style={{ width: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}
 							>
-								弹窗配置
+								<FormattedMessage id="modal.control" defaultMessage="弹窗配置"></FormattedMessage>
 							</Button>
 						</div>
 					}
@@ -237,7 +282,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 			</div>
 
 			<Modal
-				title="弹窗配置"
+				title={intl.formatMessage({ id: 'modal.control', defaultMessage: '弹窗配置' })}
 				visible={configVisible}
 				onOk={() => setConfigVisible(false)}
 				onCancel={() => setConfigVisible(false)}
@@ -245,7 +290,12 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 			>
 				<List>
 					{props.config.getStoreChanger().getState().modalEditName !== '' && (
-						<div>请退出编辑弹窗后再打开该配置</div>
+						<div>
+							<FormattedMessage
+								id="modal.popup.exit"
+								defaultMessage="请退出编辑弹窗后再打开该配置"
+							></FormattedMessage>
+						</div>
 					)}
 					{props.config.getStoreChanger().getState().modalEditName === '' &&
 						Object.keys(props.config.getStore().getData().modalMap).map((v) => {
@@ -254,13 +304,39 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 									key={v}
 									actions={[
 										<Popconfirm
-											title="是否切换至该弹窗并进行编辑?"
+											title={intl.formatMessage({
+												id: 'modal.popup.edit',
+												defaultMessage: '是否切换至该弹窗并进行编辑?',
+											})}
 											onConfirm={() => {
-												props.config.getStoreChanger().updateModal(props.config.getStore(), v);
+												const sign = props.config
+													.getStoreChanger()
+													.updateModal(props.config.getStore(), v);
+												if (!sign.success && sign.sign === 0) {
+													message.error(
+														intl.formatMessage({
+															id: 'modal.popup.save',
+															defaultMessage: '请保存弹窗后编辑其他弹窗',
+														})
+													);
+												}
+												if (!sign.success && sign.sign === 1) {
+													message.error(
+														intl.formatMessage(
+															{
+																id: 'modal.popup.notfond',
+																defaultMessage: '未找到该弹窗 {name}',
+															},
+															{
+																name: sign.param,
+															}
+														)
+													);
+												}
 												setConfigVisible(false);
 											}}
-											okText={'是'}
-											cancelText={'否'}
+											okText={intl.formatMessage({ id: 'yes' })}
+											cancelText={intl.formatMessage({ id: 'no' })}
 										>
 											<Button type="link">修改</Button>
 										</Popconfirm>,
@@ -268,13 +344,42 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 										<Popconfirm
 											title="您确定要删除这个弹窗吗?"
 											onConfirm={() => {
-												props.config.getStoreChanger().removeModal(props.config.getStore(), v);
+												const sign = props.config
+													.getStoreChanger()
+													.removeModal(props.config.getStore(), v);
+												if (!sign.success && sign.sign === 0) {
+													message.error(
+														intl.formatMessage({
+															id: 'modal.popup.save',
+															defaultMessage: '请保存弹窗后编辑其他弹窗',
+														})
+													);
+												}
+												if (!sign.success && sign.sign === 1) {
+													message.error(
+														intl.formatMessage(
+															{
+																id: 'modal.popup.notfond',
+																defaultMessage: '未找到该弹窗 {name}',
+															},
+															{
+																name: sign.param,
+															}
+														)
+													);
+												}
+
 												setConfigVisible(false);
 											}}
-											okText={'是'}
-											cancelText={'否'}
+											okText={intl.formatMessage({ id: 'yes' })}
+											cancelText={intl.formatMessage({ id: 'no' })}
 										>
-											<Button type="link">删除</Button>
+											<Button type="link">
+												<FormattedMessage
+													id="control.delete"
+													defaultMessage="删除"
+												></FormattedMessage>
+											</Button>
 										</Popconfirm>,
 									]}
 								>
@@ -284,7 +389,9 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 						})}
 					{props.config.getStoreChanger().getState().modalEditName === '' &&
 						Object.keys(props.config.getStore().getData().modalMap).length === 0 && (
-							<div style={{ textAlign: 'center' }}>暂时没有弹窗</div>
+							<div style={{ textAlign: 'center' }}>
+								<FormattedMessage id="modal.popup.nomodal"></FormattedMessage>
+							</div>
 						)}
 				</List>
 			</Modal>
@@ -295,22 +402,53 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 						.then((values) => {
 							form.resetFields();
 							const modalName = values.modalName;
-							props.config.getStoreChanger().newModalMap(props.config.getStore(), modalName);
+							const sign = props.config
+								.getStoreChanger()
+								.newModalMap(props.config.getStore(), modalName);
+							if (sign.succeess && sign.sign === 0) {
+								message.error(
+									intl.formatMessage({
+										id: 'modal.popup.save',
+										defaultMessage: '请保存弹窗后编辑其他弹窗',
+									})
+								);
+							}
+							if (sign.succeess && sign.sign === 1) {
+								message.error(
+									intl.formatMessage(
+										{
+											id: 'modal.popup.repeat',
+											defaultMessage: '已有重名弹窗 {name}',
+										},
+										{
+											name: sign.param,
+										}
+									)
+								);
+							}
 							setVisible(false);
 						})
 						.catch((info) => {
 							console.log('Validate Failed:', info);
 						});
 				}}
-				title="新增弹窗"
+				title={intl.formatMessage({ id: 'modal.new', defaultMessage: '新增弹窗' })}
 				onCancel={() => setVisible(false)}
 				visible={visible}
 			>
 				<Form layout="vertical" name="basic" form={form}>
 					<Form.Item
-						label="弹窗名称"
+						label={intl.formatMessage({ id: 'modal.name', defaultMessage: '弹窗名称' })}
 						name="modalName"
-						rules={[{ required: true, message: '请输入弹窗名称!' }]}
+						rules={[
+							{
+								required: true,
+								message: intl.formatMessage({
+									id: 'modal.popup.name',
+									defaultMessage: '请输入弹窗名称!',
+								}),
+							},
+						]}
 					>
 						<Input />
 					</Form.Item>

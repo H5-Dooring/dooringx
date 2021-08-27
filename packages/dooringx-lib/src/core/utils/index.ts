@@ -85,7 +85,15 @@ export const focusEle = (store: Store, id: string) => {
 	store.setData(clonedata);
 };
 
-export const changeLayer = (store: Store, id: string, action: 'up' | 'down' | 'delete') => {
+export const changeLayer = (
+	store: Store,
+	id: string,
+	action: 'up' | 'down' | 'delete',
+	msg = {
+		adjust: '该组件不可调整',
+		remove: '该组件无法删除',
+	}
+) => {
 	const clonedata: IStoreData = deepCopy(store.getData());
 	let index = -1;
 	switch (action) {
@@ -93,7 +101,7 @@ export const changeLayer = (store: Store, id: string, action: 'up' | 'down' | 'd
 			clonedata.block.forEach((v, i) => {
 				if (v.id === id) {
 					if (specialCoList.includes(v.name)) {
-						message.error('该组件不可调整');
+						message.error(msg.adjust);
 						return;
 					} else {
 						index = i;
@@ -114,7 +122,7 @@ export const changeLayer = (store: Store, id: string, action: 'up' | 'down' | 'd
 			clonedata.block.forEach((v, i) => {
 				if (v.id === id) {
 					if (specialCoList.includes(v.name)) {
-						message.error('该组件不可调整');
+						message.error(msg.adjust);
 						return;
 					} else {
 						index = i;
@@ -144,7 +152,7 @@ export const changeLayer = (store: Store, id: string, action: 'up' | 'down' | 'd
 			if (candelete) {
 				store.setData(clonedata);
 			} else {
-				message.error('该组件无法删除');
+				message.error(msg.remove);
 			}
 			return;
 	}

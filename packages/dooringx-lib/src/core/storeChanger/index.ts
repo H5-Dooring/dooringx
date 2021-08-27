@@ -2,11 +2,10 @@
  * @Author: yehuozhili
  * @Date: 2021-04-05 14:55:31
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-06 16:21:01
+ * @LastEditTime: 2021-08-27 10:38:58
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\storeChanger\index.ts
  */
 
-import { message } from 'antd';
 import Store from '../store';
 import { IStoreData } from '../store/storetype';
 import { createUid, deepCopy } from '../utils';
@@ -129,14 +128,19 @@ export class StoreChanger {
 	newModalMap(store: Store, name: string) {
 		const sign = this.isEdit();
 		if (sign) {
-			message.error('请保存弹窗后编辑其他弹窗');
-			return;
+			return {
+				succeess: false,
+				sign: 0,
+			};
 		}
 		//新建modal name不能重名，否则直接报错
 		const sign2 = this.isInModalMap(store, name);
 		if (sign2) {
-			message.error(`已有重名弹窗:${name}`);
-			return;
+			return {
+				succeess: false,
+				sign: 1,
+				param: name,
+			};
 		}
 		storeChangerState.modalEditName = name;
 		this.map[ORIGIN] = {
@@ -145,6 +149,10 @@ export class StoreChanger {
 			now: store.getStoreList()[store.getIndex()],
 		};
 		store.resetToInitData([defaultModalStore()]);
+		return {
+			succeess: true,
+			sign: -1,
+		};
 	}
 
 	/**
@@ -156,8 +164,10 @@ export class StoreChanger {
 	closeModal(store: Store) {
 		const sign = this.isEdit();
 		if (!sign) {
-			message.error('您并没有正在编辑弹窗');
-			return;
+			return {
+				success: false,
+				sign: 0,
+			};
 		}
 		const main = this.map[ORIGIN];
 		const tmpModalData = deepCopy(store.getData());
@@ -167,7 +177,15 @@ export class StoreChanger {
 			cloneData.modalMap[storeChangerState.modalEditName] = tmpModalData;
 			store.setData(cloneData);
 			storeChangerState.modalEditName = '';
+			return {
+				success: true,
+				sign: 0,
+			};
 		}
+		return {
+			success: false,
+			sign: 1,
+		};
 	}
 
 	/**
@@ -180,13 +198,18 @@ export class StoreChanger {
 	updateModal(store: Store, name: string) {
 		const sign = this.isEdit();
 		if (sign) {
-			message.error('请保存弹窗后编辑其他弹窗');
-			return;
+			return {
+				success: false,
+				sign: 0,
+			};
 		}
 		const sign2 = this.isInModalMap(store, name);
 		if (!sign2) {
-			message.error(`未找到该弹窗:${name}`);
-			return;
+			return {
+				success: false,
+				sign: 1,
+				param: name,
+			};
 		}
 		storeChangerState.modalEditName = name;
 		const modalData = store.getData().modalMap[name];
@@ -196,6 +219,10 @@ export class StoreChanger {
 			now: store.getStoreList()[store.getIndex()],
 		};
 		store.resetToInitData([modalData]);
+		return {
+			success: true,
+			sign: -1,
+		};
 	}
 
 	/**
@@ -209,16 +236,25 @@ export class StoreChanger {
 	removeModal(store: Store, name: string) {
 		const sign = this.isEdit();
 		if (sign) {
-			message.error('请保存弹窗后删除其他弹窗');
-			return;
+			return {
+				success: false,
+				sign: 0,
+			};
 		}
 		const sign2 = this.isInModalMap(store, name);
 		if (!sign2) {
-			message.error(`未找到该弹窗:${name}`);
-			return;
+			return {
+				success: false,
+				sign: 1,
+				param: name,
+			};
 		}
 		const cloneData: IStoreData = deepCopy(store.getData());
 		delete cloneData.modalMap[name];
 		store.setData(cloneData);
+		return {
+			success: true,
+			sign: -1,
+		};
 	}
 }

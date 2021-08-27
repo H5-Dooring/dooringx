@@ -1,6 +1,7 @@
 {
 	"name": "dooringx-doc",
 	"version": "0.0.1",
+	"private":true,
 	"scripts": {
 		"start": "svelte-kit dev",
 		"dev": "svelte-kit dev",

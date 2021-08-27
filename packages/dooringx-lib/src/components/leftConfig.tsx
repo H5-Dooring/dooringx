@@ -158,7 +158,6 @@ function LeftConfig(props: LeftConfigProps) {
 					style={{ flex: 1 }}
 					defaultSelectedKeys={[menuSelect]}
 					mode="vertical"
-					inlineCollapsed={props.showName ? undefined : true}
 					className={`${styles.menuWidth} ${styles.menus} yh-menu`}
 				>
 					{leftMapRenderListCategory.map((v, i) => {

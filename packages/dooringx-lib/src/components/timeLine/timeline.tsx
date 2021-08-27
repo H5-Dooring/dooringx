@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-09 15:15:25
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-16 20:30:03
+ * @LastEditTime: 2021-08-27 14:16:07
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\timeLine\timeline.tsx
  */
 import deepcopy from 'deepcopy';
@@ -21,6 +21,7 @@ import {
 	iter,
 } from './timelineItem';
 import { specialCoList } from '../../core/utils/special';
+import { FormattedMessage } from 'react-intl';
 
 export interface TimeLineProps {
 	style?: CSSProperties;
@@ -181,7 +182,7 @@ export function TimeLine(props: TimeLineProps) {
 								height: itemHeight,
 							}}
 						>
-							组件名称
+							<FormattedMessage id="timeline.name" defaultMessage="组件名称"></FormattedMessage>
 							<span
 								title="play"
 								style={{

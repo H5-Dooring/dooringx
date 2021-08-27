@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:51:17
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-12 14:37:38
+ * @LastEditTime: 2021-08-27 14:45:47
  * @FilePath: \dooringx\packages\dooringx-example\src\layouts\index.tsx
  */
 import { Button } from 'antd';
@@ -14,9 +14,12 @@ import plugin from '../plugin';
 import 'antd/dist/antd.css';
 import '../global.less';
 import 'animate.css';
-
+import { IntlProvider } from 'react-intl';
+import { locale } from 'dooringx-lib';
+import { localeKey } from '../../../dooringx-lib/dist/locale';
 export const config = new UserConfig(plugin);
 export const configContext = createContext<UserConfig>(config);
+
 // 自定义右键
 const contextMenuState = config.getContextMenuState();
 const unmountContextMenu = contextMenuState.unmountContextMenu;
@@ -70,6 +73,22 @@ const ContextMenu = () => {
 };
 contextMenuState.contextMenu = <ContextMenu></ContextMenu>;
 
+interface LocaleContextType {
+	change: Function;
+	current: localeKey;
+}
+export const LocaleContext = createContext<LocaleContextType>({
+	change: () => {},
+	current: 'zh-CN',
+});
+
 export default function Layout({ children }: IRouteComponentProps) {
-	return <configContext.Provider value={config}>{children}</configContext.Provider>;
+	const [l, setLocale] = useState<localeKey>('zh-CN');
+	return (
+		<LocaleContext.Provider value={{ change: setLocale, current: l }}>
+			<IntlProvider messages={locale.localeMap[l]} locale={l} defaultLocale={l}>
+				<configContext.Provider value={config}>{children}</configContext.Provider>
+			</IntlProvider>
+		</LocaleContext.Provider>
+	);
 }

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:22:18
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-20 10:44:35
+ * @LastEditTime: 2021-08-27 14:21:09
  * @FilePath: \dooringx\packages\dooringx-lib\src\index.tsx
  */
 
@@ -59,3 +59,5 @@ export { default as IframeContainer } from './components/iframeContainer';
 export { default as IframeContainerWrapper } from './components/IframeWrapperMove';
 export { useIframePostMessage, useIframeHook } from './hooks';
 export { IframeTarget } from './components/iframeTarget';
+//locale
+export * as locale from './locale';

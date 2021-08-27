@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-05-15 12:49:28
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-19 16:52:35
+ * @LastEditTime: 2021-08-27 16:24:39
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\index.tsx
  */
 import {
@@ -16,10 +16,12 @@ import {
 } from 'dooringx-lib';
 import { InsertRowBelowOutlined } from '@ant-design/icons';
 import { useContext } from 'react';
-import { configContext } from '@/layouts';
+import { configContext, LocaleContext } from '@/layouts';
 import { useCallback } from 'react';
 import { PREVIEWSTATE } from '@/constant';
 import { Button, Popover } from 'antd';
+import { localeKey } from '../../../dooringx-lib/dist/locale';
+
 export const HeaderHeight = '40px';
 const footerConfig = function () {
 	return (
@@ -33,6 +35,7 @@ const footerConfig = function () {
 
 export default function IndexPage() {
 	const config = useContext(configContext);
+	const locale = useContext(LocaleContext);
 
 	const everyFn = () => {};
 
@@ -58,6 +61,15 @@ export default function IndexPage() {
 					}}
 				>
 					普通预览
+				</Button>
+				<Button
+					onClick={() => {
+						locale.change((pre: localeKey) => {
+							return pre === 'zh-CN' ? 'en' : 'zh-CN';
+						});
+					}}
+				>
+					切换语言
 				</Button>
 			</div>
 			<div
