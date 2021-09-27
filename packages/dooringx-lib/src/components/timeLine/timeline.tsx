@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-09 15:15:25
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-27 14:16:07
+ * @LastEditTime: 2021-09-27 21:41:20
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\timeLine\timeline.tsx
  */
 import deepcopy from 'deepcopy';
@@ -11,7 +11,7 @@ import { SortableContainer, SortableElement, SortableHandle, SortEnd } from 'rea
 import UserConfig from '../../config';
 import { IBlockType, IStoreData } from '../../core/store/storetype';
 import { arrayMove } from '../../core/utils';
-import { MenuOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, MenuOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import {
 	TimeLineItem,
 	itemHeight,
@@ -21,7 +21,8 @@ import {
 	iter,
 } from './timelineItem';
 import { specialCoList } from '../../core/utils/special';
-import { FormattedMessage } from 'react-intl';
+import { replaceLocale } from '../../locale';
+import { Popconfirm } from 'antd';
 
 export interface TimeLineProps {
 	style?: CSSProperties;
@@ -81,6 +82,23 @@ const SortableItem = SortableElement(
 				</div>
 				<div>{value.config.getComponentRegister().getMap()[value.value.name].display}</div>
 				<div>{value.value.id.slice(-6)}</div>
+				<div style={{ marginLeft: 5 }}>
+					<Popconfirm
+						title={replaceLocale('control.popup.delete', '确认删除么', value.config)}
+						onConfirm={() => {
+							const store = value.config.getStore();
+							const clone = deepcopy(store.getData());
+							clone.block = clone.block.filter((v) => {
+								return !(v.id === value.value.id && !specialCoList.includes(value.value.name));
+							});
+							store.setData(clone);
+						}}
+						okText={replaceLocale('yes', '确定', value.config)}
+						cancelText={replaceLocale('no', '取消', value.config)}
+					>
+						<DeleteOutlined />
+					</Popconfirm>
+				</div>
 			</div>
 		</div>
 	)
@@ -182,7 +200,7 @@ export function TimeLine(props: TimeLineProps) {
 								height: itemHeight,
 							}}
 						>
-							<FormattedMessage id="timeline.name" defaultMessage="组件名称"></FormattedMessage>
+							{replaceLocale('timeline.name', '组件名称', props.config)}
 							<span
 								title="play"
 								style={{

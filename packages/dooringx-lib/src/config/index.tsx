@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-19 16:17:39
+ * @LastEditTime: 2021-09-27 17:34:21
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -354,6 +354,7 @@ export class UserConfig {
 	};
 	public iframeOrigin = '';
 	public iframeId = 'yh-container-iframe';
+	public i18n = true;
 	constructor(initConfig?: Partial<InitConfig>) {
 		const mergeConfig = userConfigMerge(defaultConfig, initConfig);
 		this.initConfig = mergeConfig;

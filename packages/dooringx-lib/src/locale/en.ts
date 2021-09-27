@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:23
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-27 16:06:49
+ * @LastEditTime: 2021-09-27 21:11:51
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\en.ts
  */
 
@@ -37,5 +37,5 @@ export const en: typeof zhCN = {
 	'right.containerheight': 'Container height',
 	'right.containerColor': 'Container background color',
 	'right.bodyColor': 'Body background color',
-	title: 'title',
+	title: 'Title',
 };

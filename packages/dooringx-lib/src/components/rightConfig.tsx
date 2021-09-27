@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-27 16:20:29
+ * @LastEditTime: 2021-09-27 20:33:04
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
@@ -14,7 +14,7 @@ import UserConfig from '../config';
 import { RGBColor, SketchPicker } from 'react-color';
 import { rgba2Obj } from '../core/utils';
 import deepcopy from 'deepcopy';
-import { FormattedMessage } from 'react-intl';
+import { replaceLocale } from '../locale';
 
 const colStyle: CSSProperties = {
 	display: 'flex',
@@ -84,14 +84,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						);
 					});
 				} else {
-					return (
-						<div>
-							<FormattedMessage
-								id="right.noprops"
-								defaultMessage="还没有配置属性"
-							></FormattedMessage>
-						</div>
-					);
+					return <div>{replaceLocale('right.noprops', '还没有配置属性', props.config)}</div>;
 				}
 			}
 			return null;
@@ -164,11 +157,11 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 			{!current && !isEdit && !customGlobal && (
 				<div style={{ padding: '20px' }}>
 					<Row style={{ padding: '10px 0 20px 0', fontWeight: 'bold', userSelect: 'none' }}>
-						<FormattedMessage id="right.global" defaultMessage="全局设置"></FormattedMessage>
+						{replaceLocale('right.global', '全局设置', props.config)}
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={6} style={{ userSelect: 'none' }}>
-							<FormattedMessage id="title" defaultMessage="标题"></FormattedMessage>
+							{replaceLocale('title', '标题', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
 							<Input
@@ -194,10 +187,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={6} style={{ userSelect: 'none' }}>
-							<FormattedMessage
-								id="right.containerheight"
-								defaultMessage="容器高度"
-							></FormattedMessage>
+							{replaceLocale('right.containerheight', '容器高度', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
 							<InputNumber
@@ -223,10 +213,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={6} style={{ userSelect: 'none' }}>
-							<FormattedMessage
-								id="right.containerColor"
-								defaultMessage="容器底色"
-							></FormattedMessage>
+							{replaceLocale('right.containerColor', '容器底色', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
 							{
@@ -300,7 +287,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={6} style={{ userSelect: 'none' }}>
-							<FormattedMessage id="right.bodyColor" defaultMessage="body底色"></FormattedMessage>
+							{replaceLocale('right.bodyColor', 'body底色', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
 							{
@@ -378,14 +365,11 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 			{!current && isEdit && (
 				<div style={{ padding: '20px' }} className="yh-tcsz">
 					<Row style={{ padding: '10 0 20px 0', fontWeight: 'bold' }}>
-						<FormattedMessage id="modal.control" defaultMessage="弹窗配置"></FormattedMessage>
+						{replaceLocale('modal.control', '弹窗配置', props.config)}
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
 						<Col span={8}>
-							<FormattedMessage
-								id="modal.control.remove"
-								defaultMessage="取消点击删除弹窗"
-							></FormattedMessage>
+							{replaceLocale('modal.control.remove', '取消点击删除弹窗', props.config)}
 						</Col>
 						<Col span={16} style={{ ...colStyle }}>
 							<Checkbox

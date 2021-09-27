@@ -2,10 +2,11 @@
  * @Author: yehuozhili
  * @Date: 2021-03-09 15:19:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-09 14:37:55
+ * @LastEditTime: 2021-09-27 20:58:13
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\resizeHandler\containerResizer.ts
  */
 
+import { controlMouseMove } from '../../components/control/state';
 import UserConfig from '../../config';
 import { IStoreData } from '../store/storetype';
 import { deepCopy } from '../utils';
@@ -39,6 +40,7 @@ export const containerResizer = {
 			store.setData(clonedata);
 			containerState.startY = e.clientY;
 		}
+		controlMouseMove(e);
 	},
 	onMouseUp: (config: UserConfig) => {
 		if (containerState.isDrag) {
