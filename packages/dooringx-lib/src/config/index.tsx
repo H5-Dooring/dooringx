@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-27 17:34:21
+ * @LastEditTime: 2021-09-28 22:05:04
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -171,6 +171,7 @@ export const defaultStore: IStoreData = {
 		containerColor: 'rgba(255,255,255,1)',
 		title: 'dooring',
 		bodyColor: 'rgba(255,255,255,1)',
+		script: [],
 	},
 	modalConfig: {},
 };
@@ -355,6 +356,9 @@ export class UserConfig {
 	public iframeOrigin = '';
 	public iframeId = 'yh-container-iframe';
 	public i18n = true;
+	public SCRIPTGLOBALNAME = 'DOORINGXPLUGIN';
+	public scriptLoading = false;
+	public leftForceUpdate = () => {};
 	constructor(initConfig?: Partial<InitConfig>) {
 		const mergeConfig = userConfigMerge(defaultConfig, initConfig);
 		this.initConfig = mergeConfig;
@@ -472,6 +476,7 @@ export class UserConfig {
 		const mergeConfig = userConfigMerge(defaultConfig, v);
 		this.initConfig = mergeConfig;
 		this.init();
+		this.leftForceUpdate();
 		this.store.forceUpdate();
 	}
 	/**
@@ -484,6 +489,7 @@ export class UserConfig {
 		obj.leftRenderListCategory = v;
 		this.initConfig = userConfigMerge(this.initConfig, obj);
 		this.init();
+		this.leftForceUpdate();
 		this.store.forceUpdate();
 	}
 
@@ -497,6 +503,7 @@ export class UserConfig {
 		obj.rightRenderListCategory = v;
 		this.initConfig = userConfigMerge(this.initConfig, obj);
 		this.init();
+		this.leftForceUpdate();
 		this.store.forceUpdate();
 	}
 
@@ -510,6 +517,7 @@ export class UserConfig {
 		obj.leftAllRegistMap = [v];
 		this.initConfig = userConfigMerge(this.initConfig, obj);
 		this.init();
+		this.leftForceUpdate();
 		this.store.forceUpdate();
 	}
 
@@ -521,6 +529,7 @@ export class UserConfig {
 	setConfig(v: Partial<InitConfig>) {
 		this.initConfig = userConfigMerge(this.initConfig, v);
 		this.init();
+		this.leftForceUpdate();
 		this.store.forceUpdate();
 	}
 
@@ -595,6 +604,54 @@ export class UserConfig {
 		this.initConfig = userConfigMerge(this.initConfig, obj);
 		this.init();
 		this.store.forceUpdate();
+	}
+
+	scriptSingleLoad(
+		src: string,
+		leftProps: Partial<LeftRegistComponentMapItem>,
+		callback?: Function
+	) {
+		let isEdit = this.storeChanger.isEdit();
+		let globalState = this.store.getData().globalState;
+		if (isEdit) {
+			globalState = this.storeChanger.getOrigin()!.now.globalState;
+		}
+		if (globalState['script'].includes(src)) {
+			console.error(src + 'scripts have been loaded');
+			return;
+		}
+		if (!this.scriptLoading) {
+			this.scriptLoading = true;
+			const script = document.createElement('script');
+			script.src = src;
+			script.onload = () => {
+				const item = window[this.SCRIPTGLOBALNAME as any] as unknown as ComponentItemFactory;
+				try {
+					const left = leftProps;
+					left.component = item.name;
+					left.displayName = item.display;
+					this.scriptRegistComponentSingle(item, left as LeftRegistComponentMapItem);
+				} catch (e) {
+					console.error(e);
+				}
+				// 前面加载会重置store 新增组件需要事件初始化
+				setTimeout(() => {
+					window[this.SCRIPTGLOBALNAME as any] = undefined as any;
+					isEdit = this.storeChanger.isEdit();
+					globalState = this.store.getData().globalState;
+					if (isEdit) {
+						globalState = this.storeChanger.getOrigin()!.now.globalState;
+					}
+					globalState['script'].push(src);
+					this.store.forceUpdate();
+					this.scriptLoading = false;
+					if (callback) {
+						callback();
+					}
+				});
+			};
+			document.body.appendChild(script);
+		}
 	}
 }
 

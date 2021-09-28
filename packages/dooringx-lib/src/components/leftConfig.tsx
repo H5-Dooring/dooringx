@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-16 20:32:23
+ * @LastEditTime: 2021-09-28 21:28:41
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
@@ -31,9 +31,18 @@ interface LeftConfigProps {
 function LeftConfig(props: LeftConfigProps) {
 	const [menuSelect, setMenuSelect] = useState('0');
 	const [leftRender, setLeftRender] = useState<ReactNode | null>(null);
+
+	const [force, setForce] = useState(0);
+	useMemo(() => {
+		props.config.leftForceUpdate = () => {
+			setForce((v) => v + 1);
+		};
+	}, [props.config]);
+
 	const leftMapRenderListCategory = useMemo(() => {
 		return props.config.getConfig().leftRenderListCategory;
-	}, [props.config]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.config, force]);
 
 	const [search, setSearch] = useState('');
 
@@ -103,7 +112,15 @@ function LeftConfig(props: LeftConfigProps) {
 									{...dragEventResolve(v)}
 								>
 									<div className={`${styles.redbox} yh-left-item-img-wrap`}>
-										{v.imgCustom ? v.imgCustom : <img src={v.img} alt="component"></img>}
+										{v.imgCustom ? (
+											v.imgCustom
+										) : (
+											<img
+												src={v.img}
+												style={{ width: '100%', height: '100%' }}
+												alt="component"
+											></img>
+										)}
 									</div>
 
 									<div
@@ -126,7 +143,15 @@ function LeftConfig(props: LeftConfigProps) {
 								{...dragEventResolve(v)}
 							>
 								<div className={`${styles.redbox} yh-left-item-img-wrap`}>
-									{v.imgCustom ? v.imgCustom : <img src={v.img} alt="component"></img>}
+									{v.imgCustom ? (
+										v.imgCustom
+									) : (
+										<img
+											src={v.img}
+											style={{ width: '100%', height: '100%' }}
+											alt="component"
+										></img>
+									)}
 								</div>
 								<div
 									style={{

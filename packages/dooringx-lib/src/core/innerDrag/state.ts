@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 12:09:11
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-04 11:39:02
+ * @LastEditTime: 2021-09-28 16:57:05
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\innerDrag\state.ts
  */
 import { RefObject } from 'react';

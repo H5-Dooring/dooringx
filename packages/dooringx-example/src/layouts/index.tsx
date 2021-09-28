@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:51:17
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-27 21:44:56
+ * @LastEditTime: 2021-09-28 16:33:32
  * @FilePath: \dooringx\packages\dooringx-example\src\layouts\index.tsx
  */
 import { Button } from 'antd';
@@ -19,7 +19,7 @@ import { locale } from 'dooringx-lib';
 import { localeKey } from '../../../dooringx-lib/dist/locale';
 export const config = new UserConfig(plugin);
 export const configContext = createContext<UserConfig>(config);
-config.i18n = false;
+//config.i18n = false;
 // 自定义右键
 const contextMenuState = config.getContextMenuState();
 const unmountContextMenu = contextMenuState.unmountContextMenu;
@@ -84,12 +84,12 @@ export const LocaleContext = createContext<LocaleContextType>({
 
 export default function Layout({ children }: IRouteComponentProps) {
 	const [l, setLocale] = useState<localeKey>('zh-CN');
-	// return (
-	// 	<LocaleContext.Provider value={{ change: setLocale, current: l }}>
-	// 		<IntlProvider messages={locale.localeMap[l]} locale={l} defaultLocale={l}>
-	// 			<configContext.Provider value={config}>{children}</configContext.Provider>
-	// 		</IntlProvider>
-	// 	</LocaleContext.Provider>
-	// );
+	return (
+		<LocaleContext.Provider value={{ change: setLocale, current: l }}>
+			<IntlProvider messages={locale.localeMap[l]} locale={l} defaultLocale={l}>
+				<configContext.Provider value={config}>{children}</configContext.Provider>
+			</IntlProvider>
+		</LocaleContext.Provider>
+	);
 	return <configContext.Provider value={config}>{children}</configContext.Provider>;
 }

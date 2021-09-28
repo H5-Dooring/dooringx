@@ -2,12 +2,13 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:40:37
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-19 16:46:56
+ * @LastEditTime: 2021-09-28 22:26:00
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\preview.tsx
  */
 import Container from './container';
 import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 import UserConfig from '../config';
+import { ComponentItemFactory } from '..';
 
 export interface PreviewProps {
 	config: UserConfig;
@@ -48,19 +49,47 @@ function Preview(props: PreviewProps): ReactElement {
 		props.config
 			.getEventCenter()
 			.syncEventMap(props.config.getStore().getData(), props.config.getStoreChanger());
-		setTimeout(() => {
-			// 设置全局
-			const bodyColor = props.config.getStore().getData().globalState?.bodyColor;
-			if (bodyColor) {
-				document.body.style.backgroundColor = bodyColor;
-			}
-			if (props.completeFn) {
-				props.completeFn();
-			}
-			if (props.loadingState === undefined) {
-				setLoading(false);
-			}
-		});
+
+		const finalFn = () => {
+			setTimeout(() => {
+				// 设置全局
+				const bodyColor = props.config.getStore().getData().globalState?.bodyColor;
+				if (bodyColor) {
+					document.body.style.backgroundColor = bodyColor;
+				}
+				if (props.completeFn) {
+					props.completeFn();
+				}
+				if (props.loadingState === undefined) {
+					setLoading(false);
+				}
+			});
+		};
+		// 加载 script
+		const scripts = props.config.getStore().getData().globalState['script'];
+		if (scripts && Array.isArray(scripts) && scripts.length > 0) {
+			const allp = scripts.map((v) => {
+				return new Promise((res) => {
+					const s = document.createElement('script');
+					s.src = v;
+					document.body.appendChild(s);
+					s.onload = () => {
+						const item = window[
+							props.config.SCRIPTGLOBALNAME as any
+						] as unknown as ComponentItemFactory;
+						props.config.registComponent(item);
+						res(0);
+					};
+				});
+			});
+			Promise.all(allp)
+				.then(() => {
+					finalFn();
+				})
+				.catch(() => {
+					finalFn();
+				});
+		}
 	}, [props, props.config]);
 
 	if (isEdit) {

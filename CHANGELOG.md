@@ -1,5 +1,9 @@
 ## changelog
 
+## 0.9.2
+
+增加远程组件调用全流程，component中增加url属性，便于script加载。
+
 ## 0.9.1
 
 增加config.i18n配置，不使用国际化则不需要导入intl的context。

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-05-15 12:49:28
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-27 16:24:39
+ * @LastEditTime: 2021-09-28 21:58:21
  * @FilePath: \dooringx\packages\dooringx-example\src\pages\index.tsx
  */
 import {
@@ -15,12 +15,13 @@ import {
 	Control,
 } from 'dooringx-lib';
 import { InsertRowBelowOutlined } from '@ant-design/icons';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { configContext, LocaleContext } from '@/layouts';
 import { useCallback } from 'react';
 import { PREVIEWSTATE } from '@/constant';
-import { Button, Popover } from 'antd';
+import { Button, Input, Popover } from 'antd';
 import { localeKey } from '../../../dooringx-lib/dist/locale';
+import { LeftRegistComponentMapItem } from 'dooringx-lib/dist/core/crossDrag';
 
 export const HeaderHeight = '40px';
 const footerConfig = function () {
@@ -45,6 +46,9 @@ export default function IndexPage() {
 	}, [config]);
 
 	const [state] = useStoreState(config, subscribeFn, everyFn);
+
+	const [value, setValue] = useState('');
+
 	return (
 		<div {...innerContainerDragUp(config)}>
 			<div style={{ height: HeaderHeight }}>
@@ -70,6 +74,22 @@ export default function IndexPage() {
 					}}
 				>
 					切换语言
+				</Button>
+				<Input
+					style={{ width: 200 }}
+					value={value}
+					onChange={(e) => setValue(e.target.value)}
+				></Input>
+				<Button
+					onClick={() => {
+						const leftprops: Partial<LeftRegistComponentMapItem> = {
+							type: 'basic',
+							img: 'https://img.guguzhu.com/d/file/android/ico/2021/09/08/rytzi2w34tm.png',
+						};
+						config.scriptSingleLoad(value, leftprops);
+					}}
+				>
+					远程组件
 				</Button>
 			</div>
 			<div

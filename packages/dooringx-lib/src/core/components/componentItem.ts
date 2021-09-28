@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-06 23:45:21
- * @FilePath: \dooringv2\packages\dooring-v2-lib\src\core\components\componentItem.ts
+ * @LastEditTime: 2021-09-28 20:47:36
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\components\componentItem.ts
  */
 import UserConfig from '../../config';
 import Store from '../store';
@@ -26,6 +26,7 @@ export interface ComponentItem {
 	props: Record<string, CreateOptionsResAll[]>; // 配置属性
 	render: (data: IBlockType, context: any, store: Store, config: UserConfig) => JSX.Element;
 	destroy: () => void;
+	url: string;
 }
 export type ComponentRenderConfigProps = {
 	data: IBlockType;
