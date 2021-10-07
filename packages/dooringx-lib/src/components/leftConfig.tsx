@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-28 21:28:41
+ * @LastEditTime: 2021-10-07 12:35:38
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
@@ -109,7 +109,7 @@ function LeftConfig(props: LeftConfigProps) {
 								<div
 									className={`${styles.coitem} yh-left-item-wrap`}
 									key={index}
-									{...dragEventResolve(v)}
+									{...dragEventResolve(v, props.config)}
 								>
 									<div className={`${styles.redbox} yh-left-item-img-wrap`}>
 										{v.imgCustom ? (
@@ -140,7 +140,7 @@ function LeftConfig(props: LeftConfigProps) {
 							<div
 								className={`${styles.coitem} yh-left-item-wrap`}
 								key={index}
-								{...dragEventResolve(v)}
+								{...dragEventResolve(v, props.config)}
 							>
 								<div className={`${styles.redbox} yh-left-item-img-wrap`}>
 									{v.imgCustom ? (

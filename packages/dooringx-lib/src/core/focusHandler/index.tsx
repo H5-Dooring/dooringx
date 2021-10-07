@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-28 17:14:16
+ * @LastEditTime: 2021-10-07 12:40:32
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\focusHandler\index.tsx
  */
 import { innerDragState } from '../innerDrag/state';
@@ -12,22 +12,29 @@ import { selectRangeMouseDown } from '../selectRange';
 import { unmountContextMenu } from '../contextMenu';
 import UserConfig from '../../config';
 
-export function containerFocusRemove(config: UserConfig) {
+function resolveRemove(config: UserConfig) {
 	const store = config.getStore();
+	const focusState = config.getFocusState();
+	const clonedata = deepCopy(store.getData());
+	const newBlock = clonedata.block.map((v: IBlockType) => {
+		v.focus = false;
+		return v;
+	});
+	focusState.blocks = [];
+	store.setData({ ...clonedata, block: newBlock });
+	unmountContextMenu();
+}
 
+export function innerRemoveFocus(config: UserConfig) {
+	resolveRemove(config);
+}
+
+export function containerFocusRemove(config: UserConfig) {
 	const onMouseDown = (e: React.MouseEvent) => {
-		const focusState = config.getFocusState();
-		const clonedata = deepCopy(store.getData());
-		const newBlock = clonedata.block.map((v: IBlockType) => {
-			v.focus = false;
-			return v;
-		});
-		focusState.blocks = [];
-		store.setData({ ...clonedata, block: newBlock });
+		resolveRemove(config);
 		if (!innerDragState.item) {
 			selectRangeMouseDown(e, config);
 		}
-		unmountContextMenu();
 	};
 	return {
 		onMouseDown,

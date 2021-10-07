@@ -1,0 +1,50 @@
+{
+	"compilerOptions": {
+		"declaration": false,
+		"module": "esnext",
+		"noImplicitAny": true,
+		"outDir": "./dist",
+		"target": "es5",
+		"moduleResolution": "node",
+		"baseUrl": "./src",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"isolatedModules": true,
+		"jsx": "react",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"strict": true,
+		"pretty": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"downlevelIteration": true,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"stripInternal": true,
+		"emitDecoratorMetadata": false,
+		"experimentalDecorators": false,
+		"strictPropertyInitialization": true,
+		"importHelpers": true,
+		"sourceMap": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"noImplicitThis": true,
+		"alwaysStrict": true,
+		"noEmit": false,
+		"paths": {
+			"*": ["*", "src/*"]
+		}
+	},
+	"include": ["src/**/*", "node_modules/dooringx-lib/**/*"],
+	"exclude": [
+		"coverage",
+		"config",
+		"dist",
+		"node_modules/**",
+		"**/*.test.js",
+		"**/*.test.ts"
+	]
+}

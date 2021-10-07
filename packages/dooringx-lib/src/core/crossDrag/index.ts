@@ -2,10 +2,10 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-26 20:42:16
+ * @LastEditTime: 2021-10-07 12:45:30
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\crossDrag\index.ts
  */
-import { DragEvent, ReactNode } from 'react';
+import React, { DragEvent, ReactNode } from 'react';
 import { createBlock } from '../components/createBlock';
 import { IBlockType } from '../store/storetype';
 import { deepCopy } from '../utils';
@@ -28,7 +28,58 @@ export interface LeftRegistComponentMapItem {
 }
 
 let currentDrag: LeftRegistComponentMapItem | null = null;
-export const dragEventResolve = function (item: LeftRegistComponentMapItem) {
+
+function resolveDrop(
+	config: UserConfig,
+	item: LeftRegistComponentMapItem,
+	e: DragEvent<HTMLDivElement> | React.MouseEvent,
+	x: number,
+	y: number,
+	dbclick: boolean = false
+) {
+	const componentRegister = config.getComponentRegister();
+	const store = config.getStore();
+	const origin = componentRegister.getComp(item.component);
+	if (!origin) {
+		console.log(item.component, 'wait the chunk pull compeletely and retry');
+		return;
+	}
+	const target = e.target as HTMLElement;
+	let newblock: IBlockType;
+	//如果有宽高，那么让其在中间
+	let fixX = x;
+	let fixY = y;
+	if (origin.initData.width && typeof origin.initData.width === 'number') {
+		fixX = x - origin.initData.width / 2;
+	}
+	if (origin.initData.height && typeof origin.initData.height === 'number') {
+		fixY = y - origin.initData.height / 2;
+	}
+
+	if (!origin.needPosition) {
+		newblock = createBlock(
+			origin.initData.top ?? fixY,
+			origin.initData.left ?? fixX,
+			origin,
+			config
+		);
+	} else {
+		if (dbclick) {
+			newblock = createBlock(fixY, fixX, origin, config);
+		} else {
+			if (target.id !== 'yh-container') {
+				newblock = createBlock(fixY + target.offsetTop, fixX + target.offsetLeft, origin, config);
+			} else {
+				newblock = createBlock(fixY, fixX, origin, config);
+			}
+		}
+	}
+	const data = deepCopy(store.getData());
+	data.block.push(newblock);
+	store.setData({ ...data });
+}
+
+export const dragEventResolve = function (item: LeftRegistComponentMapItem, config: UserConfig) {
 	return {
 		draggable: true,
 		onDragStart: () => {
@@ -39,12 +90,16 @@ export const dragEventResolve = function (item: LeftRegistComponentMapItem) {
 		},
 		onDrop: () => {},
 		onDragEnd: () => {},
+		onDoubleClick: (e: React.MouseEvent) => {
+			const container = config.getStore().getData().container;
+			const x = container.width / 2;
+			const y = container.height / 2;
+			resolveDrop(config, item, e, x, y, true);
+		},
 	};
 };
 
 export const containerDragResolve = (config: UserConfig) => {
-	const store = config.getStore();
-	const componentRegister = config.getComponentRegister();
 	return {
 		onDragStart: () => {},
 		onDragOver: (e: DragEvent<HTMLDivElement>) => {
@@ -55,30 +110,7 @@ export const containerDragResolve = (config: UserConfig) => {
 			const offestY = Math.round(e.nativeEvent.offsetY);
 			//drop后修改store，
 			if (currentDrag) {
-				// 还需要拿到注册的组件状态
-				const origin = componentRegister.getComp(currentDrag.component);
-				if (!origin) {
-					console.log(currentDrag.component, 'wait the chunk pull compeletely and retry');
-					return;
-				}
-				const target = e.target as HTMLElement;
-				let newblock: IBlockType;
-				if (!origin.needPosition) {
-					newblock = createBlock(
-						origin.initData.top ?? offestY,
-						origin.initData.left ?? offsetX,
-						origin
-					);
-				} else {
-					if (target.id !== 'yh-container') {
-						newblock = createBlock(offestY + target.offsetTop, offsetX + target.offsetLeft, origin);
-					} else {
-						newblock = createBlock(offestY, offsetX, origin);
-					}
-				}
-				const data = deepCopy(store.getData());
-				data.block.push(newblock);
-				store.setData({ ...data });
+				resolveDrop(config, currentDrag, e, offsetX, offestY);
 			}
 			currentDrag = null;
 		},
