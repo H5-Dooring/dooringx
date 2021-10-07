@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-09-30 09:51:40
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-10-07 13:18:49
+ * @LastEditTime: 2021-10-07 17:51:09
  * @FilePath: \dooringx\packages\dooringx-plugin-template\template\rollup.config.js
  */
 import { DEFAULT_EXTENSIONS } from "@babel/core";
@@ -14,6 +14,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import url from "@rollup/plugin-url";
 import svgr from "@svgr/rollup";
 import { terser } from "rollup-plugin-terser";
+import replace from "@rollup/plugin-replace";
 import typescriptEngine from "typescript";
 import external from "rollup-plugin-peer-deps-external";
 const externalPkg = ["react", "react-dom"];
@@ -29,6 +30,7 @@ export default {
 			globals: { react: "React", "react-dom": "ReactDom" },
 			freeze: false,
 			exports: "default",
+			sourcemap: true,
 		},
 	],
 	onwarn: function (warning) {
@@ -48,6 +50,10 @@ export default {
 		}),
 		external({
 			includeDependencies: true,
+		}),
+		replace({
+			"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+			preventAssignment: true,
 		}),
 		typescript({
 			typescript: typescriptEngine,
