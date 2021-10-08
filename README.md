@@ -34,12 +34,12 @@ dooringx-lib 在运行时维护一套数据流，主要分为json数据部分，
 
 [阅读文档了解更多信息](https://h5-dooring.github.io/dooringx/).
 
-## 安装 | Installation
+## 二次开发安装 | Installation
 ```bash
 npm/yarn  install dooringx-lib
 ```
 
-## 快速启动 | Quick Start
+## 项目上手 | Quick Start
 
   ```bash
 # 克隆项目
@@ -56,16 +56,15 @@ cd dooringx
 # 安装依赖
 yarn install
 
-# 启动基础示例
-yarn start:example
-
 # 启动 dooringx-lib
 yarn start
+
+# 启动基础示例
+yarn start:example
 
 # 启动 dooringx doc 文档
 yarn start:doc
 
-yarn build
   ```
 
 
