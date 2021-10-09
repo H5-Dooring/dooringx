@@ -1,5 +1,9 @@
 ## changelog
 
+## 0.9.4
+
+修复preview组件不能解除loading的bug
+
 ## 0.9.3
 
 增加双击置入画布。

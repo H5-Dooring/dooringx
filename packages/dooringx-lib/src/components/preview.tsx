@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:40:37
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-28 22:26:00
+ * @LastEditTime: 2021-10-10 00:54:55
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\preview.tsx
  */
 import Container from './container';
@@ -41,17 +41,17 @@ function Preview(props: PreviewProps): ReactElement {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		// 链接数据
-		props.config
-			.getDataCenter()
-			.initAddToDataMap(props.config.getStore().getData(), props.config.getStoreChanger());
-		// 链接事件
-		props.config
-			.getEventCenter()
-			.syncEventMap(props.config.getStore().getData(), props.config.getStoreChanger());
-
 		const finalFn = () => {
 			setTimeout(() => {
+				// 链接数据
+				props.config
+					.getDataCenter()
+					.initAddToDataMap(props.config.getStore().getData(), props.config.getStoreChanger());
+				// 链接事件
+				props.config
+					.getEventCenter()
+					.syncEventMap(props.config.getStore().getData(), props.config.getStoreChanger());
+
 				// 设置全局
 				const bodyColor = props.config.getStore().getData().globalState?.bodyColor;
 				if (bodyColor) {
@@ -89,6 +89,8 @@ function Preview(props: PreviewProps): ReactElement {
 				.catch(() => {
 					finalFn();
 				});
+		} else {
+			finalFn();
 		}
 	}, [props, props.config]);
 
