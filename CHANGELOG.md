@@ -1,5 +1,11 @@
 ## changelog
 
+## 0.9.5
+
+preview组件scripts加载由并发变为线性。
+
+编辑模式下使用远程组件会储存当前画布状态。
+
 ## 0.9.4
 
 修复preview组件不能解除loading的bug

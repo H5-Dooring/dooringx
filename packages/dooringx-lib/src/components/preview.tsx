@@ -68,27 +68,38 @@ function Preview(props: PreviewProps): ReactElement {
 		// 加载 script
 		const scripts = props.config.getStore().getData().globalState['script'];
 		if (scripts && Array.isArray(scripts) && scripts.length > 0) {
-			const allp = scripts.map((v) => {
-				return new Promise((res) => {
-					const s = document.createElement('script');
-					s.src = v;
-					document.body.appendChild(s);
-					s.onload = () => {
-						const item = window[
-							props.config.SCRIPTGLOBALNAME as any
-						] as unknown as ComponentItemFactory;
-						props.config.registComponent(item);
-						res(0);
-					};
+			const fn = async () => {
+				const allp = scripts.map((v) => {
+					return () =>
+						new Promise<number>((res) => {
+							const s = document.createElement('script');
+							s.src = v;
+							document.body.appendChild(s);
+							s.onload = () => {
+								const item = window[
+									props.config.SCRIPTGLOBALNAME as any
+								] as unknown as ComponentItemFactory;
+								try {
+									props.config.registComponent(item);
+								} catch {
+									console.error('read item fail:', v);
+								}
+								document.body.removeChild(s);
+								res(0);
+							};
+						});
 				});
-			});
-			Promise.all(allp)
-				.then(() => {
-					finalFn();
-				})
-				.catch(() => {
-					finalFn();
-				});
+				const allplen = allp.length;
+				for (let i = 0; i < allplen; i++) {
+					try {
+						await allp[i]();
+					} catch {
+						console.error('script load fail:', scripts[i]);
+					}
+				}
+				finalFn();
+			};
+			fn();
 		} else {
 			finalFn();
 		}

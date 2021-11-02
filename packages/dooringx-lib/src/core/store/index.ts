@@ -45,9 +45,9 @@ class Store {
 	}
 	/**
 	 *
-	 * 注意重置需要注册事件
+	 * 重置需要注册事件
 	 * @param {IStoreData[]} initData
-	 * @param {boolean} [check=false]
+	 * @param {boolean} [check=false] 检查编辑弹窗状态
 	 * @memberof Store
 	 */
 	resetToInitData(initData: IStoreData[], check = false) {

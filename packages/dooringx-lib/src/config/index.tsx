@@ -592,29 +592,41 @@ export class UserConfig {
 		this.addCoRegistMap(leftProps);
 	}
 
-	scriptRegistComponentMulti(
-		items: ComponentItemFactory[],
-		leftProps: LeftRegistComponentMapItem[]
-	) {
-		items.forEach((item) => {
-			this.registComponent(item);
-		});
-		const obj = {} as InitConfig;
-		obj.leftAllRegistMap = leftProps;
-		this.initConfig = userConfigMerge(this.initConfig, obj);
-		this.init();
-		this.store.forceUpdate();
-	}
+	// foreach可能导致问题
+	// scriptRegistComponentMulti(
+	// 	items: ComponentItemFactory[],
+	// 	leftProps: LeftRegistComponentMapItem[]
+	// ) {
+	// 	items.forEach((item) => {
+	// 		this.registComponent(item);
+	// 	});
+	// 	const obj = {} as InitConfig;
+	// 	obj.leftAllRegistMap = leftProps;
+	// 	this.initConfig = userConfigMerge(this.initConfig, obj);
+	// 	this.init();
+	// 	this.store.forceUpdate();
+	// }
 
+	/**
+	 *
+	 * 分类信息需要单独存储后加载
+	 * @param {string} src  url地址
+	 * @param {Partial<LeftRegistComponentMapItem>} leftProps 分类
+	 * @param {Function} [callback] 回调
+	 * @return {*}
+	 * @memberof UserConfig
+	 */
 	scriptSingleLoad(
 		src: string,
 		leftProps: Partial<LeftRegistComponentMapItem>,
 		callback?: Function
 	) {
 		let isEdit = this.storeChanger.isEdit();
-		let globalState = this.store.getData().globalState;
+		let storeData = this.store.getData();
+		let globalState = storeData.globalState;
 		if (isEdit) {
-			globalState = this.storeChanger.getOrigin()!.now.globalState;
+			storeData = this.storeChanger.getOrigin()!.now;
+			globalState = storeData.globalState;
 		}
 		if (globalState['script'].includes(src)) {
 			console.error(src + 'scripts have been loaded');
@@ -643,6 +655,8 @@ export class UserConfig {
 						globalState = this.storeChanger.getOrigin()!.now.globalState;
 					}
 					globalState['script'].push(src);
+					storeData.globalState = globalState;
+					this.store.resetToInitData([storeData], true);
 					this.store.forceUpdate();
 					this.scriptLoading = false;
 					if (callback) {

@@ -14,12 +14,12 @@ import {
 	ContainerWrapper,
 	Control,
 } from 'dooringx-lib';
-import { InsertRowBelowOutlined } from '@ant-design/icons';
+import { InsertRowBelowOutlined, UploadOutlined } from '@ant-design/icons';
 import { useContext, useState } from 'react';
 import { configContext, LocaleContext } from '@/layouts';
 import { useCallback } from 'react';
 import { PREVIEWSTATE } from '@/constant';
-import { Button, Input, Popover } from 'antd';
+import { Button, Input, message, Modal, Popover, Upload } from 'antd';
 import { localeKey } from '../../../dooringx-lib/dist/locale';
 import { LeftRegistComponentMapItem } from 'dooringx-lib/dist/core/crossDrag';
 
@@ -48,6 +48,19 @@ export default function IndexPage() {
 	const [state] = useStoreState(config, subscribeFn, everyFn);
 
 	const [value, setValue] = useState('');
+	const [open, setOpen] = useState(false);
+
+	const createAndDownloadFile = (fileName: string) => {
+		const aTag = document.createElement('a');
+		const res = config.getStore().getData();
+		const JSONres = JSON.stringify(res);
+		const blob = new Blob([JSONres]);
+		aTag.download = fileName;
+		const url = URL.createObjectURL(blob);
+		aTag.href = url;
+		aTag.click();
+		URL.revokeObjectURL(url);
+	};
 
 	return (
 		<div {...innerContainerDragUp(config)}>
@@ -91,7 +104,54 @@ export default function IndexPage() {
 				>
 					远程组件
 				</Button>
+				<Button
+					onClick={() => {
+						createAndDownloadFile('dooring.json');
+					}}
+				>
+					下载json
+				</Button>
+				<Button
+					onClick={() => {
+						setOpen(true);
+					}}
+				>
+					上传json
+				</Button>
 			</div>
+			<Modal
+				visible={open}
+				onCancel={() => setOpen(false)}
+				onOk={() => setOpen(false)}
+				title={'import json'}
+			>
+				<Upload
+					name="file"
+					maxCount={1}
+					onChange={(e) => {
+						if (e.file.status === 'done') {
+							const file = e.file.originFileObj;
+							if (file) {
+								let reader = new FileReader();
+								reader.addEventListener('loadend', function () {
+									try {
+										let res = JSON.parse(reader.result as string);
+										console.log(res, '返回结果数据');
+										config.getStore().resetToInitData([res]);
+										setOpen(false);
+									} catch {
+										message.error('json解析格式有误');
+									}
+								});
+								reader.readAsText(file);
+							}
+						}
+					}}
+				>
+					<Button icon={<UploadOutlined />}>&nbsp; 点击上传</Button>
+				</Upload>
+			</Modal>
+
 			<div
 				style={{
 					display: 'flex',
