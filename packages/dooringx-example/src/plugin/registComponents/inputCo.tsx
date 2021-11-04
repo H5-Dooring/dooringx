@@ -34,7 +34,7 @@ const InputTemp = (pr: InputProps) => {
 		if (props.op1) {
 			const functionCenter = eventCenter.getFunctionCenter();
 			unregist = functionCenter.register(
-				`${pr.data.id}+验证已填函数`,
+				`${pr.data.id}+validate-func`,
 				async (_ctx, next, _config, _args: any, _eventList, _iname) => {
 					if (value === '') {
 						setErr(props.warnning);
@@ -52,7 +52,8 @@ const InputTemp = (pr: InputProps) => {
 							multi: false,
 						},
 					},
-				]
+				],
+				`${pr.data.id}+验证已填函数`
 			);
 		}
 		return () => {
@@ -65,7 +66,7 @@ const InputTemp = (pr: InputProps) => {
 		if (props.op2) {
 			const functionCenter = eventCenter.getFunctionCenter();
 			unregist = functionCenter.register(
-				`${pr.data.id}+获取输入数据`,
+				`${pr.data.id}+get-input`,
 				async (ctx, next, _config, args: any, _eventList, _iname) => {
 					const key = args['_changeval'][0];
 					ctx[key] = value;
@@ -80,7 +81,8 @@ const InputTemp = (pr: InputProps) => {
 							multi: false,
 						},
 					},
-				]
+				],
+				`${pr.data.id}+获取输入数据`
 			);
 		}
 		return () => {

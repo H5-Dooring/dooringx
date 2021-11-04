@@ -203,6 +203,7 @@ export const defaultConfig: InitConfig = {
 					},
 				},
 			],
+			name: '打开弹窗函数',
 		},
 		关闭弹窗函数: {
 			fn: (_ctx, next, _config, args) => {
@@ -223,6 +224,7 @@ export const defaultConfig: InitConfig = {
 					},
 				},
 			],
+			name: '关闭弹窗函数',
 		},
 	},
 	initDataCenterMap: {},

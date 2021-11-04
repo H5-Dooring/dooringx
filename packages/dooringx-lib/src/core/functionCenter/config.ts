@@ -19,9 +19,9 @@ export interface FunctionDataMap {
 	input: FuncitonOptionConfigType;
 	ctx: FuncitonOptionConfigType;
 }
-// data 如果是''则在datasource,input,ctx选择
+// data 如果是''则在datasource,input,ctx选择  有可能是空
 export type FunctionConfigType = {
 	name: FunctionNameType; // 会放到左侧展示 唯一！
-	data: FunctionDataType[];
+	data: FunctionDataType[]; //可能空
 	options: FuncitonOptionConfigType;
 }[];
