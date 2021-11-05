@@ -168,9 +168,8 @@ export function TimeLine(props: TimeLineProps) {
 
 	return (
 		<div
-			className={props.classes}
+			className={`${props.classes} ant-menu yh-timeline`}
 			style={{
-				backgroundColor: 'white',
 				width: '100%',
 				position: 'absolute',
 				height: '150px',

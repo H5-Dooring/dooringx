@@ -1,5 +1,5 @@
 {
-	"version": "0.10.0",
+	"version": "0.10.1",
 	"license": "MIT",
 	"main": "dist/index.js",
 	"module": "dist/dooringx-lib.esm.js",
