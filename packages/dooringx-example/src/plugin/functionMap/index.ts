@@ -38,5 +38,6 @@ export const functionMap: FunctionCenterType = {
 				},
 			},
 		],
+		name: '上下文转对象',
 	},
 };
