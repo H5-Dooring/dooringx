@@ -26,7 +26,7 @@
 		"antd": "^4.15.2",
     "@ant-design/pro-layout": "^6.5.0",
     "@umijs/preset-react": "1.x",
-    "umi": "^3.5.4",
+    "umi": "^3.5.20",
     "animate.css": "^4.1.1"
   },
   "devDependencies": {
