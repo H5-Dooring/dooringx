@@ -39,7 +39,7 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 		if (op1) {
 			const functionCenter = eventCenter.getFunctionCenter();
 			unregist = functionCenter.register(
-				`${pr.data.id}+改变文本函数`,
+				`${pr.data.id}+changeText`,
 				async (ctx, next, config, args: any, _eventList, iname) => {
 					const userSelect = iname.data;
 					const ctxVal = changeUserValue(
@@ -62,7 +62,8 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 							multi: false,
 						},
 					},
-				]
+				],
+				`${pr.data.id}+改变文本函数`
 			);
 		}
 		return () => {

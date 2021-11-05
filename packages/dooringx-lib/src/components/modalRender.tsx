@@ -30,7 +30,6 @@ export function ModalRender(props: ModalRenderProps) {
 	const { parentDom, rootDom } = props;
 
 	const modalConfig = props.data.modalConfig[props.name];
-
 	//这里还要添加个关闭函数，
 	const unmount = useMemo(() => {
 		return () => {
@@ -80,6 +79,9 @@ let wrap: HTMLDivElement | null;
 export const createModal = (name: string, data: IStoreData, config: UserConfig) => {
 	if (wrap) {
 		wrap = null;
+	}
+	if (!name) {
+		return;
 	}
 
 	if (!wrap) {

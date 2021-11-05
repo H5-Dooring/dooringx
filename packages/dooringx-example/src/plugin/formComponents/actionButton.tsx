@@ -8,7 +8,7 @@
 
 import { Button, Col, Input, message, Modal, Row, Select } from 'antd';
 import { memo, useMemo, useState } from 'react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { UserConfig, createUid, deepCopy } from 'dooringx-lib';
 import { unstable_batchedUpdates } from 'react-dom';
 import { FormMap } from '../formTypes';
@@ -38,6 +38,7 @@ function ActionButton(props: ActionButtonProps) {
 	const functionCenter = props.config.getEventCenter().getFunctionCenter();
 	const functionConfig = functionCenter.getConfigMap();
 	const functionMap = functionCenter.getFunctionMap();
+	const functionNameMap = functionCenter.getNameMap();
 	const isEdit = props.config.getStoreChanger().isEdit();
 	const dataMap = props.config.getDataCenter().getDataMap();
 	let modalMap: Record<string, IStoreData>;
@@ -47,190 +48,196 @@ function ActionButton(props: ActionButtonProps) {
 		modalMap = props.config.getStore().getData().modalMap;
 	}
 
-	const handleInputDataSource = (
-		w: {
-			uid: string;
-			value: string;
-			detail: Record<string, any>;
-		},
-		c: any,
-		name = 'dataSource'
-	) => {
-		return (
-			<div>
-				<div
-					style={{
-						textAlign: 'right',
-						margin: '10px 0',
-					}}
-				>
-					<Button
-						type="primary"
-						onClick={() => {
-							setSearch((pre) => {
-								pre.forEach((v) => {
-									if (v.uid === w.uid) {
-										let sign = true;
-										if (!v.detail[name][c.name]) {
-											v.detail[name][c.name] = [];
-										}
-										if (!c.options.multi) {
-											if (v.detail[name][c.name].length >= 1) {
-												sign = false;
-												message.error('该函数最多只能添加1个');
-											}
-										}
-										if (sign) {
-											v.detail[name][c.name].push('');
-										}
-									}
-								});
-								return [...pre];
-							});
+	const handleInputDataSource = useCallback(
+		(
+			w: {
+				uid: string;
+				value: string;
+				detail: Record<string, any>;
+			},
+			c: any,
+			name = 'dataSource'
+		) => {
+			return (
+				<div>
+					<div
+						style={{
+							textAlign: 'right',
+							margin: '10px 0',
 						}}
 					>
-						添加
-					</Button>
-				</div>
-				<div>
-					{w.detail[name] &&
-						w.detail[name][c.name] &&
-						w.detail[name][c.name].map((vvv: string, x: number) => {
-							return (
-								<Row key={x}>
-									<Col span={19}>
-										<Select
-											style={{ width: '100%' }}
-											value={vvv}
-											onChange={(e) => {
-												const value = e;
-												setSearch((pre) => {
-													pre.forEach((v) => {
-														v.uid === w.uid ? (v.detail[name][c.name][x] = value || '') : '';
+						<Button
+							type="primary"
+							onClick={() => {
+								setSearch((pre) => {
+									pre.forEach((v) => {
+										if (v.uid === w.uid) {
+											let sign = true;
+											if (!v.detail[name][c.name]) {
+												v.detail[name][c.name] = [];
+											}
+											if (!c.options.multi) {
+												if (v.detail[name][c.name].length >= 1) {
+													sign = false;
+													message.error('该函数最多只能添加1个');
+												}
+											}
+											if (sign) {
+												v.detail[name][c.name].push('');
+											}
+										}
+									});
+									return [...pre];
+								});
+							}}
+						>
+							添加
+						</Button>
+					</div>
+					<div>
+						{w.detail[name] &&
+							w.detail[name][c.name] &&
+							w.detail[name][c.name].map((vvv: string, x: number) => {
+								return (
+									<Row key={x}>
+										<Col span={19}>
+											<Select
+												style={{ width: '100%' }}
+												value={vvv}
+												onChange={(e) => {
+													const value = e;
+													setSearch((pre) => {
+														pre.forEach((v) => {
+															v.uid === w.uid ? (v.detail[name][c.name][x] = value || '') : '';
+														});
+														return [...pre];
 													});
-													return [...pre];
-												});
-											}}
-										>
-											{Object.keys(dataMap).map((n) => {
-												return (
-													<Option key={n} value={n}>
-														{n}
-													</Option>
-												);
-											})}
-										</Select>
-									</Col>
-									<Col span={5} style={{ textAlign: 'right' }}>
-										<Button
-											danger
-											onClick={() => {
-												setSearch((pre) => {
-													pre.forEach((v) => {
-														v.uid === w.uid ? v.detail[name][c.name].splice(x, 1) : '';
+												}}
+											>
+												{Object.keys(dataMap).map((n) => {
+													return (
+														<Option key={n} value={n}>
+															{n}
+														</Option>
+													);
+												})}
+											</Select>
+										</Col>
+										<Col span={5} style={{ textAlign: 'right' }}>
+											<Button
+												danger
+												onClick={() => {
+													setSearch((pre) => {
+														pre.forEach((v) => {
+															v.uid === w.uid ? v.detail[name][c.name].splice(x, 1) : '';
+														});
+														return [...pre];
 													});
-													return [...pre];
-												});
-											}}
-										>
-											删除
-										</Button>
-									</Col>
-								</Row>
-							);
-						})}
+												}}
+											>
+												删除
+											</Button>
+										</Col>
+									</Row>
+								);
+							})}
+					</div>
 				</div>
-			</div>
-		);
-	};
+			);
+		},
+		[]
+	);
 
-	const handleInput = (
-		w: {
-			uid: string;
-			value: string;
-			detail: Record<string, any>;
-		},
-		c: any,
-		name = 'ctx'
-	) => {
-		return (
-			<div>
-				<div
-					style={{
-						textAlign: 'right',
-						margin: '10px 0',
-					}}
-				>
-					<Button
-						type="primary"
-						onClick={() => {
-							setSearch((pre) => {
-								pre.forEach((v) => {
-									if (v.uid === w.uid) {
-										if (!v.detail[name][c.name]) {
-											v.detail[name][c.name] = [];
-										}
-										let sign = true;
-										if (!c.options.multi) {
-											if (v.detail[name][c.name].length >= 1) {
-												sign = false;
-												message.error('该函数最多只能添加1个');
-											}
-										}
-										if (sign) {
-											v.detail[name][c.name].push('');
-										}
-									}
-								});
-								return [...pre];
-							});
+	const handleInput = useCallback(
+		(
+			w: {
+				uid: string;
+				value: string;
+				detail: Record<string, any>;
+			},
+			c: any,
+			name = 'ctx'
+		) => {
+			return (
+				<div>
+					<div
+						style={{
+							textAlign: 'right',
+							margin: '10px 0',
 						}}
 					>
-						添加输入框
-					</Button>
-				</div>
-				<div>
-					{w.detail[name] &&
-						w.detail[name][c.name] &&
-						w.detail[name][c.name].map((vvv: string, x: number) => {
-							return (
-								<Row key={x}>
-									<Col span={19}>
-										<Input
-											value={vvv}
-											onChange={(e) => {
-												const value = e.target.value;
-												setSearch((pre) => {
-													pre.forEach((v) => {
-														v.uid === w.uid ? (v.detail[name][c.name][x] = value || '') : '';
+						<Button
+							type="primary"
+							onClick={() => {
+								setSearch((pre) => {
+									pre.forEach((v) => {
+										if (v.uid === w.uid) {
+											if (!v.detail[name][c.name]) {
+												v.detail[name][c.name] = [];
+											}
+											let sign = true;
+											if (!c.options.multi) {
+												if (v.detail[name][c.name].length >= 1) {
+													sign = false;
+													message.error('该函数最多只能添加1个');
+												}
+											}
+											if (sign) {
+												v.detail[name][c.name].push('');
+											}
+										}
+									});
+									return [...pre];
+								});
+							}}
+						>
+							添加输入框
+						</Button>
+					</div>
+					<div>
+						{w.detail[name] &&
+							w.detail[name][c.name] &&
+							w.detail[name][c.name].map((vvv: string, x: number) => {
+								return (
+									<Row key={x}>
+										<Col span={19}>
+											<Input
+												value={vvv}
+												onChange={(e) => {
+													const value = e.target.value;
+													setSearch((pre) => {
+														pre.forEach((v) => {
+															v.uid === w.uid ? (v.detail[name][c.name][x] = value || '') : '';
+														});
+														return [...pre];
 													});
-													return [...pre];
-												});
-											}}
-										></Input>
-									</Col>
-									<Col span={5} style={{ textAlign: 'right' }}>
-										<Button
-											danger
-											onClick={() => {
-												setSearch((pre) => {
-													pre.forEach((v) => {
-														v.uid === w.uid ? v.detail[name][c.name].splice(x, 1) : '';
+												}}
+											></Input>
+										</Col>
+										<Col span={5} style={{ textAlign: 'right' }}>
+											<Button
+												danger
+												onClick={() => {
+													setSearch((pre) => {
+														pre.forEach((v) => {
+															v.uid === w.uid ? v.detail[name][c.name].splice(x, 1) : '';
+														});
+														return [...pre];
 													});
-													return [...pre];
-												});
-											}}
-										>
-											删除
-										</Button>
-									</Col>
-								</Row>
-							);
-						})}
+												}}
+											>
+												删除
+											</Button>
+										</Col>
+									</Row>
+								);
+							})}
+					</div>
 				</div>
-			</div>
-		);
-	};
+			);
+		},
+		[]
+	);
 
 	return (
 		<div>
@@ -404,7 +411,7 @@ function ActionButton(props: ActionButtonProps) {
 												{Object.keys(functionMap).map((v) => {
 													return (
 														<Option key={v} value={v}>
-															{v}
+															{functionNameMap[v]}
 														</Option>
 													);
 												})}
@@ -425,12 +432,15 @@ function ActionButton(props: ActionButtonProps) {
 										</Col>
 									</Row>
 									<div
-									//[{data: ""
+									//[{data: [""]
 									///   name: "改变文本数据源"
 									//options: {receive: "_changeval"}}]
 									>
 										{options &&
 											options.map((c) => {
+												if (c.data.length === 0) {
+													return <div key={c.name}></div>;
+												}
 												return (
 													<Row key={c.name} style={{ margin: '10px 0' }}>
 														<Col span={6}>{c.name}:</Col>

@@ -28,10 +28,13 @@ export type FunctionCenterFunction = (
 	iname: EventCenterMapItem
 ) => void;
 
-export type FunctionCenterType = Record<
-	string,
-	{ fn: FunctionCenterFunction; config: FunctionConfigType }
->;
+export type FunctionCenterValue = {
+	fn: FunctionCenterFunction;
+	config: FunctionConfigType;
+	name: string;
+};
+
+export type FunctionCenterType = Record<string, FunctionCenterValue>;
 
 /**
  *
@@ -48,6 +51,7 @@ export class FunctionCenter {
 	public asyncMap: Record<string, Function> = {};
 	public configMap: Record<string, FunctionConfigType> = {};
 	public funcitonMap: Record<string, FunctionCenterFunction> = {};
+	public nameMap: Record<string, string> = {}; // id对名字
 	constructor(public initConfig: FunctionCenterType = {}) {
 		this.init(initConfig);
 	}
@@ -68,19 +72,47 @@ export class FunctionCenter {
 			},
 			{}
 		);
+		this.nameMap = Object.keys(initConfig).reduce<Record<string, string>>((prev, next) => {
+			prev[next] = initConfig[next].name;
+			return prev;
+		}, {});
 	}
 
 	reset() {
 		this.funcitonMap = {};
 		this.configMap = {};
+		this.nameMap = {};
 	}
 
 	getFunctionMap() {
 		return this.funcitonMap;
 	}
-
 	getConfigMap() {
 		return this.configMap;
+	}
+	getNameMap() {
+		return this.nameMap;
+	}
+
+	/**
+	 *
+	 * 通过name查id
+	 * @param {string} name
+	 * @return {*}  {(string | undefined)}
+	 * @memberof FunctionCenter
+	 */
+	nameToKey(name: string): string | undefined {
+		const keys = Object.keys(this.nameMap);
+		const keylen = keys.length;
+		let result: string | undefined;
+		for (let i = 0; i < keylen; i++) {
+			const key = keys[i];
+			if (this.nameMap[key] === name) {
+				result = key;
+				break;
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -92,26 +124,31 @@ export class FunctionCenter {
 	deleteFunc(name: string) {
 		delete this.funcitonMap[name];
 		delete this.configMap[name];
+		delete this.nameMap[name];
 	}
 
 	/**
 	 *
-	 * 注册函数，同名覆盖，返回删除函数
-	 * @param {string} name
-	 * @param {FunctionCenterFunction} fn
+	 *注册函数，同id覆盖，返回删除函数
+	 * @param {string} id 唯一值 注意！每个组件都要不一样，所以需要带着每个组件的id，这样也方便区分是哪个组件抛出的函数!!
+	 * @param {FunctionCenterFunction} fn 函数体
+	 * @param {FunctionConfigType} config 配置项
+	 * @param {string} name 显示名
 	 * @return {*}
 	 * @memberof FunctionCenter
 	 */
-	register(name: string, fn: FunctionCenterFunction, config: FunctionConfigType) {
+	register(id: string, fn: FunctionCenterFunction, config: FunctionConfigType, name: string) {
 		// 注册时，需要通知asyncmap已经拿到
-		this.funcitonMap[name] = fn;
-		if (this.asyncMap[name]) {
-			this.asyncMap[name]();
+		this.funcitonMap[id] = fn;
+		this.configMap[id] = config;
+		this.nameMap[id] = name;
+		if (this.asyncMap[id]) {
+			this.asyncMap[id]();
 		}
-		this.configMap[name] = config;
 		return () => {
-			delete this.funcitonMap[name];
-			delete this.configMap[name];
+			delete this.funcitonMap[id];
+			delete this.configMap[id];
+			delete this.nameMap[id];
 		};
 	}
 
