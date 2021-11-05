@@ -1,5 +1,9 @@
 ## changelog
 
+## 0.10.2
+
+修改timeline选中底色，增加item类名方便修改。
+
 ## 0.10.1
 
 修改timeline类名，方便修改样式。

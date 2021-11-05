@@ -53,6 +53,7 @@ const SortableItem = SortableElement(
 			}}
 		>
 			<div
+				className="yh-timeline-item"
 				onClick={() => {
 					const store = value.config.getStore();
 					const clone = deepcopy(store.getData());
@@ -73,7 +74,7 @@ const SortableItem = SortableElement(
 					minWidth: leftWidth,
 					borderRight: borderColor,
 					borderBottom: borderColor,
-					backgroundColor: value.value.focus ? '#eeeeee' : 'initial',
+					backgroundColor: value.value.focus ? 'rgb(118 118 118)' : 'initial',
 					cursor: 'pointer',
 				}}
 			>
@@ -168,7 +169,7 @@ export function TimeLine(props: TimeLineProps) {
 
 	return (
 		<div
-			className={`${props.classes} ant-menu yh-timeline`}
+			className={`${props.classes} ant-menu yh-timeline-wrap`}
 			style={{
 				width: '100%',
 				position: 'absolute',
