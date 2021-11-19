@@ -13,6 +13,7 @@ This is the repository for DooringX.
 - 🔥 Written in TypeScript
 - 🛠️ Rich Features
 - 🔩 Universal Plugin Interface
+- 🏠 预览 [x.dooring](http://x.dooring.cn/editor/home)
 # 简介 | Brief Intro
 
 dooringx-lib 是 dooringx 的基座，是移除了 dooringx 插件的可视化拖拽框架。
