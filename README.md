@@ -141,7 +141,7 @@ Contributions, issues and feature requests are welcome!.
 
 ### 技术交流 | Technical Communication
 
-<a href="http://x.dooring.cn/editor/static/qrcode.15924f99.png" target="_blank"><img src="http://x.dooring.cn/editor/static/qrcode.15924f99.png" width=260 />dooringx-lib交流群</a>
+<a href="https://user-images.githubusercontent.com/12525636/142570999-f3316751-d63b-4e41-b9c8-a1c2c95be515.png" target="_blank"><img src="https://user-images.githubusercontent.com/12525636/142570999-f3316751-d63b-4e41-b9c8-a1c2c95be515.png" width=260 />dooringx-lib交流群</a>
 
 ## License
 
