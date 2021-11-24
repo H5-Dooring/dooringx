@@ -202,7 +202,9 @@ function LeftConfig(props: LeftConfigProps) {
 						);
 					})}
 				</Menu>
-				<div className={`${styles.menu_footer} yh-menufooter`}>{props.footerConfig}</div>
+				<div className={`${styles.menu_footer} yh-menufooter ant-menu-root ant-menu-vertical`}>
+					{props.footerConfig}
+				</div>
 				<Menu selectedKeys={[]}>
 					<Menu.Item
 						key="1"
