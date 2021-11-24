@@ -12,10 +12,10 @@ const changelog = path.resolve(process.cwd(), 'CHANGELOG.md');
 const doclog = path.resolve(
 	process.cwd(),
 	'packages',
-	'dooringx-doc',
-	'src',
-	'changelog',
-	'1.1.md'
+	'dooringx-dumi-doc',
+	'docs',
+	'ChangeLog',
+	'index.md'
 );
 const isExist = fs.existsSync(doclog);
 if (isExist) {
@@ -23,8 +23,11 @@ if (isExist) {
 }
 
 const prepend = `---
-title: CHANGELOG
-order: 1
+title: 变更日志
+toc: menu
+nav:
+  title: 变更日志
+  order: 6
 ---
 `;
 

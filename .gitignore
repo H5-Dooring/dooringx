@@ -14,3 +14,12 @@ dist
 .umi-production
 .umi-test
 .env.local
+# production
+docs-dist
+
+# misc
+.DS_Store
+
+# ide
+.vscode
+.idea

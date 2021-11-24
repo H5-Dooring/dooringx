@@ -6,9 +6,9 @@
 	"scripts": {
 		"start": "lerna exec npm run start --scope=dooringx-lib",
 		"start:example":"lerna exec npm run start --scope=dooringx-example",
-		"start:doc":"lerna exec npm run start --scope=dooringx-doc",
+		"start:doc":"lerna exec npm run start --scope=dooringx-dumi-doc",
 		"build": "lerna exec npm run build --scope=dooringx-lib",
-		"deploy": "lerna exec npm run deploy --scope=dooringx-doc",
+		"deploy": "lerna exec npm run docs:build --scope=dooringx-dumi-doc",
 		"pub": "node ./script/publish.js",
 		"changelog": "node ./script/changelog.js"
 	},
@@ -30,7 +30,7 @@
 	},
 	"lint-staged": {
 		"*.{js,jsx,tsx,ts,less,md,json}": [
-			"npx prettier --write ./packages/dooringx-doc/src ./packages/dooringx-lib/src",
+			"npx prettier --write ./packages/dooringx-dumi-doc/docs ./packages/dooringx-lib/src",
 			"git add ."
 		]
 	}

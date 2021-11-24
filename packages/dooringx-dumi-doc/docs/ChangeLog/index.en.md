@@ -1,3 +1,11 @@
+---
+title: ChangeLog
+toc: menu
+nav:
+  title: ChangeLog
+  order: 6
+---
+
 
 ## 0.10.2
 

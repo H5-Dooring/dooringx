@@ -1,3 +1,10 @@
+---
+title: 变更日志
+toc: menu
+nav:
+  title: 变更日志
+  order: 6
+---
 
 ## 0.10.2
 
