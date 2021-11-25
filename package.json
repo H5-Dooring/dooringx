@@ -5,23 +5,29 @@
 	],
 	"scripts": {
 		"start": "lerna exec npm run start --scope=dooringx-lib",
-		"start:example":"lerna exec npm run start --scope=dooringx-example",
-		"start:doc":"lerna exec npm run start --scope=dooringx-dumi-doc",
+		"start:example": "lerna exec npm run start --scope=dooringx-example",
+		"start:doc": "lerna exec npm run start --scope=dooringx-dumi-doc",
 		"build": "lerna exec npm run build --scope=dooringx-lib",
 		"deploy": "lerna exec npm run docs:build --scope=dooringx-dumi-doc",
 		"pub": "node ./script/publish.js",
-		"changelog": "node ./script/changelog.js"
+		"changelog": "node ./script/changelog.js",
+		"translate": "node ./script/translate.js",
+		"translateText":"node ./script/translateText.js"
 	},
 	"private": true,
 	"devDependencies": {
-		"lerna": "^3.22.1",
-		"husky": "4.3.0",
-		"lint-staged": "^11.0.0",
-		"rimraf": "^3.0.2",
+		"@types/md5": "^2.3.1",
+		"axios": "^0.24.0",
+		"dotenv": "^10.0.0",
 		"fs-extra": "^10.0.0",
+		"husky": "4.3.0",
+		"lerna": "^3.22.1",
+		"lint-staged": "^11.0.0",
+		"md5": "^2.3.0",
 		"prettier": "^2.2.0",
-		"typescript": "^4.1.2",
-		"tslib": "^2.1.0"
+		"rimraf": "^3.0.2",
+		"tslib": "^2.1.0",
+		"typescript": "^4.1.2"
 	},
 	"husky": {
 		"hooks": {

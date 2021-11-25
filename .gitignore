@@ -23,3 +23,5 @@ docs-dist
 # ide
 .vscode
 .idea
+
+.env

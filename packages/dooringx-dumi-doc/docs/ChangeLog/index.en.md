@@ -1,192 +1,101 @@
 ---
-title: ChangeLog
+title: change log
 toc: menu
 nav:
-  title: ChangeLog
+  title: change log
   order: 6
 ---
-
-
+## 0.10.3
+Fix the left tab color difference problem.
 ## 0.10.2
-
-修改timeline选中底色，增加item类名方便修改。
-
+Modify the timeline, select the background color, and add the item class name to facilitate modification.
 ## 0.10.1
-
-修改timeline类名，方便修改样式。
-
+Modify the timeline class name to facilitate style modification.
 ## 0.10.0
-
-函数名提出name作为单独配置项传递，第一个参数作为id，最后个参数作为函数名，这样函数的显示名称可以支持转换。
-
-弹窗事件如果不传递弹窗名字，则不会出现弹窗。
-
+The function name proposes name as a separate configuration item, the first parameter as ID and the last parameter as function name, so that the display name of the function can support conversion.
+Pop up event if the pop-up name is not passed, no pop-up will appear.
 ## 0.9.5
-
-preview组件scripts加载由并发变为线性。
-
-编辑模式下使用远程组件会储存当前画布状态。
-
+Scripts loading of preview component changes from concurrency to linearity.
+Using remote components in edit mode will save the current canvas state.
 ## 0.9.4
-
-修复preview组件不能解除loading的bug
-
+Fix the bug that the preview component cannot release loading
 ## 0.9.3
-
-增加双击置入画布。
-
-变更元素初始focus状态。
-
-存在元素宽高，则置入时定位于元素中心。
-
+Add double click to place the canvas.
+Change the initial focus state of the element.
+If there is an element width and height, it is positioned at the center of the element when placed.
 ## 0.9.2
-
-增加远程组件调用全流程，component中增加url属性，便于script加载。
-
+Add remote component to call the whole process, and Add URL attribute in component to facilitate script loading.
 ## 0.9.1
-
-增加config.i18n配置，不使用国际化则不需要导入intl的context。
-control组件第一个按钮变更为拖拽，功能合并至timeline
-
+Add config.i18n configuration. If internationalization is not used, there is no need to import the context of Intl.
+The first button of the control component is changed to drag and drop, and the functions are merged into the timeline
 ## 0.9.0
-
-增加react-intl，修改部分样式。
-
+Add react Intl and modify some styles.
 ## 0.8.4
-
-增加preview的属性，可外界控制loading。
+Add the preview attribute to control external loading.
 ## 0.8.3
-
-增加timeline拖动条与选中。
-修复antd menu属性报错。
-
+Add timeline drag bar and select.
+Fix the error reported by the antd menu attribute.
 ## 0.8.2
-
-增加左侧面板配置。
-
-修复timeline闪烁问题。
-
+Add left panel configuration.
+Fix timeline flicker.
 ## 0.8.1
-
-新增动画组件timeline。可以更好预览所有动画。
-
+Add animation component timeline. You can preview all animations better.
 ## 0.8.0
-
-动画部分重构，可支持多动画同时配置。
-
-画布拖动最小值变更为0。
-
-
+The animation part is reconstructed, which can support the simultaneous configuration of multiple animations.
+The minimum value of canvas drag is changed to 0.
 ## 0.7.7
-
-优化画布拖拽逻辑，更平滑移动。
-
+Optimize the canvas drag logic to move more smoothly.
 ## 0.7.6
-
-右侧自定义rightGlobalCustom类型变更为函数传入config
-
+The custom rightglobalcustom type on the right is changed to the function passed in config
 ## 0.7.5
-
-修改滚轮方向。
-
-
+Change the roller direction.
 ## 0.7.4
-
-修复框选移动bug。
-
-
+Fix box move bug.
 ## 0.7.3
-
-修复弹窗位置与选中问题。
-
-
+Fix pop-up location and selection issues.
 ## 0.7.2
-
-修复锁定组件影响，锁定中无法拖拽，缩放，旋转。
-
+Fix the impact of locking components. You can't drag, zoom or rotate during locking.
 ## 0.7.1
-
-修复锁定组件无法选中解锁。
-
-
+The repair lock component cannot be unlocked.
 ## 0.7.0
-
-已支持组件旋转！
-
-修复拖拽参考线等优化逻辑。
-
+Component rotation is supported!
+Fix optimization logic such as dragging guides.
 ## 0.6.0
-
-已支持编辑模式使用Iframe！
-
-修复选中条件。
-
-
+The use of iframe in edit mode is supported!
+Repair the selected condition.
 ## 0.5.1
-
-修复右侧选中不能取消选中问题。
-
+Fix the problem on the right that cannot be unchecked.
 ## 0.5.0
-
-修复control组件宽度不够问题。
-
-移除antd自定义icon，容器底部icon可配置。
-
+Fix the problem that the control component is not wide enough.
+Remove the antd custom icon, and the icon at the bottom of the container can be configured.
 ## 0.4.2
-
-修复animate错误初始值。
-
-修改markline样式。
-
-全局设置增加容器高度。
+Fix animation error initial value.
+Modify the markline style.
+Global settings increase container height.
 ## 0.4.1
-
-去除lib自动导入样式。
-
+Remove the Lib auto import style.
 ## 0.4.0
-
-去除runtime导出，所有属性从config中获取。
-
+Remove the runtime export and get all properties from config.
 ## 0.3.1
-
-1、由uuid更换为nanoid。
-
-2、control组件增加标尺控制。
-
+1. Replace UUID with nanoid.
+2. Control component adds ruler control.
 ## 0.3.0 
-
-1、增加标尺，ContainerWrapper需要传递config才可使用。
-
-2、修改容器最小拖动667。修复画布缩放下拖拽时与鼠标距离不一致。
-
-3、innerContainerDragUp需要传递config。
-
+1. Add a ruler. The containerwrapper needs to pass config before it can be used.
+2. Modify container minimum drag 667. Fix the inconsistency with the mouse distance when the canvas is zoomed down and dragged.
+3. Innercontainerdragup needs to pass config.
 ## 0.2.0 
-
-commander的传递进行修改，可以获得config了，commander不再从index中导出 ，需要使用时从config中获取。增加左侧类名，方便自定义。
-
+Modify the transfer of the commander to obtain the config. The commander is no longer exported from the index. When it needs to be used, it is obtained from the config. Add the class name on the left to facilitate customization.
 ## 0.1.10 
-
-修改eslint依赖推荐
-
-
+Modify eslint dependency recommendation
 ## 0.1.9 
-
-增加全局body设置
-
+Add global body settings
 ## 0.1.8 
-
-增加弹窗设置，移除modalContainer
-
+Add pop-up settings and remove modalcontainer
 ## 0.1.7 
-
-修改预览特殊条件显示，删除console
+Modify the preview special condition display and delete the console
 ## 0.1.6 
-
-调整初始缩放，画布初始比例，增加回正画布功能。
+Adjust the initial zoom, the initial scale of the canvas, and add the function of righting the canvas.
 ## 0.1.5 
-
-删除未作按钮，增加fixed配置
+Delete the button not made and add the fixed configuration
 ## 0.1.4 
-
-基础功能
+Basic functions
