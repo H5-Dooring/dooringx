@@ -26,7 +26,7 @@ export interface ComponentItem {
 	props: Record<string, CreateOptionsResAll[]>; // 配置属性
 	render: (data: IBlockType, context: any, store: Store, config: UserConfig) => JSX.Element;
 	destroy: () => void;
-	url: string;
+	remoteConfig: Record<string, any>;
 }
 export type ComponentRenderConfigProps = {
 	data: IBlockType;

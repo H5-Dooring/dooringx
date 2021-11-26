@@ -361,6 +361,7 @@ export class UserConfig {
 	public SCRIPTGLOBALNAME = 'DOORINGXPLUGIN';
 	public scriptLoading = false;
 	public leftForceUpdate = () => {};
+	public customMap: Record<string, any> = {};
 	constructor(initConfig?: Partial<InitConfig>) {
 		const mergeConfig = userConfigMerge(defaultConfig, initConfig);
 		this.initConfig = mergeConfig;

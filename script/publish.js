@@ -11,6 +11,7 @@ const spawn = require('child_process').spawn;
 const execSync = require('child_process').execSync;
 const root = process.cwd();
 execSync('npm run changelog');
+execSync('npm run translate');
 const rootPath = path.resolve(root, 'packages', 'dooringx-lib');
 const templatePath = path.resolve(root, 'packages', 'dooringx-plugin-template');
 const templateJsonPath = path.resolve(templatePath, 'template', 'template.json');

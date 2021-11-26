@@ -5,6 +5,9 @@ nav:
   title: change log
   order: 6
 ---
+## 0.10.4
+Config adds a new custommap transfer to store temporary data that is not brought into JSON.
+The remote component configuration is changed from URL to object to store more configurations.
 ## 0.10.3
 Fix the left tab color difference problem.
 ## 0.10.2

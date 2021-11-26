@@ -18,6 +18,6 @@ export class ComponentItemFactory implements ComponentItem {
 		public needPosition: ComponentItem['needPosition'] = true,
 		public init: ComponentItem['init'] = () => {},
 		public destroy: ComponentItem['destroy'] = () => {},
-		public url: ComponentItem['url'] = ''
+		public remoteConfig: ComponentItem['remoteConfig'] = {}
 	) {}
 }

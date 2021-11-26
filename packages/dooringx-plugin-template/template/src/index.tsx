@@ -51,7 +51,8 @@ const remoteCo = new ComponentItemFactory(
 	},
 	true
 );
-remoteCo.url =
-	"https://img.guguzhu.com/d/file/android/ico/2021/09/08/rytzi2w34tm.png";
+remoteCo.remoteConfig = {
+	url: "https://img.guguzhu.com/d/file/android/ico/2021/09/08/rytzi2w34tm.png",
+};
 
 export default remoteCo;
