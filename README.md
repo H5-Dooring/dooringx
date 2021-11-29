@@ -142,7 +142,10 @@ Contributions, issues and feature requests are welcome!.
 
 ### 技术交流 | Technical Communication
 
-<a href="https://user-images.githubusercontent.com/12525636/142570999-f3316751-d63b-4e41-b9c8-a1c2c95be515.png" target="_blank"><img src="https://user-images.githubusercontent.com/12525636/142570999-f3316751-d63b-4e41-b9c8-a1c2c95be515.png" width=260 />dooringx-lib交流群</a>
+<a href="https://user-images.githubusercontent.com/12525636/143815456-9d056876-2a0b-4564-8372-1cfca76b690e.png" target="_blank"><img src="https://user-images.githubusercontent.com/12525636/143815456-9d056876-2a0b-4564-8372-1cfca76b690e.png" width=260 />dooringx-lib技术交流与反馈</a>
+
+
+
 
 ## License
 
