@@ -5,7 +5,7 @@ hero:
   background: https://images.tuyacn.com/rms-static/b2994480-b3df-11eb-8b85-1990e48a4eb7-1620905892040.png?tyName=210513docs_bg.png
   image: https://img-blog.csdnimg.cn/img_convert/520863a38a93d960862f92c805bc97cc.png#pic_center
   actions:
-    - link: /docs
+    - link: /guide
       text: Get started 
 features:
   - icon: https://yehuozhili-1259443377.cos.ap-nanjing.myqcloud.com/boxes.png
