@@ -53,6 +53,15 @@ const ContextMenu = () => {
 			<div
 				style={{ width: '100%' }}
 				onClick={() => {
+					commander.exec('hide');
+					handleclick();
+				}}
+			>
+				<Button style={{ width: '100%' }}>隐藏</Button>
+			</div>
+			<div
+				style={{ width: '100%' }}
+				onClick={() => {
 					commander.exec('lock');
 					handleclick();
 				}}

@@ -34,6 +34,7 @@ export function createBlock(
 		height: ComponentItem.initData.height,
 		syncList: ComponentItem.initData.syncList || [],
 		canDrag: ComponentItem.initData.canDrag ?? true,
+		canSee: ComponentItem.initData.canSee ?? true,
 		eventMap: ComponentItem.initData.eventMap || {},
 		functionList: ComponentItem.initData.functionList || [],
 		animate: ComponentItem.initData.animate || [],

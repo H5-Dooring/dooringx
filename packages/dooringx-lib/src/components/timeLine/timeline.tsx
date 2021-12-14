@@ -11,7 +11,13 @@ import { SortableContainer, SortableElement, SortableHandle, SortEnd } from 'rea
 import UserConfig from '../../config';
 import { IBlockType, IStoreData } from '../../core/store/storetype';
 import { arrayMove } from '../../core/utils';
-import { DeleteOutlined, MenuOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import {
+	DeleteOutlined,
+	EyeInvisibleOutlined,
+	EyeOutlined,
+	MenuOutlined,
+	PlayCircleOutlined,
+} from '@ant-design/icons';
 import {
 	TimeLineItem,
 	itemHeight,
@@ -83,7 +89,24 @@ const SortableItem = SortableElement(
 				</div>
 				<div>{value.config.getComponentRegister().getMap()[value.value.name].display}</div>
 				<div>{value.value.id.slice(-6)}</div>
-				<div style={{ marginLeft: 5 }}>
+				<div style={{ marginLeft: 5, flex: 1, textAlign: 'right', paddingRight: 5 }}>
+					<span
+						style={{ marginRight: 5 }}
+						onClick={() => {
+							const store = value.config.getStore();
+							const clone = deepcopy(store.getData());
+							clone.block = clone.block.map((v) => {
+								if (v.id === value.value.id && !specialCoList.includes(value.value.name)) {
+									v.canSee = !v.canSee;
+									return v;
+								}
+								return v;
+							});
+							store.setData(clone);
+						}}
+					>
+						{value.value.canSee ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+					</span>
 					<Popconfirm
 						title={replaceLocale('control.popup.delete', '确认删除么', value.config)}
 						onConfirm={() => {

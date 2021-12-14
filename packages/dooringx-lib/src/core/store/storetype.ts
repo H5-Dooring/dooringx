@@ -41,6 +41,7 @@ export interface IBlockType {
 	focus: boolean;
 	resize: boolean;
 	canDrag: boolean;
+	canSee: boolean;
 	props: Record<string, any>;
 	syncList: Array<string>;
 	eventMap: EventCenterMapType; //调用的event 与对应的函数名 如果要增加参数，则类型不能是Array<string>,需要[{name:string,...args}]

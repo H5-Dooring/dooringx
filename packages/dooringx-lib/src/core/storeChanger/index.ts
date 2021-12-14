@@ -33,6 +33,7 @@ function createDefaultModalBlock(): IStoreData['block'] {
 			props: {},
 			resize: true,
 			focus: false,
+			canSee: true,
 			position: 'absolute',
 			display: 'block',
 			syncList: [],
