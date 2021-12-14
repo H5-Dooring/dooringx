@@ -1,4 +1,9 @@
 
+
+## 0.11.0
+
+修改timeline样式，增加cansee属性，便于编辑时隐藏。
+
 ## 0.10.4
 
 config新增custommap传递，用于存放不带入json的临时数据。
