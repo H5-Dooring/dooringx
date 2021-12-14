@@ -52,10 +52,11 @@ const concatResult = (result) => {
 			if (v.src.startsWith('title:') && v.dst.startsWith('Title:')) {
 				v.dst = v.dst.replace('Title:', 'title:');
 			}
+			const fi = v.src.startsWith('##') ? v.src : v.dst;
 			if (i > navstart && i < line) {
-				finalResult = finalResult + `\r\n  ` + v.dst;
+				finalResult = finalResult + `\r\n  ` + fi;
 			} else {
-				finalResult = finalResult + '\r\n' + v.dst;
+				finalResult = finalResult + '\r\n' + fi;
 			}
 		}
 	});
