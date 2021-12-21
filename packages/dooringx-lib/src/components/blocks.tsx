@@ -146,7 +146,12 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						width: props.data.width,
 						height: props.data.height,
 						zIndex: props.data.zIndex,
-						display: props.data.canSee ? props.data.display : 'none',
+						display:
+							typeof props.data.canSee === 'boolean'
+								? props.data.canSee
+									? props.data.display
+									: 'none'
+								: props.data.display,
 						opacity: props.iframe ? 0 : 1,
 						transform: `rotate(${props.data.rotate.value}deg)`,
 					}}
