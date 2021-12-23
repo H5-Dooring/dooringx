@@ -5,6 +5,8 @@ nav:
   title: change log
   order: 6
 ---
+## 0.11.1
+Compatible with legacy properties
 ## 0.11.0
 Modify the timeline style and add cansee attribute to hide it during editing.
 ## 0.10.4
