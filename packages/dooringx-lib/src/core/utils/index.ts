@@ -310,3 +310,25 @@ export function getContainer() {
 	}
 	return container;
 }
+
+export function binarySearchRemain<T extends Record<string, number>>(
+	target: number,
+	arr: Array<T>,
+	attribute: keyof T,
+	indent: number
+) {
+	let start = 0;
+	let end = arr.length - 1;
+
+	while (start <= end) {
+		var mid = parseInt(start + (end - start) / 2 + '');
+		if (target === arr[mid][attribute] || Math.abs(target - arr[mid][attribute]) < indent) {
+			return arr[mid];
+		} else if (target > arr[mid][attribute]) {
+			start = mid + 1;
+		} else {
+			end = mid - 1;
+		}
+	}
+	return null;
+}

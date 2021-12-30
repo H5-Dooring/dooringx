@@ -2,14 +2,15 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-27 15:33:35
+ * @LastEditTime: 2021-12-31 00:25:43
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\calcRender.ts
  */
 import { innerDragState } from '../innerDrag/state';
 import { newMarklineDisplay } from './normalMode';
 import { marklineConfig } from './marklineConfig';
 import UserConfig from '../../config';
-import { angleToRadian, getContainer } from '../utils';
+import { angleToRadian, binarySearchRemain, getContainer } from '../utils';
+import { marklineState, RealStyleType } from './state';
 export interface LinesTypes {
 	x: number[];
 	y: number[];
@@ -101,23 +102,91 @@ export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTyp
 		}
 		const unfocus = marklineConfig.marklineUnfocus;
 		const len = unfocus.length;
-		for (let i = 0; i < len; i++) {
-			const v = unfocus[i];
-			const l = v?.left;
-			const t = v?.top;
-			const w = v?.width;
-			const h = v?.height;
-			if (
-				typeof l === 'number' &&
-				typeof t === 'number' &&
-				typeof w === 'number' &&
-				typeof h === 'number'
-			) {
-				const ro = v.rotate.value;
-				const rstyle = getComponentRotatedStyle(ro, w, h, l, t);
-				newMarklineDisplay(realStyle, rstyle, lines, focus);
-				if (lines.x.length !== 0 || lines.y.length !== 0) {
-					break;
+
+		// 只要cache里有东西，说明有缓存
+		if (marklineState.cache) {
+			if (!marklineState.sortLeft) {
+				marklineState.sortLeft = Object.values(marklineState.cache).sort((a, b) => {
+					return a.left - b.left;
+				});
+			}
+			if (!marklineState.sortTop) {
+				marklineState.sortTop = Object.values(marklineState.cache).sort((a, b) => {
+					return a.top - b.top;
+				});
+			}
+			if (!marklineState.sortBottom) {
+				marklineState.sortBottom = Object.values(marklineState.cache).sort((a, b) => {
+					return a.bottom - b.bottom;
+				});
+			}
+			if (!marklineState.sortRight) {
+				marklineState.sortRight = Object.values(marklineState.cache).sort((a, b) => {
+					return a.right - b.right;
+				});
+			}
+			const indexLeft = binarySearchRemain<RealStyleType>(
+				realStyle.left,
+				marklineState.sortLeft,
+				'left',
+				marklineConfig.indent
+			);
+			if (indexLeft) {
+				newMarklineDisplay(realStyle, indexLeft, lines, focus);
+			}
+			const indexTop = binarySearchRemain<RealStyleType>(
+				realStyle.top,
+				marklineState.sortTop,
+				'top',
+				marklineConfig.indent
+			);
+			if (indexTop) {
+				newMarklineDisplay(realStyle, indexTop, lines, focus);
+			}
+			const indexRight = binarySearchRemain<RealStyleType>(
+				realStyle.right,
+				marklineState.sortRight,
+				'right',
+				marklineConfig.indent
+			);
+			if (indexRight) {
+				newMarklineDisplay(realStyle, indexRight, lines, focus);
+			}
+			const indexBottom = binarySearchRemain<RealStyleType>(
+				realStyle.bottom,
+				marklineState.sortBottom,
+				'bottom',
+				marklineConfig.indent
+			);
+			if (indexBottom) {
+				newMarklineDisplay(realStyle, indexBottom, lines, focus);
+			}
+		} else {
+			for (let i = 0; i < len; i++) {
+				const v = unfocus[i];
+				const l = v?.left;
+				const t = v?.top;
+				const w = v?.width;
+				const h = v?.height;
+				if (
+					typeof l === 'number' &&
+					typeof t === 'number' &&
+					typeof w === 'number' &&
+					typeof h === 'number'
+				) {
+					const ro = v.rotate.value;
+					const rstyle = getComponentRotatedStyle(ro, w, h, l, t);
+					if (!marklineState.cache) {
+						marklineState.cache = {
+							[v.id]: rstyle,
+						};
+					} else {
+						marklineState.cache[v.id] = rstyle;
+					}
+					newMarklineDisplay(realStyle, rstyle, lines, focus);
+					// if (lines.x.length !== 0 || lines.y.length !== 0) {
+					// 	break; 这里不能break要算完所有值
+					// }
 				}
 			}
 		}

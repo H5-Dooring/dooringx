@@ -13,6 +13,7 @@ This is the repository for DooringX.
 - 🔥 Written in TypeScript
 - 🛠️ Rich Features
 - 🔩 Universal Plugin Interface
+- 🔥 website: [官网地址](http://x.dooring.cn/dooringx-org)
 - 🏠 预览 [x.dooring](http://x.dooring.cn/editor/home)
 # 简介 | Brief Intro
 

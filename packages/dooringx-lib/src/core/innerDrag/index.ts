@@ -12,6 +12,7 @@ import { innerDragState } from './state';
 import UserConfig from '../../config';
 import { rotateMouseMove, rotateMouseUp } from '../rotateHandler';
 import { specialCoList } from '../utils/special';
+import { marklineState } from '../markline/state';
 
 export const innerDrag = function (
 	item: IBlockType,
@@ -133,6 +134,11 @@ export const innerContainerDragUp = function (config: UserConfig) {
 	const store = config.getStore();
 	const onMouseUp = (e: React.MouseEvent) => {
 		// e.preventDefault(); 这个会导致无法取消选中
+		marklineState.cache = null;
+		marklineState.sortLeft = null;
+		marklineState.sortTop = null;
+		marklineState.sortRight = null;
+		marklineState.sortBottom = null;
 		iframeWrapperMove(config);
 		wrapperMoveMouseUp(config);
 		selectRangeMouseUp(e, config);
