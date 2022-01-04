@@ -64,7 +64,6 @@ export const wrapperEvent = (ref: RefObject<HTMLDivElement>, config: UserConfig)
 };
 export const wrapperMoveMouseUp = (config: UserConfig) => {
 	if (wrapperMoveState.ref && wrapperMoveState.ref.current) {
-		wrapperMoveState.ref.current.style.cursor = 'default';
 	}
 	containerResizer.onMouseUp(config);
 	wrapperMoveState.isDrag = false;

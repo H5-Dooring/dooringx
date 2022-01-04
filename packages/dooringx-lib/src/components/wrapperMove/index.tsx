@@ -12,6 +12,7 @@ import React from 'react';
 import Ticker from './ticker';
 import UserConfig from '../../config';
 import TimeLine from '../timeLine/timeline';
+import styles from '../../index.less';
 
 export interface ContainerWrapperProps extends AllHTMLAttributes<HTMLDivElement> {
 	config: UserConfig;
@@ -25,7 +26,7 @@ function ContainerWrapper(props: PropsWithChildren<ContainerWrapperProps>) {
 	const ticker = props.config.ticker;
 	return (
 		<div
-			className={`ant-menu ${classNames ? classNames : ''}`}
+			className={`ant-menu ${classNames ? classNames : ''} ${styles.yh_container_wrapper}`}
 			ref={ref}
 			style={{
 				backgroundColor: '#f0f0f0',

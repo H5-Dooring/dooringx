@@ -5,6 +5,9 @@ nav:
   title: change log
   order: 6
 ---
+## 0.11.3
+Add rotation return function.
+Optimize mouse style.
 ## 0.11.2
 Optimize drag speed
 ## 0.11.1

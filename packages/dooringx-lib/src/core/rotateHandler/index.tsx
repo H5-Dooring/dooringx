@@ -8,10 +8,10 @@
 import React from 'react';
 import { RefObject, useMemo } from 'react';
 import UserConfig from '../../config';
-import { IBlockType } from '../store/storetype';
+import { IBlockType, IStoreData } from '../store/storetype';
 import styles from '../../index.less';
 import { deepCopy } from '../utils';
-import { ReloadOutlined } from '@ant-design/icons';
+import { ReloadOutlined, RotateLeftOutlined } from '@ant-design/icons';
 
 interface rotateStateType {
 	startX: number;
@@ -97,6 +97,7 @@ export function RotateResizer(props: RotateResizerProps) {
 						onMouseDown(e, props.data, props.rect, props.config);
 					}}
 					className={styles.rotate}
+					title={'rotate'}
 				>
 					<ReloadOutlined
 						style={{
@@ -109,6 +110,40 @@ export function RotateResizer(props: RotateResizerProps) {
 			return null;
 		}
 	}, [props.config, props.data, props.rect]);
+
+	return <>{render}</>;
+}
+
+const resetResolve = (e: React.MouseEvent, item: IBlockType, config: UserConfig) => {
+	e.stopPropagation();
+	const store = config.getStore();
+	const clonedata: IStoreData = deepCopy(store.getData());
+	clonedata.block.forEach((v) => {
+		if (v.id === item.id) {
+			v.rotate.value = 0;
+		}
+	});
+	store.setData(clonedata);
+};
+
+export function RotateReset(props: RotateResizerProps) {
+	const render = useMemo(() => {
+		if (props.data.focus && props.data.rotate.canRotate && props.data.canDrag) {
+			return (
+				<div
+					onMouseDown={(e) => {
+						resetResolve(e, props.data, props.config);
+					}}
+					className={styles.rotatereset}
+					title={'rotate reset'}
+				>
+					<RotateLeftOutlined />
+				</div>
+			);
+		} else {
+			return null;
+		}
+	}, [props.config, props.data]);
 
 	return <>{render}</>;
 }

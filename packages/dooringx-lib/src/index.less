@@ -72,6 +72,7 @@
 }
 
 .yh_block_focus {
+	cursor: move;
 	&::before {
 		position: absolute;
 		top: -3px;
@@ -202,4 +203,17 @@
 	left: calc(50% - 10px);
 	cursor: grab;
 	font-size: 20px;
+}
+.rotatereset {
+	position: absolute;
+	top: -35px;
+	left: calc(100% - 15px);
+	cursor: pointer;
+	font-size: 20px;
+	color: gray;
+}
+.yh_container_wrapper {
+	&:hover {
+		cursor: grab;
+	}
 }

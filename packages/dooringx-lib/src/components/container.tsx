@@ -60,6 +60,7 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 									backgroundColor: bgColor(),
 									position: 'relative',
 									overflow: 'hidden',
+									cursor: 'default',
 									...editContainerStyle,
 								}}
 								{...(props.context === 'edit' ? containerDragResolve(props.config) : null)}

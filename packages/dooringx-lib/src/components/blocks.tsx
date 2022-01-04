@@ -7,7 +7,7 @@ import React from 'react';
 import { transfer } from '../core/transfer';
 import { UserConfig } from '../config';
 import styles from '../index.less';
-import { RotateResizer } from '../core/rotateHandler';
+import { RotateReset, RotateResizer } from '../core/rotateHandler';
 interface BlockProps {
 	data: IBlockType;
 	context: 'edit' | 'preview';
@@ -185,6 +185,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 					)}
 					<BlockResizer data={props.data} config={props.config} rect={ref}></BlockResizer>
 					<RotateResizer data={props.data} config={props.config} rect={ref}></RotateResizer>
+					<RotateReset data={props.data} config={props.config} rect={ref}></RotateReset>
 				</div>
 			);
 		} else {

@@ -143,7 +143,6 @@ export const innerContainerDragUp = function (config: UserConfig) {
 		wrapperMoveMouseUp(config);
 		selectRangeMouseUp(e, config);
 		if (innerDragState.ref && innerDragState.ref.current) {
-			innerDragState.ref.current.style.cursor = 'default';
 			innerDragState.ref.current.style.willChange = 'auto';
 		}
 		resizerMouseUp(config);

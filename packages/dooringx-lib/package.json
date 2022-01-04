@@ -1,5 +1,5 @@
 {
-	"version": "0.11.2",
+	"version": "0.11.3",
 	"license": "MIT",
 	"main": "dist/index.js",
 	"module": "dist/dooringx-lib.esm.js",
@@ -50,5 +50,9 @@
 		"react-color": "^2.19.3",
 		"react-intl": "^5.20.10",
 		"react-sortable-hoc": "^2.0.0"
-	}
+	},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/H5-Dooring/dooringx.git"
+  }
 }
