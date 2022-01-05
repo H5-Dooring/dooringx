@@ -6,7 +6,7 @@
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\calcRender.ts
  */
 import { innerDragState } from '../innerDrag/state';
-import { newMarklineDisplay } from './normalMode';
+import { marklineDisplay, newMarklineDisplay } from './normalMode';
 import { marklineConfig } from './marklineConfig';
 import UserConfig from '../../config';
 import { angleToRadian, binarySearchRemain, getContainer } from '../utils';
@@ -125,6 +125,13 @@ export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTyp
 					return a.right - b.right;
 				});
 			}
+			// 划线的元素不应该冲突
+			// 当横向或者纵向已经吸附过，则后续不进行吸附，差值为0则划线。
+			// 未吸附过时的第一次划线会带吸附，后续按上述走
+			const dirty = {
+				dirtyX: false,
+				dirtyY: false,
+			};
 			const indexLeft = binarySearchRemain<RealStyleType>(
 				realStyle.left,
 				marklineState.sortLeft,
@@ -132,7 +139,77 @@ export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTyp
 				marklineConfig.indent
 			);
 			if (indexLeft) {
-				newMarklineDisplay(realStyle, indexLeft, lines, focus);
+				marklineDisplay(realStyle, indexLeft[0], lines, focus, indexLeft[1], dirty, 'left');
+			}
+
+			const indexLeftRight = binarySearchRemain<RealStyleType>(
+				realStyle.left,
+				marklineState.sortRight,
+				'right',
+				marklineConfig.indent
+			);
+			if (indexLeftRight) {
+				marklineDisplay(
+					realStyle,
+					indexLeftRight[0],
+					lines,
+					focus,
+					indexLeftRight[1],
+					dirty,
+					'l-r'
+				);
+			}
+			const indexRightLeft = binarySearchRemain<RealStyleType>(
+				realStyle.right,
+				marklineState.sortLeft,
+				'left',
+				marklineConfig.indent
+			);
+			if (indexRightLeft) {
+				marklineDisplay(
+					realStyle,
+					indexRightLeft[0],
+					lines,
+					focus,
+					indexRightLeft[1],
+					dirty,
+					'r-l'
+				);
+			}
+
+			const indexTopBottom = binarySearchRemain<RealStyleType>(
+				realStyle.top,
+				marklineState.sortBottom,
+				'bottom',
+				marklineConfig.indent
+			);
+			if (indexTopBottom) {
+				marklineDisplay(
+					realStyle,
+					indexTopBottom[0],
+					lines,
+					focus,
+					indexTopBottom[1],
+					dirty,
+					't-b'
+				);
+			}
+			const indexBottomTop = binarySearchRemain<RealStyleType>(
+				realStyle.bottom,
+				marklineState.sortTop,
+				'top',
+				marklineConfig.indent
+			);
+			if (indexBottomTop) {
+				marklineDisplay(
+					realStyle,
+					indexBottomTop[0],
+					lines,
+					focus,
+					indexBottomTop[1],
+					dirty,
+					'b-t'
+				);
 			}
 			const indexTop = binarySearchRemain<RealStyleType>(
 				realStyle.top,
@@ -141,7 +218,7 @@ export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTyp
 				marklineConfig.indent
 			);
 			if (indexTop) {
-				newMarklineDisplay(realStyle, indexTop, lines, focus);
+				marklineDisplay(realStyle, indexTop[0], lines, focus, indexTop[1], dirty, 'top');
 			}
 			const indexRight = binarySearchRemain<RealStyleType>(
 				realStyle.right,
@@ -150,7 +227,7 @@ export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTyp
 				marklineConfig.indent
 			);
 			if (indexRight) {
-				newMarklineDisplay(realStyle, indexRight, lines, focus);
+				marklineDisplay(realStyle, indexRight[0], lines, focus, indexRight[1], dirty, 'right');
 			}
 			const indexBottom = binarySearchRemain<RealStyleType>(
 				realStyle.bottom,
@@ -159,7 +236,7 @@ export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTyp
 				marklineConfig.indent
 			);
 			if (indexBottom) {
-				newMarklineDisplay(realStyle, indexBottom, lines, focus);
+				marklineDisplay(realStyle, indexBottom[0], lines, focus, indexBottom[1], dirty, 'bottom');
 			}
 		} else {
 			for (let i = 0; i < len; i++) {

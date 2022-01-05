@@ -5,6 +5,9 @@ nav:
   title: change log
   order: 6
 ---
+## 0.11.4
+Fix guide line bug
+Optimized drag and drop algorithm
 ## 0.11.3
 Add rotation return function.
 Optimize mouse style.

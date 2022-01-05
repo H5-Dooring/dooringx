@@ -11,6 +11,134 @@ export interface RealStyle {
 	bottom: number;
 }
 
+/**
+ *
+ *
+ * @export 吸附间距之前已经算出，该函数直接做处理
+ * @param {RealStyle} focusStyle
+ * @param {RealStyle} unFocusStyle
+ * @param {LinesTypes} lines
+ * @param {IBlockType} focus
+ * @param {number} diff 绝对值
+ * @param {('left' | 'top' | 'bottom' | 'right' | 't-b' | 'b-t' |  'l-r' |  'r-l')} direction
+ */
+export function marklineDisplay(
+	focusStyle: RealStyle,
+	unFocusStyle: RealStyle,
+	lines: LinesTypes,
+	focus: IBlockType,
+	diff: number,
+	dirty: { dirtyX: boolean; dirtyY: boolean },
+	direction: 'left' | 'top' | 'bottom' | 'right' | 't-b' | 'b-t' | 'l-r' | 'r-l'
+) {
+	const { top, height, left, width } = focusStyle;
+	let { dirtyX, dirtyY } = dirty;
+	const { top: t, height: h, left: l, width: w } = unFocusStyle;
+	let diffY = 0;
+	let diffX = 0;
+	switch (direction) {
+		case 'left':
+			if (dirtyY) {
+				if (diff === 0) {
+					lines.y.push(l);
+				}
+			} else {
+				lines.y.push(l);
+				diffX = l - left;
+				dirtyY = true;
+			}
+			break;
+		case 'right':
+			if (dirtyY) {
+				if (diff === 0) {
+					lines.y.push(l + w);
+				}
+			} else {
+				lines.y.push(l + w);
+				diffX = l + w - left - width;
+				dirtyY = true;
+			}
+			break;
+		case 'l-r':
+			if (dirtyY) {
+				if (diff === 0) {
+					lines.y.push(l + w);
+				}
+			} else {
+				lines.y.push(l + w);
+				diffX = l + w - left;
+				dirtyY = true;
+			}
+			break;
+		case 'r-l':
+			if (dirtyY) {
+				if (diff === 0) {
+					lines.y.push(l);
+				}
+			} else {
+				lines.y.push(l);
+				diffX = l - (left + width);
+				dirtyY = true;
+			}
+			break;
+		case 'top':
+			if (dirtyX) {
+				if (diff === 0) {
+					lines.x.push(t);
+				}
+			} else {
+				lines.x.push(t);
+				diffY = t - top;
+				dirtyX = true;
+			}
+			break;
+		case 'bottom':
+			if (dirtyX) {
+				if (diff === 0) {
+					lines.x.push(t + h);
+				}
+			} else {
+				lines.x.push(t + h);
+				diffY = (t + h - top - height) / 2;
+				dirtyX = true;
+			}
+			break;
+		case 't-b':
+			if (dirtyX) {
+				if (diff === 0) {
+					lines.x.push(t + h);
+				}
+			} else {
+				lines.x.push(t + h);
+				diffY = (t + h - top) / 2;
+				dirtyX = true;
+			}
+			break;
+		case 'b-t':
+			if (dirtyX) {
+				if (diff === 0) {
+					lines.x.push(t);
+				}
+			} else {
+				lines.x.push(t);
+				diffY = t - (top + height);
+				dirtyX = true;
+			}
+			break;
+	}
+	focus.top = Math.round(focus.top + diffY);
+	focus.left = Math.round(focus.left + diffX);
+}
+
+/**
+ *
+ * 第一次运算时需要
+ * @export
+ * @param {RealStyle} focusStyle
+ * @param {RealStyle} unFocusStyle
+ * @param {LinesTypes} lines
+ * @param {IBlockType} focus
+ */
 export function newMarklineDisplay(
 	focusStyle: RealStyle,
 	unFocusStyle: RealStyle,
@@ -116,6 +244,10 @@ export function newMarklineDisplay(
 	focus.left = Math.round(focus.left + diffX);
 }
 
+/**
+ *
+ * @deprecated
+ */
 export function switchMarklineDisplay(
 	l: number,
 	t: number,
@@ -303,6 +435,9 @@ export function switchMarklineDisplay(
 	}
 }
 
+/**
+ * @todo 暂时无效
+ */
 export function switchMarklineResizeDisplay(
 	l: number,
 	t: number,
