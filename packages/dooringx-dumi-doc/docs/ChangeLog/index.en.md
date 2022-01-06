@@ -5,6 +5,9 @@ nav:
   title: change log
   order: 6
 ---
+## 0.11.5
+Fix reference line adsorption and wrong displacement bug
+Change the position of the rotation justification
 ## 0.11.4
 Fix guide line bug
 Optimized drag and drop algorithm

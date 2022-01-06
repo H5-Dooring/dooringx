@@ -176,7 +176,6 @@ export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTyp
 					'r-l'
 				);
 			}
-
 			const indexTopBottom = binarySearchRemain<RealStyleType>(
 				realStyle.top,
 				marklineState.sortBottom,

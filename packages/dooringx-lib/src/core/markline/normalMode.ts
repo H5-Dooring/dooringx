@@ -32,97 +32,96 @@ export function marklineDisplay(
 	direction: 'left' | 'top' | 'bottom' | 'right' | 't-b' | 'b-t' | 'l-r' | 'r-l'
 ) {
 	const { top, height, left, width } = focusStyle;
-	let { dirtyX, dirtyY } = dirty;
 	const { top: t, height: h, left: l, width: w } = unFocusStyle;
 	let diffY = 0;
 	let diffX = 0;
 	switch (direction) {
 		case 'left':
-			if (dirtyY) {
-				if (diff === 0) {
+			if (dirty.dirtyY) {
+				if (diff <= 1) {
 					lines.y.push(l);
 				}
 			} else {
 				lines.y.push(l);
 				diffX = l - left;
-				dirtyY = true;
+				dirty.dirtyY = true;
 			}
 			break;
 		case 'right':
-			if (dirtyY) {
-				if (diff === 0) {
+			if (dirty.dirtyY) {
+				if (diff <= 1) {
 					lines.y.push(l + w);
 				}
 			} else {
 				lines.y.push(l + w);
 				diffX = l + w - left - width;
-				dirtyY = true;
+				dirty.dirtyY = true;
 			}
 			break;
 		case 'l-r':
-			if (dirtyY) {
-				if (diff === 0) {
+			if (dirty.dirtyY) {
+				if (diff <= 1) {
 					lines.y.push(l + w);
 				}
 			} else {
 				lines.y.push(l + w);
 				diffX = l + w - left;
-				dirtyY = true;
+				dirty.dirtyY = true;
 			}
 			break;
 		case 'r-l':
-			if (dirtyY) {
-				if (diff === 0) {
+			if (dirty.dirtyY) {
+				if (diff <= 1) {
 					lines.y.push(l);
 				}
 			} else {
 				lines.y.push(l);
 				diffX = l - (left + width);
-				dirtyY = true;
+				dirty.dirtyY = true;
 			}
 			break;
 		case 'top':
-			if (dirtyX) {
-				if (diff === 0) {
+			if (dirty.dirtyX) {
+				if (diff <= 1) {
 					lines.x.push(t);
 				}
 			} else {
 				lines.x.push(t);
 				diffY = t - top;
-				dirtyX = true;
+				dirty.dirtyX = true;
 			}
 			break;
 		case 'bottom':
-			if (dirtyX) {
-				if (diff === 0) {
+			if (dirty.dirtyX) {
+				if (diff <= 1) {
 					lines.x.push(t + h);
 				}
 			} else {
 				lines.x.push(t + h);
-				diffY = (t + h - top - height) / 2;
-				dirtyX = true;
+				diffY = t + h - top - height;
+				dirty.dirtyX = true;
 			}
 			break;
 		case 't-b':
-			if (dirtyX) {
-				if (diff === 0) {
+			if (dirty.dirtyX) {
+				if (diff <= 1) {
 					lines.x.push(t + h);
 				}
 			} else {
 				lines.x.push(t + h);
-				diffY = (t + h - top) / 2;
-				dirtyX = true;
+				diffY = t + h - top;
+				dirty.dirtyX = true;
 			}
 			break;
 		case 'b-t':
-			if (dirtyX) {
-				if (diff === 0) {
+			if (dirty.dirtyX) {
+				if (diff <= 1) {
 					lines.x.push(t);
 				}
 			} else {
 				lines.x.push(t);
 				diffY = t - (top + height);
-				dirtyX = true;
+				dirty.dirtyX = true;
 			}
 			break;
 	}
