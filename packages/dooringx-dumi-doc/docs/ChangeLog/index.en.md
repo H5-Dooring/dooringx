@@ -5,6 +5,9 @@ nav:
   title: change log
   order: 6
 ---
+## 0.11.6
+Cancel the first mouse click.
+Modify the selected color of timeline.
 ## 0.11.5
 Fix reference line adsorption and wrong displacement bug
 Change the position of the rotation justification

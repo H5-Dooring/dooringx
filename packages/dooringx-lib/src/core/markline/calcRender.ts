@@ -259,7 +259,7 @@ export function marklineCalRender(config: UserConfig, iframe: boolean): LinesTyp
 					} else {
 						marklineState.cache[v.id] = rstyle;
 					}
-					newMarklineDisplay(realStyle, rstyle, lines, focus);
+					newMarklineDisplay(realStyle, rstyle, lines);
 					// if (lines.x.length !== 0 || lines.y.length !== 0) {
 					// 	break; 这里不能break要算完所有值
 					// }

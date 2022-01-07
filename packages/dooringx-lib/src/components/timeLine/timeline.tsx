@@ -80,7 +80,7 @@ const SortableItem = SortableElement(
 					minWidth: leftWidth,
 					borderRight: borderColor,
 					borderBottom: borderColor,
-					backgroundColor: value.value.focus ? 'rgb(118 118 118)' : 'initial',
+					backgroundColor: value.value.focus ? '#76767680' : 'initial',
 					cursor: 'pointer',
 				}}
 			>

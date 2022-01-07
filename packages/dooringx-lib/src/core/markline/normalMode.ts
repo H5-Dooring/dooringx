@@ -141,106 +141,43 @@ export function marklineDisplay(
 export function newMarklineDisplay(
 	focusStyle: RealStyle,
 	unFocusStyle: RealStyle,
-	lines: LinesTypes,
-	focus: IBlockType
+	lines: LinesTypes
 ) {
 	const { top, height, left, width } = focusStyle;
 	const { top: t, height: h, left: l, width: w } = unFocusStyle;
-	let diffY = 0;
 	// 头对头
-	if (Math.abs(t - top) < marklineConfig.indent) {
+	if (Math.abs(t - top) <= 1) {
 		lines.x.push(t);
-		diffY = t - top;
-	}
-	// 中对头
-	else if (Math.abs(t - (top + height / 2)) < marklineConfig.indent) {
-		lines.x.push(t);
-		diffY = t - (top + height / 2);
 	}
 	// 尾对头
-	else if (Math.abs(t - (top + height)) < marklineConfig.indent) {
+	else if (Math.abs(t - (top + height)) <= 1) {
 		lines.x.push(t);
-		diffY = t - (top + height);
-	}
-	// 头对中
-	else if (Math.abs(t + h / 2 - top) < marklineConfig.indent) {
-		lines.x.push(t + h / 2);
-		diffY = t + h / 2 - top;
-	}
-	// 中对中
-	else if (Math.abs(t + h / 2 - top - height / 2) < marklineConfig.indent) {
-		lines.x.push(t + h / 2);
-		diffY = t + h / 2 - top - height / 2;
-	}
-	// 尾对中
-	else if (Math.abs(t + h / 2 - top - height) < marklineConfig.indent) {
-		lines.x.push(t + h / 2);
-		diffY = t + h / 2 - top - height;
 	}
 	// 头对尾
-	else if (Math.abs((t + h - top) / 2) < marklineConfig.indent) {
+	else if (Math.abs((t + h - top) / 2) <= 1) {
 		lines.x.push(t + h);
-		diffY = (t + h - top) / 2;
-	}
-	// 中对尾
-	else if (Math.abs(t + h - top - height / 2) < marklineConfig.indent) {
-		lines.x.push(t + h);
-		diffY = t + h - top - height / 2;
 	}
 	// 尾对尾
-	else if (Math.abs((t + h - top - height) / 2) < marklineConfig.indent) {
+	else if (Math.abs((t + h - top - height) / 2) <= 1) {
 		lines.x.push(t + h);
-		diffY = (t + h - top - height) / 2;
 	}
-	focus.top = Math.round(focus.top + diffY);
 	// 纵线
 	// 头对头
-	let diffX = 0;
-	if (Math.abs(l - left) < marklineConfig.indent) {
+	if (Math.abs(l - left) <= 1) {
 		lines.y.push(l);
-		diffX = l - left;
-	}
-	// 中对头
-	else if (Math.abs(l - (left + width / 2)) < marklineConfig.indent) {
-		lines.y.push(l);
-		diffX = l - (left + width / 2);
 	}
 	// 尾对头
-	else if (Math.abs(l - (left + width)) < marklineConfig.indent) {
+	else if (Math.abs(l - (left + width)) <= 1) {
 		lines.y.push(l);
-		diffX = l - (left + width);
-	}
-	// 头对中
-	else if (Math.abs(l + w / 2 - left) < marklineConfig.indent) {
-		lines.y.push(l + w / 2);
-		diffX = l + w / 2 - left;
-	}
-	// 中对中
-	else if (Math.abs(l + w / 2 - left - width / 2) < marklineConfig.indent) {
-		lines.y.push(l + w / 2);
-		diffX = l + w / 2 - left - width / 2;
-	}
-	// 尾对中
-	else if (Math.abs(l + w / 2 - left - width) < marklineConfig.indent) {
-		lines.y.push(l + w / 2);
-		diffX = l + w / 2 - left - width;
 	}
 	// 头对尾
-	else if (Math.abs(l + w - left) < marklineConfig.indent) {
+	else if (Math.abs(l + w - left) <= 1) {
 		lines.y.push(l + w);
-		diffX = l + w - left;
-	}
-	// 中对尾
-	else if (Math.abs(l + w - left - width / 2) < marklineConfig.indent) {
-		lines.y.push(l + w);
-		diffX = l + w - left - width / 2;
 	}
 	// 尾对尾
-	else if (Math.abs(l + w - left - width) < marklineConfig.indent) {
+	else if (Math.abs(l + w - left - width) <= 1) {
 		lines.y.push(l + w);
-		diffX = l + w - left - width;
 	}
-	focus.left = Math.round(focus.left + diffX);
 }
 
 /**

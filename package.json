@@ -12,7 +12,7 @@
 		"pub": "node ./script/publish.js",
 		"changelog": "node ./script/changelog.js",
 		"translate": "node ./script/translate.js",
-		"translateText":"node ./script/translateText.js"
+		"translateText": "node ./script/translateText.js"
 	},
 	"private": true,
 	"devDependencies": {
@@ -39,5 +39,6 @@
 			"npx prettier --write ./packages/dooringx-dumi-doc/docs ./packages/dooringx-lib/src",
 			"git add ."
 		]
-	}
+	},
+	"dependencies": {}
 }
