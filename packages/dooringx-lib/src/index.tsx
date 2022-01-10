@@ -38,6 +38,8 @@ export { scaleFn } from './core/scale/index';
 // 以下导出用于制作插件
 // 用于制作组件的函数
 export { ComponentItemFactory } from './core/components/abstract';
+// 拖拽
+export { dragEventResolve } from './core/crossDrag/index';
 // 用于制作组件配置项的函数
 export { createPannelOptions } from './core/components/formTypes';
 // 用于config类型定义
