@@ -5,6 +5,8 @@ nav:
   title: change log
   order: 6
 ---
+## 0.11.7
+Cancel the multi selection adsorption function.
 ## 0.11.6
 Cancel the first mouse click.
 Modify the selected color of timeline.
