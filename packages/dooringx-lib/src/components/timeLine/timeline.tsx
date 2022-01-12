@@ -2,11 +2,11 @@
  * @Author: yehuozhili
  * @Date: 2021-08-09 15:15:25
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-27 21:41:20
+ * @LastEditTime: 2022-01-12 17:44:22
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\timeLine\timeline.tsx
  */
 import deepcopy from 'deepcopy';
-import React, { CSSProperties, useMemo, useState } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { SortableContainer, SortableElement, SortableHandle, SortEnd } from 'react-sortable-hoc';
 import UserConfig from '../../config';
 import { IBlockType, IStoreData } from '../../core/store/storetype';
@@ -35,6 +35,10 @@ export interface TimeLineProps {
 	classes?: string;
 	config: UserConfig;
 }
+export interface TimeLineConfigType {
+	autoFocus: boolean;
+	scrollDom: null | HTMLDivElement;
+}
 
 const animateTicker = new Array(iter).fill(1).map((_, y) => y);
 
@@ -42,13 +46,19 @@ const DragHandle = SortableHandle(() => <MenuOutlined />);
 
 const leftWidth = 200;
 let WAIT = false;
-
 const widthInterval = interval * 10 + 9;
 const ruleWidth = (widthInterval * iter) / 10 + 10;
 const borderColor = '1px solid rgb(204, 204, 204)';
 
 const SortableItem = SortableElement(
-	({ value }: { value: { value: IBlockType; config: UserConfig } }) => (
+	({
+		value,
+	}: {
+		value: {
+			value: IBlockType;
+			config: UserConfig;
+		};
+	}) => (
 		<div
 			style={{
 				userSelect: 'none',
@@ -129,7 +139,14 @@ const SortableItem = SortableElement(
 );
 
 const SortableList = SortableContainer(
-	({ items }: { items: { data: IBlockType[]; config: UserConfig } }) => {
+	({
+		items,
+	}: {
+		items: {
+			data: IBlockType[];
+			config: UserConfig;
+		};
+	}) => {
 		return (
 			<div>
 				{items.data.map((value, index: number) => (
@@ -189,6 +206,13 @@ export function TimeLine(props: TimeLineProps) {
 		cacheBlock = data;
 		return cacheBlock;
 	}, [data, props.config.waitAnimate]);
+
+	const ref = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (ref.current) {
+			props.config.timelineConfig.scrollDom = ref.current;
+		}
+	}, [props.config]);
 
 	return (
 		<div
@@ -323,6 +347,7 @@ export function TimeLine(props: TimeLineProps) {
 								setState(target.scrollTop);
 								setScrollx(target.scrollLeft);
 							}}
+							ref={ref}
 							style={{ overflow: 'auto', height: `calc(100% - ${itemHeight}px)` }}
 						>
 							{renderData.map((v) => {

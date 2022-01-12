@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-28 22:05:04
+ * @LastEditTime: 2022-01-12 17:26:07
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -33,6 +33,7 @@ import Store from '../core/store';
 import { VerticalAlignMiddleOutlined } from '@ant-design/icons';
 import { wrapperMoveState } from '../components/wrapperMove/event';
 import { wrapperMoveState as iframeWrapperMoveState } from '../components/IframeWrapperMove/event';
+import { TimeLineConfigType } from '../components/timeLine/timeline';
 // 组件部分
 
 /**
@@ -348,6 +349,10 @@ export class UserConfig {
 	public collapsed = false;
 	public ticker = true;
 	public timeline = false;
+	public timelineConfig: TimeLineConfigType = {
+		autoFocus: true,
+		scrollDom: null,
+	};
 	public waitAnimate = false;
 	public wrapperMoveState = wrapperMoveState;
 	public iframeWrapperMoveState = iframeWrapperMoveState;

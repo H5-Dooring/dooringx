@@ -13,6 +13,7 @@ import UserConfig from '../../config';
 import { rotateMouseMove, rotateMouseUp } from '../rotateHandler';
 import { specialCoList } from '../utils/special';
 import { marklineState } from '../markline/state';
+import { itemHeight } from '../../components/timeLine/timelineItem';
 
 export const innerDrag = function (
 	item: IBlockType,
@@ -35,6 +36,15 @@ export const innerDrag = function (
 			}
 			//candrag给选中，不给拖
 			blockFocus(e, item, config);
+			// 计算scrollTop值，更新dom
+			if (config.timelineConfig.autoFocus && config.timelineConfig.scrollDom) {
+				// 根据其为第几个block计算滚动高度
+				const index = store.getData().block.findIndex((v) => v.id === item.id);
+				if (index >= 0) {
+					config.timelineConfig.scrollDom.scrollTop = itemHeight * index;
+				}
+			}
+
 			if (!item.canDrag) {
 				//containerFocusRemove(config).onMouseDown(e);
 				return;
