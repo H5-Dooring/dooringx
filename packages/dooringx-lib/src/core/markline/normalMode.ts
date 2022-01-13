@@ -125,8 +125,10 @@ export function marklineDisplay(
 			}
 			break;
 	}
-	focus.top = Math.round(focus.top + diffY);
-	focus.left = Math.round(focus.left + diffX);
+	if (marklineConfig.isAbsorb) {
+		focus.top = Math.round(focus.top + diffY);
+		focus.left = Math.round(focus.left + diffX);
+	}
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-27 21:11:43
+ * @LastEditTime: 2022-01-13 13:42:51
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\zh-CN.ts
  */
 export const zhCN = {
@@ -35,4 +35,13 @@ export const zhCN = {
 	'right.containerColor': '容器底色',
 	'right.bodyColor': 'body底色',
 	title: '标题',
+	'system.setting': '系统设置',
+	'settings.openabsorb': '开启吸附',
+	on: '开',
+	off: '关',
+	'settings.absorbindent': '吸附间距',
+	'settings.min': '画布缩放最小值',
+	'settings.max': '画布缩放最大值',
+	'settings.autofocus': '动画面板点击自动滚动聚焦',
+	'error.minmax': '最大值应大于等于最小值',
 };

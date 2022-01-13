@@ -1,6 +1,7 @@
 import {
 	GatewayOutlined,
 	LayoutOutlined,
+	SettingOutlined,
 	SyncOutlined,
 	UnorderedListOutlined,
 	VideoCameraOutlined,
@@ -11,6 +12,7 @@ import { UserConfig } from '../..';
 import { wrapperMoveState } from '../wrapperMove/event';
 import { replaceLocale } from '../../locale';
 import { mouseUp, moveState } from './state';
+import SettingsModal from './settings';
 
 export interface ControlProps {
 	config: UserConfig;
@@ -22,7 +24,8 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 	const [visible, setVisible] = useState(false);
 	const [configVisible, setConfigVisible] = useState(false);
 	const [form] = Form.useForm();
-
+	const [settingVisible, setSettingVisible] = useState(false);
+	const [api, contextHolder] = message.useMessage();
 	const [xy, setXy] = useState({ x: 0, y: 0 });
 	return (
 		<>
@@ -38,6 +41,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 					...style,
 				}}
 			>
+				{contextHolder}
 				<Button
 					onMouseDown={(e) => {
 						moveState.startX = e.clientX;
@@ -62,24 +66,24 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 						<div
 							style={{
 								display: 'flex',
-								justifyContent: 'center',
+								justifyContent: 'flex-end',
 								alignItems: 'center',
 								flexDirection: 'column',
 							}}
 						>
 							<Button
+								block
 								onClick={() => {
 									setVisible(true);
 								}}
-								style={{ width: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}
 							>
 								{replaceLocale('modal.new', '新建弹窗', props.config)}
 							</Button>
 							<Button
+								block
 								onClick={() => {
 									setConfigVisible(true);
 								}}
-								style={{ width: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}
 							>
 								{replaceLocale('modal.control', '弹窗配置', props.config)}
 							</Button>
@@ -102,6 +106,12 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 						wrapperMoveState.needX = 0;
 						wrapperMoveState.needY = 0;
 						props.config.getStore().forceUpdate();
+					}}
+				></Button>
+				<Button
+					icon={<SettingOutlined />}
+					onClick={() => {
+						setSettingVisible(true);
 					}}
 				></Button>
 			</div>
@@ -136,7 +146,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 													.getStoreChanger()
 													.updateModal(props.config.getStore(), v);
 												if (!sign.success && sign.sign === 0) {
-													message.error(
+													api.error(
 														replaceLocale(
 															'modal.popup.save',
 															'请保存弹窗后编辑其他弹窗',
@@ -145,7 +155,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 													);
 												}
 												if (!sign.success && sign.sign === 1) {
-													message.error(
+													api.error(
 														replaceLocale(
 															'modal.popup.notfond',
 															`未找到该弹窗 ${sign.param}`,
@@ -170,7 +180,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 													.getStoreChanger()
 													.removeModal(props.config.getStore(), v);
 												if (!sign.success && sign.sign === 0) {
-													message.error(
+													api.error(
 														replaceLocale(
 															'modal.popup.save',
 															'请保存弹窗后编辑其他弹窗',
@@ -179,7 +189,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 													);
 												}
 												if (!sign.success && sign.sign === 1) {
-													message.error(
+													api.error(
 														replaceLocale(
 															'modal.popup.notfond',
 															`未找到该弹窗 ${sign.param}`,
@@ -227,12 +237,12 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 								.newModalMap(props.config.getStore(), modalName);
 
 							if (!sign.succeess && sign.sign === 0) {
-								message.error(
+								api.error(
 									replaceLocale('modal.popup.save', `请保存弹窗后编辑其他弹窗`, props.config)
 								);
 							}
 							if (!sign.succeess && sign.sign === 1) {
-								message.error(
+								api.error(
 									replaceLocale(
 										'modal.popup.repeat',
 										`已有重名弹窗 ${sign.param}`,
@@ -269,6 +279,21 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 					</Form.Item>
 				</Form>
 			</Modal>
+			<SettingsModal
+				config={props.config}
+				visible={settingVisible}
+				onOk={(v: any) => {
+					console.log(v);
+					props.config.marklineConfig.isAbsorb = v.absorb;
+					props.config.marklineConfig.indent = v.indent;
+					props.config.scaleState.minValue = v.min;
+					props.config.scaleState.maxValue = v.max;
+					props.config.timelineConfig.autoFocus = v.autofocus;
+					setSettingVisible(false);
+				}}
+				onCancel={() => setSettingVisible(false)}
+				message={api}
+			></SettingsModal>
 		</>
 	);
 }

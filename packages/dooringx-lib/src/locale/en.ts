@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:23
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-27 21:11:51
+ * @LastEditTime: 2022-01-13 13:43:20
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\en.ts
  */
 
@@ -30,12 +30,21 @@ export const en: typeof zhCN = {
 	'modal.popup.name': 'Please enter modal name',
 	'modal.name': 'Modal name',
 	'modal.control.remove': 'Delete click to delete the effect of the modal',
-	yes: 'yes',
-	no: 'no',
+	yes: 'Ok',
+	no: 'Cancel',
 	'right.noprops': 'No properties have been configured',
 	'right.global': 'Global config',
 	'right.containerheight': 'Container height',
 	'right.containerColor': 'Container background color',
 	'right.bodyColor': 'Body background color',
 	title: 'Title',
+	'system.setting': 'System Settings',
+	'settings.openabsorb': 'Turn on adsorption',
+	on: 'on',
+	off: 'off',
+	'settings.absorbindent': 'Adsorption spacing',
+	'settings.min': 'Canvas zoom min',
+	'settings.max': 'Canvas zoom max',
+	'settings.autofocus': 'Auto scroll focus on the animation panel',
+	'error.minmax': 'The maximum value should be greater than or equal to the minimum value',
 };

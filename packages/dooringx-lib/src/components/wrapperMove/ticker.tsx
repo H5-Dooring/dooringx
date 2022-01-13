@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-12 15:54:35
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 21:07:22
+ * @LastEditTime: 2022-01-13 13:41:48
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\wrapperMove\ticker.tsx
  */
 import React, { useEffect, useRef, useState } from 'react';
@@ -24,13 +24,18 @@ function Ticker(props: { config: UserConfig }) {
 			if (topRef.current) {
 				const width = topRef.current.getBoundingClientRect().width;
 				const renderWidth = Math.ceil(width / 10 / scale);
-				setTopRender(renderWidth);
+				if (renderWidth < 2 ** 32 - 1) {
+					// new array的参数最大值
+					setTopRender(renderWidth);
+				}
 			}
 			// left可以不用放，但为了更新统一
 			if (leftRef.current) {
 				const height = leftRef.current.getBoundingClientRect().height;
 				const renderHeight = Math.ceil(height / 10 / scale);
-				setLeftRender(renderHeight);
+				if (renderHeight < 2 ** 32 - 1) {
+					setLeftRender(renderHeight);
+				}
 			}
 		}, 300);
 
