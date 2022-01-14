@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 11:11:52
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-28 21:15:36
+ * @LastEditTime: 2022-01-13 15:42:40
  * @FilePath: \dooringx\packages\dooringx-example\.umirc.ts
  */
 import { defineConfig } from 'umi';
@@ -34,4 +34,12 @@ export default defineConfig({
 		},
 	],
 	fastRefresh: {},
+	externals: {
+		react: 'window.React',
+		'react-dom': 'window.ReactDOM',
+	},
+	scripts: [
+		'https://unpkg.com/react@16.14.0/umd/react.production.min.js',
+		'https://unpkg.com/react-dom@16.14.0/umd/react-dom.production.min.js',
+	],
 });
