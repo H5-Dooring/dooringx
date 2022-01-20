@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-27 20:33:04
+ * @LastEditTime: 2022-01-20 12:21:48
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
@@ -11,10 +11,10 @@ import { CSSProperties, PropsWithChildren, useEffect, useMemo, useState } from '
 import React from 'react';
 import { Tabs, Input, Row, Col, Checkbox, InputNumber } from 'antd';
 import UserConfig from '../config';
-import { RGBColor, SketchPicker } from 'react-color';
 import { rgba2Obj } from '../core/utils';
 import deepcopy from 'deepcopy';
 import { replaceLocale } from '../locale';
+import ColorPicker from './colorPicker';
 
 const colStyle: CSSProperties = {
 	display: 'flex',
@@ -101,10 +101,6 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 			? rgba2Obj(props.config.getStoreChanger().getOrigin()?.now.globalState.bodyColor)
 			: rgba2Obj(props.config.getStore().getData().globalState.bodyColor);
 	}, [props.config]);
-	const [color, setColor] = useState<RGBColor>(initColor);
-	const [color2, setColor2] = useState<RGBColor>(initColor2);
-	const [colorPickerVisible, setColorPickerVisible] = useState(false);
-	const [colorPickerVisible2, setColorPickerVisible2] = useState(false);
 	const initTitle = useMemo(() => {
 		const title = props.config.getStoreChanger().isEdit()
 			? props.config.getStoreChanger().getOrigin()?.now.globalState.title
@@ -216,73 +212,23 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 							{replaceLocale('right.containerColor', '容器底色', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
-							{
-								<div style={{ position: 'relative' }}>
-									<div
-										onClick={() => {
-											setColorPickerVisible((pre) => !pre);
-										}}
-										style={{
-											background: '#fff',
-											borderRadius: '1px',
-											boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
-											cursor: 'pointer',
-											display: 'inline-block',
-										}}
-									>
-										<div
-											style={{
-												width: '20px',
-												height: '20px',
-												borderRadius: '2px',
-												background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-											}}
-										/>
-									</div>
-									{colorPickerVisible && (
-										<>
-											<div
-												style={{
-													position: 'absolute',
-													zIndex: 2000,
-													transform: `translate(-100%, 0px)`,
-												}}
-											>
-												<SketchPicker
-													color={color}
-													onChange={(c) => {
-														const newcolor = c.rgb;
-														setColor(newcolor);
-														const isEdit = props.config.getStoreChanger().isEdit();
-														if (isEdit) {
-															const originData: IStoreData = deepcopy(
-																props.config.getStoreChanger().getOrigin()!.now
-															);
-															originData.globalState.containerColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
-															props.config.getStoreChanger().updateOrigin(originData);
-														} else {
-															const originData = deepcopy(props.config.getStore().getData());
-															originData.globalState.containerColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
-															props.config.getStore().setData(originData);
-														}
-													}}
-												></SketchPicker>
-											</div>
-											<div
-												style={{
-													position: 'fixed',
-													top: '0px',
-													right: '0px',
-													bottom: '0px',
-													left: '0px',
-													zIndex: 1000,
-												}}
-												onClick={() => setColorPickerVisible(false)}
-											/>
-										</>
-									)}
-								</div>
-							}
+							<ColorPicker
+								initColor={initColor}
+								onChange={(newcolor) => {
+									const isEdit = props.config.getStoreChanger().isEdit();
+									if (isEdit) {
+										const originData: IStoreData = deepcopy(
+											props.config.getStoreChanger().getOrigin()!.now
+										);
+										originData.globalState.containerColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
+										props.config.getStoreChanger().updateOrigin(originData);
+									} else {
+										const originData = deepcopy(props.config.getStore().getData());
+										originData.globalState.containerColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
+										props.config.getStore().setData(originData);
+									}
+								}}
+							></ColorPicker>
 						</Col>
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
@@ -290,73 +236,23 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 							{replaceLocale('right.bodyColor', 'body底色', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
-							{
-								<div style={{ position: 'relative' }}>
-									<div
-										onClick={() => {
-											setColorPickerVisible2((pre) => !pre);
-										}}
-										style={{
-											background: '#fff',
-											borderRadius: '1px',
-											boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
-											cursor: 'pointer',
-											display: 'inline-block',
-										}}
-									>
-										<div
-											style={{
-												width: '20px',
-												height: '20px',
-												borderRadius: '2px',
-												background: `rgba(${color2.r}, ${color2.g}, ${color2.b}, ${color2.a})`,
-											}}
-										/>
-									</div>
-									{colorPickerVisible2 && (
-										<>
-											<div
-												style={{
-													position: 'absolute',
-													zIndex: 2000,
-													transform: `translate(-100%, 0px)`,
-												}}
-											>
-												<SketchPicker
-													color={color2}
-													onChange={(c) => {
-														const newcolor = c.rgb;
-														setColor2(newcolor);
-														const isEdit = props.config.getStoreChanger().isEdit();
-														if (isEdit) {
-															const originData: IStoreData = deepcopy(
-																props.config.getStoreChanger().getOrigin()!.now
-															);
-															originData.globalState.bodyColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
-															props.config.getStoreChanger().updateOrigin(originData);
-														} else {
-															const originData = deepcopy(props.config.getStore().getData());
-															originData.globalState.bodyColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
-															props.config.getStore().setData(originData);
-														}
-													}}
-												></SketchPicker>
-											</div>
-											<div
-												style={{
-													position: 'fixed',
-													top: '0px',
-													right: '0px',
-													bottom: '0px',
-													left: '0px',
-													zIndex: 1000,
-												}}
-												onClick={() => setColorPickerVisible2(false)}
-											/>
-										</>
-									)}
-								</div>
-							}
+							<ColorPicker
+								initColor={initColor2}
+								onChange={(newcolor) => {
+									const isEdit = props.config.getStoreChanger().isEdit();
+									if (isEdit) {
+										const originData: IStoreData = deepcopy(
+											props.config.getStoreChanger().getOrigin()!.now
+										);
+										originData.globalState.bodyColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
+										props.config.getStoreChanger().updateOrigin(originData);
+									} else {
+										const originData = deepcopy(props.config.getStore().getData());
+										originData.globalState.bodyColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
+										props.config.getStore().setData(originData);
+									}
+								}}
+							></ColorPicker>
 						</Col>
 					</Row>
 				</div>
