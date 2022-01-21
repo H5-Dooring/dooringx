@@ -6,7 +6,7 @@
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\preview.tsx
  */
 import Container from './container';
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useState, CSSProperties } from 'react';
 import UserConfig from '../config';
 import { ComponentItemFactory } from '..';
 
@@ -33,6 +33,13 @@ export interface PreviewProps {
 	 * @memberof PreviewProps
 	 */
 	completeFn?: Function;
+  /**
+	 *
+	 * 预览样式
+	 * @type {CSSProperties}
+	 * @memberof PreviewProps
+	 */
+   previewContainerStyle?: CSSProperties;
 }
 
 function Preview(props: PreviewProps): ReactElement {
@@ -121,6 +128,7 @@ function Preview(props: PreviewProps): ReactElement {
 					config={props.config}
 					context="preview"
 					state={props.config.getStore().getData()}
+          previewContainerStyle={props.previewContainerStyle}
 				></Container>
 			</>
 		);
