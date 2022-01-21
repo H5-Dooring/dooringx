@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2022-01-20 11:04:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-20 12:18:54
+ * @LastEditTime: 2022-01-21 13:40:19
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\colorPicker\index.tsx
  */
 import React, { memo, useState } from 'react';
@@ -18,7 +18,7 @@ function ColorPicker(props: ColorPickerProps) {
 	const [colorPickerVisible, setColorPickerVisible] = useState(false);
 	return (
 		<>
-			<div style={{ position: 'relative' }}>
+			<div style={{ position: 'relative', display: 'flex' }}>
 				<div
 					onClick={() => {
 						setColorPickerVisible((pre) => !pre);

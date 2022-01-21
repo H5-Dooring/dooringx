@@ -5,10 +5,12 @@ nav:
   title: change log
   order: 6
 ---
+## 0.11.10
+Add color and style settings for markline
 ## 0.11.9
 A new setting panel is added to control adsorption scaling and other behaviors.
 Fixed pop up button style issue.
-Fixed the problem that some prompts do not display.
+Fix the problem that some prompts do not display.
 ## 0.11.8
 Timeline adds auto focus function.
 ## 0.11.7

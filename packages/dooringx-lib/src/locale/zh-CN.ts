@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-13 13:42:51
+ * @LastEditTime: 2022-01-21 10:55:56
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\zh-CN.ts
  */
 export const zhCN = {
@@ -44,4 +44,6 @@ export const zhCN = {
 	'settings.max': '画布缩放最大值',
 	'settings.autofocus': '动画面板点击自动滚动聚焦',
 	'error.minmax': '最大值应大于等于最小值',
+	'settings.marklineColor': '辅助线颜色',
+	'settings.marklineStyle': '辅助线样式',
 };

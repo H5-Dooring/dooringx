@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:23
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-13 13:43:20
+ * @LastEditTime: 2022-01-21 10:56:25
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\en.ts
  */
 
@@ -47,4 +47,6 @@ export const en: typeof zhCN = {
 	'settings.max': 'Canvas zoom max',
 	'settings.autofocus': 'Auto scroll focus on the animation panel',
 	'error.minmax': 'The maximum value should be greater than or equal to the minimum value',
+	'settings.marklineColor': 'Markline color',
+	'settings.marklineStyle': 'Markline style',
 };

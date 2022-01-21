@@ -2,20 +2,21 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-27 15:14:34
+ * @LastEditTime: 2022-01-21 09:28:53
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\markline\index.tsx
  */
 import React from 'react';
 import { useMemo } from 'react';
 import UserConfig from '../../config';
 import { marklineCalRender } from './calcRender';
+import { marklineConfig } from './marklineConfig';
 
 export function MarklineX(props: any) {
 	return (
 		<div
 			className="yh-markline"
 			style={{
-				borderTop: '1px dotted #2196f3',
+				borderTop: `1px ${marklineConfig.borderStyle} ${marklineConfig.borderColor}`,
 				position: 'absolute',
 				width: '100%',
 				top: props.top,
@@ -30,7 +31,7 @@ export function MarklineY(props: any) {
 		<div
 			className="yh-markline"
 			style={{
-				borderLeft: '1px dotted #2196f3',
+				borderLeft: `1px ${marklineConfig.borderStyle} ${marklineConfig.borderColor}`,
 				position: 'absolute',
 				height: '100%',
 				left: props.left,

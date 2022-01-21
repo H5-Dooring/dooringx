@@ -28,7 +28,7 @@
 		"prettier": "^2.2.0",
 		"rimraf": "^3.0.2",
 		"tslib": "^2.1.0",
-		"typescript": "^4.1.2"
+		"typescript": "^4.1.3"
 	},
 	"husky": {
 		"hooks": {
@@ -41,5 +41,10 @@
 			"git add ."
 		]
 	},
-	"dependencies": {}
+	"dependencies": {},
+  "resolutions": {
+    "**/@typescript-eslint/eslint-plugin": "^4.11.1",
+    "**/@typescript-eslint/parser": "^4.11.1",
+    "**/typescript": "^4.1.3"
+  }
 }

@@ -40,7 +40,7 @@
 		"@rollup/plugin-node-resolve": "^13.0.4",
 		"@rollup/plugin-url": "^6.1.0",
 		"@svgr/rollup": "^5.5.0",
-		"dooringx-lib": "^0.11.9",
+		"dooringx-lib": "^0.11.10",
 		"postcss": "^8.3.6",
 		"rollup-plugin-peer-deps-external": "^2.2.4",
 		"rollup-plugin-postcss": "^4.0.1",
