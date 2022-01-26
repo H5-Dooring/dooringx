@@ -39,6 +39,11 @@ export interface TimeLineConfigType {
 	autoFocus: boolean;
 	scrollDom: null | HTMLDivElement;
 }
+export interface TimeLineNeedleConfigType {
+	status: 'stop' | 'start';
+	runFunc: Function;
+	resetFunc: Function;
+}
 
 const animateTicker = new Array(iter).fill(1).map((_, y) => y);
 
@@ -159,6 +164,9 @@ const SortableList = SortableContainer(
 
 let cacheBlock: IBlockType[] = [];
 
+const needleWidth = 2;
+const initialLeft = 20 - needleWidth / 2;
+let timer: number | null = null;
 export function TimeLine(props: TimeLineProps) {
 	const store = props.config.getStore();
 	const data = store.getData().block;
@@ -213,6 +221,33 @@ export function TimeLine(props: TimeLineProps) {
 			props.config.timelineConfig.scrollDom = ref.current;
 		}
 	}, [props.config]);
+
+	const [needle, setNeedle] = useState(initialLeft);
+
+	const needleStart = () => {
+		setNeedle(initialLeft);
+		//每过0.1秒移动2
+		if (timer) {
+			window.clearInterval(timer);
+		}
+		props.config.timelineNeedleConfig.status = 'start';
+		timer = window.setInterval(() => {
+			if (needle < ruleWidth) {
+				setNeedle((pre) => pre + 2);
+			}
+		}, 100);
+	};
+
+	const needleReset = () => {
+		if (timer) {
+			window.clearInterval(timer);
+		}
+		setNeedle(initialLeft);
+		props.config.timelineNeedleConfig.status = 'stop';
+	};
+
+	props.config.timelineNeedleConfig.resetFunc = needleReset;
+	props.config.timelineNeedleConfig.runFunc = needleStart;
 
 	return (
 		<div
@@ -276,6 +311,7 @@ export function TimeLine(props: TimeLineProps) {
 											WAIT = false;
 											props.config.waitAnimate = false;
 											store.setData(cloneData);
+											needleStart();
 										});
 									}
 								}}
@@ -291,8 +327,22 @@ export function TimeLine(props: TimeLineProps) {
 							width: `calc(100% -  ${leftWidth}px)`,
 							borderBottom: '1px solid #dadada',
 							overflow: 'hidden',
+							position: 'relative',
 						}}
 					>
+						<div
+							style={{
+								position: 'absolute',
+								transform: `translate(-${scrollx}px, 0px)`,
+								width: needleWidth,
+								height: '100%',
+								backgroundColor: 'red',
+								zIndex: 2,
+								left: needle,
+								transition: 'left linear',
+								willChange: 'left',
+							}}
+						></div>
 						<div
 							style={{
 								display: 'flex',

@@ -24,11 +24,11 @@ const MSwitch = (props: MSwitchProps) => {
 	}, [props.data]);
 	const store = props.config.getStore();
 	return (
-		<Row style={{ padding: '10px 20px' }}>
+		<Row style={{ padding: '10px' }}>
 			<Col span={8} style={{ lineHeight: '30px' }}>
 				{(option as any)?.label || '文字'}：
 			</Col>
-			<Col span={16}>
+			<Col span={16} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
 				<Switch
 					checked={props.current.props[(option as any).receive] || ''}
 					onChange={(checked) => {

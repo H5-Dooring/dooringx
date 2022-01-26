@@ -115,7 +115,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 	const originData = props.config.getStoreChanger().getOrigin()?.now;
 	return (
 		<div
-			className="ant-menu"
+			className="ant-menu right-pannel-wrap"
 			style={{
 				height: '100%',
 				width: '400px',
@@ -136,10 +136,12 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						return (
 							<Tabs.TabPane tab={v.icon} key={i + ''}>
 								<div
-									className="scrollbar"
+									className="scrollbar right-pannel-tabdiv"
 									style={{
 										height: 'calc(100vh - 110px)',
 										overflow: 'auto',
+										position: 'fixed',
+										width: 380,
 									}}
 								>
 									{v.custom && v.customRender && v.customRender(v.type, current)}
@@ -151,7 +153,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 				</Tabs>
 			)}
 			{!current && !isEdit && !customGlobal && (
-				<div style={{ padding: '20px' }}>
+				<div style={{ padding: '10px' }}>
 					<Row style={{ padding: '10px 0 20px 0', fontWeight: 'bold', userSelect: 'none' }}>
 						{replaceLocale('right.global', '全局设置', props.config)}
 					</Row>
@@ -259,8 +261,8 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 			)}
 			{!current && !isEdit && customGlobal && customGlobal(props.config)}
 			{!current && isEdit && (
-				<div style={{ padding: '20px' }} className="yh-tcsz">
-					<Row style={{ padding: '10 0 20px 0', fontWeight: 'bold' }}>
+				<div style={{ padding: '10px' }} className="yh-tcsz">
+					<Row style={{ padding: '10px 0 20px 0', fontWeight: 'bold' }}>
 						{replaceLocale('modal.control', '弹窗配置', props.config)}
 					</Row>
 					<Row style={{ padding: '10px 0' }}>

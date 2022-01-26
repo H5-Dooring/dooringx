@@ -15,7 +15,7 @@ import {
 	Control,
 } from 'dooringx-lib';
 import { InsertRowBelowOutlined, UploadOutlined } from '@ant-design/icons';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { configContext, LocaleContext } from '@/layouts';
 import { useCallback } from 'react';
 import { PREVIEWSTATE } from '@/constant';

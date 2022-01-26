@@ -123,6 +123,7 @@ const timeFunction: Record<string, string> = {
 
 let lastAnimate: AnimateItem[] = [];
 let isOmit = false;
+const padding = 10;
 
 function AnimateControl(props: AnimateControlProps) {
 	const store = props.config.getStore();
@@ -137,8 +138,8 @@ function AnimateControl(props: AnimateControlProps) {
 		<>
 			{animate.map((v, i) => {
 				return (
-					<div key={v.uid}>
-						<Row style={{ padding: '20px', alignItems: 'center' }}>
+					<div key={v.uid} style={{ borderBottom: '1px dotted #9e9e9e' }}>
+						<Row style={{ padding: padding, alignItems: 'center' }}>
 							<Col span={5}>动画名称:</Col>
 							<Col span={7}>
 								<Select
@@ -193,7 +194,7 @@ function AnimateControl(props: AnimateControlProps) {
 								/>
 							</Col>
 						</Row>
-						<Row style={{ padding: '20px', alignItems: 'center' }}>
+						<Row style={{ padding: padding, alignItems: 'center' }}>
 							<Col span={5}>延迟时间:</Col>
 							<Col span={7}>
 								<InputNumber
@@ -248,7 +249,7 @@ function AnimateControl(props: AnimateControlProps) {
 								</Select>
 							</Col>
 						</Row>
-						<Row style={{ padding: '20px', alignItems: 'center' }}>
+						<Row style={{ padding: padding, alignItems: 'center' }}>
 							<Col span={5}>运动函数:</Col>
 							<Col span={7}>
 								<Select
@@ -298,7 +299,7 @@ function AnimateControl(props: AnimateControlProps) {
 				);
 			})}
 
-			<Row style={{ padding: '20px', justifyContent: 'space-around' }}>
+			<Row style={{ padding: padding, justifyContent: 'space-around' }}>
 				{animate.length > 0 && (
 					<Button
 						onClick={() => {
@@ -325,6 +326,7 @@ function AnimateControl(props: AnimateControlProps) {
 									store.cleanLast();
 									store.setData(clone);
 									store.cleanLast();
+									props.config.timelineNeedleConfig.resetFunc();
 								});
 							}
 						}}
@@ -349,6 +351,7 @@ function AnimateControl(props: AnimateControlProps) {
 							}
 						});
 						store.setData(cloneData);
+						props.config.timelineNeedleConfig.resetFunc();
 					}}
 				>
 					添加动画

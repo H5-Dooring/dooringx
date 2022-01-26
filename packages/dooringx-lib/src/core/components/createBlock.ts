@@ -43,5 +43,6 @@ export function createBlock(
 			value: 0,
 			canRotate: true,
 		},
+		animatePlayState: ComponentItem.initData.animatePlayState || '',
 	};
 }

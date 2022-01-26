@@ -243,20 +243,22 @@ function ActionButton(props: ActionButtonProps) {
 		<div>
 			<Row
 				style={{
-					padding: 20,
+					padding: 10,
 					justifyContent: 'space-between',
 					alignItems: 'center',
 				}}
 			>
 				<Col span={8}>标识ID</Col>
-				<Col span={16}>{props.current.id}</Col>
+				<Col span={16} style={{ textAlign: 'right' }}>
+					{props.current.id}
+				</Col>
 			</Row>
 			{currentOption.map((j, i) => {
 				return (
 					<Row
 						key={i}
 						style={{
-							padding: 20,
+							padding: 10,
 							justifyContent: 'space-between',
 							alignItems: 'center',
 						}}

@@ -124,7 +124,7 @@ const commonCss: CSSProperties = {
 	height: square * 2,
 	width: square * 2,
 	position: 'absolute',
-	background: '#000000',
+	background: 'rgba(0, 0, 0, 0.85)',
 	top: (itemHeight - diff) / 2 - square,
 	cursor: 'e-resize',
 };

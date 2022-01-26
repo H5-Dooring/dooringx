@@ -33,13 +33,13 @@ export interface PreviewProps {
 	 * @memberof PreviewProps
 	 */
 	completeFn?: Function;
-  /**
+	/**
 	 *
 	 * 预览样式
 	 * @type {CSSProperties}
 	 * @memberof PreviewProps
 	 */
-   previewContainerStyle?: CSSProperties;
+	previewContainerStyle?: CSSProperties;
 }
 
 function Preview(props: PreviewProps): ReactElement {
@@ -128,7 +128,7 @@ function Preview(props: PreviewProps): ReactElement {
 					config={props.config}
 					context="preview"
 					state={props.config.getStore().getData()}
-          previewContainerStyle={props.previewContainerStyle}
+					previewContainerStyle={props.previewContainerStyle}
 				></Container>
 			</>
 		);

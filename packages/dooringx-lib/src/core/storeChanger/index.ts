@@ -46,6 +46,7 @@ function createDefaultModalBlock(): IStoreData['block'] {
 				value: 0,
 				canRotate: false,
 			},
+			animatePlayState: '',
 		},
 	];
 }

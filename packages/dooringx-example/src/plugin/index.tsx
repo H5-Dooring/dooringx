@@ -26,7 +26,7 @@ const LeftRegistMap: LeftRegistComponentMapItem[] = [
 	{
 		type: 'basic',
 		component: 'input',
-		img: 'icon-anniu',
+		img: 'https://img.guguzhu.com/d/file/android/ico/2021/09/08/rytzi2w34tm.png',
 		displayName: '输入框',
 	},
 ];
@@ -59,7 +59,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'style',
 			icon: (
-				<div className='right-tab-item' style={{ width: 50, textAlign: 'center' }}>
+				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
 					外观
 				</div>
 			),
@@ -67,7 +67,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'animate',
 			icon: (
-				<div className='right-tab-item' style={{ width: 50, textAlign: 'center' }}>
+				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
 					动画
 				</div>
 			),
@@ -75,7 +75,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'fn',
 			icon: (
-				<div className='right-tab-item' style={{ width: 50, textAlign: 'center' }}>
+				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
 					函数
 				</div>
 			),
@@ -83,7 +83,7 @@ export const defaultConfig: Partial<InitConfig> = {
 		{
 			type: 'actions',
 			icon: (
-				<div className='right-tab-item' style={{ width: 50, textAlign: 'center' }}>
+				<div className="right-tab-item" style={{ width: 50, textAlign: 'center' }}>
 					事件
 				</div>
 			),

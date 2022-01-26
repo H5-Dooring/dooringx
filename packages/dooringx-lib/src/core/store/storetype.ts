@@ -51,5 +51,6 @@ export interface IBlockType {
 		canRotate: boolean;
 	};
 	animate: AnimateItem[];
+	animatePlayState: string;
 	fixed: boolean; // 用于制作fixed组件
 }

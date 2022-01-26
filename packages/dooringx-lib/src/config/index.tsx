@@ -33,7 +33,7 @@ import Store from '../core/store';
 import { VerticalAlignMiddleOutlined } from '@ant-design/icons';
 import { wrapperMoveState } from '../components/wrapperMove/event';
 import { wrapperMoveState as iframeWrapperMoveState } from '../components/IframeWrapperMove/event';
-import { TimeLineConfigType } from '../components/timeLine/timeline';
+import { TimeLineConfigType, TimeLineNeedleConfigType } from '../components/timeLine/timeline';
 // 组件部分
 
 /**
@@ -352,6 +352,11 @@ export class UserConfig {
 	public timelineConfig: TimeLineConfigType = {
 		autoFocus: true,
 		scrollDom: null,
+	};
+	public timelineNeedleConfig: TimeLineNeedleConfigType = {
+		status: 'stop',
+		runFunc: () => {},
+		resetFunc: () => {},
 	};
 	public waitAnimate = false;
 	public wrapperMoveState = wrapperMoveState;

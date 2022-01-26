@@ -25,7 +25,7 @@ function MInput(props: MInputProps) {
 	}, [props.data]);
 	const store = props.config.getStore();
 	return (
-		<Row style={{ padding: '10px 20px' }}>
+		<Row style={{ padding: '10px' }}>
 			<Col span={6} style={{ lineHeight: '30px' }}>
 				{option.label || '文字'}：
 			</Col>
