@@ -5,6 +5,16 @@ nav:
   title: 变更日志
   order: 6
 ---
+## 0.11.11
+
+修复动画导致旋转预览不生效。
+
+新增容器overflow配置。
+
+timeline部分样式调整。
+
+example部分样式调整。
+
 ## 0.11.10
 
 新增对markline颜色样式设置
