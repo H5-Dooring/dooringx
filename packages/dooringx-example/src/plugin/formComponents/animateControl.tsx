@@ -351,7 +351,6 @@ function AnimateControl(props: AnimateControlProps) {
 							}
 						});
 						store.setData(cloneData);
-						props.config.timelineNeedleConfig.resetFunc();
 					}}
 				>
 					添加动画

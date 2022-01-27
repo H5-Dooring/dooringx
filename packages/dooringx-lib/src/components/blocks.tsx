@@ -101,7 +101,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 			animationDelay: '',
 			animationDuration: '',
 			animationIterationCount: '',
-			animationFillMode: 'forwards',
+			//	animationFillMode: 'forwards',// 这个属性和transform冲突
 			animationTimingFunction: '',
 		};
 		props.data.animate.forEach((v) => {
@@ -128,12 +128,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		});
 		return select;
 	}, [props.data.animate]);
-
-	const animationPlayState: CSSProperties = useMemo(() => {
-		return {
-			animationPlayState: props.data.animatePlayState || '',
-		};
-	}, [props.data.animatePlayState]);
 
 	const render = useMemo(() => {
 		// 如果是编辑模式下，则需要包裹不能选中层，位移层，缩放控制层，平面移动层。
@@ -170,7 +164,14 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 				>
 					{/* 绝对定位元素 */}
 					{props.data.position !== 'static' && (
-						<div style={{ ...style, ...animateProps, ...animationPlayState }}>{state}</div>
+						<div
+							style={{
+								...style,
+								...animateProps,
+							}}
+						>
+							{state}
+						</div>
 					)}
 					{/* 静态定位 非行内 这里暂不考虑布局影响 */}
 					{props.data.position === 'static' && props.data.display !== 'inline' && (
@@ -180,7 +181,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 								width: '100%',
 								height: '100%',
 								...animateProps,
-								...animationPlayState,
 							}}
 						>
 							{state}
@@ -188,7 +188,12 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 					)}
 					{/* 静态定位 行内 这里暂不考虑布局影响 */}
 					{props.data.position === 'static' && props.data.display === 'inline' && (
-						<span style={{ pointerEvents: 'none', ...animateProps, ...animationPlayState }}>
+						<span
+							style={{
+								pointerEvents: 'none',
+								...animateProps,
+							}}
+						>
 							{state}
 						</span>
 					)}
@@ -210,7 +215,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						display: props.data.display,
 						transform: `rotate(${props.data.rotate.value}deg)`,
 						...animateProps,
-						...animationPlayState,
 					}}
 				>
 					{state}
@@ -221,11 +225,10 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		state,
 		props.context,
 		props.data,
-		props.iframe,
 		props.config,
+		props.iframe,
 		innerDragData,
 		animateProps,
-		animationPlayState,
 		previewState.top,
 		previewState.left,
 		previewState.width,

@@ -49,4 +49,5 @@ export const en: typeof zhCN = {
 	'error.minmax': 'The maximum value should be greater than or equal to the minimum value',
 	'settings.marklineColor': 'Markline color',
 	'settings.marklineStyle': 'Markline style',
+	'settings.containerOverflow': 'Container Overflow',
 };

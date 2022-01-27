@@ -45,7 +45,7 @@ function SettingsModal(props: SettingsModalPropsType) {
 			onCancel={() => props.onCancel()}
 			onOk={() => {
 				const res = form.getFieldsValue();
-				const { min, max, borderStyle } = res;
+				const { min, max, borderStyle, containerOverFlow } = res;
 				if (max < min) {
 					props.message.error(replaceLocale('error.minmax', zhCN['error.minmax'], props.config));
 					return;
@@ -57,7 +57,9 @@ function SettingsModal(props: SettingsModalPropsType) {
 				}
 				props.config.marklineConfig.borderColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
 				props.config.marklineConfig.borderStyle = borderStyle;
+				props.config.containerOverFlow = containerOverFlow;
 				props.onOk(res);
+				props.config.containerForceUpdate();
 				return;
 			}}
 		>
@@ -70,6 +72,7 @@ function SettingsModal(props: SettingsModalPropsType) {
 					max: props.config.scaleState.maxValue,
 					autofocus: props.config.timelineConfig.autoFocus,
 					borderStyle: props.config.marklineConfig.borderStyle,
+					containerOverFlow: props.config.containerOverFlow,
 				}}
 				form={form}
 			>
@@ -136,6 +139,19 @@ function SettingsModal(props: SettingsModalPropsType) {
 				<Form.Item
 					name="autofocus"
 					label={replaceLocale('settings.autofocus', zhCN['settings.autofocus'], props.config)}
+				>
+					<Radio.Group>
+						<Radio value={true}>{replaceLocale('on', zhCN['on'], props.config)}</Radio>
+						<Radio value={false}>{replaceLocale('off', zhCN['off'], props.config)}</Radio>
+					</Radio.Group>
+				</Form.Item>
+				<Form.Item
+					name="containerOverFlow"
+					label={replaceLocale(
+						'settings.containerOverflow',
+						zhCN['settings.containerOverflow'],
+						props.config
+					)}
 				>
 					<Radio.Group>
 						<Radio value={true}>{replaceLocale('on', zhCN['on'], props.config)}</Radio>

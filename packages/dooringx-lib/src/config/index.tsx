@@ -348,6 +348,8 @@ export class UserConfig {
 	public focusState = focusState;
 	public collapsed = false;
 	public ticker = true;
+	public containerOverFlow = true;
+	public containerForceUpdate = () => {};
 	public timeline = false;
 	public timelineConfig: TimeLineConfigType = {
 		autoFocus: true,
@@ -357,6 +359,7 @@ export class UserConfig {
 		status: 'stop',
 		runFunc: () => {},
 		resetFunc: () => {},
+		current: 0,
 	};
 	public waitAnimate = false;
 	public wrapperMoveState = wrapperMoveState;

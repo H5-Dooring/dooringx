@@ -46,4 +46,5 @@ export const zhCN = {
 	'error.minmax': '最大值应大于等于最小值',
 	'settings.marklineColor': '辅助线颜色',
 	'settings.marklineStyle': '辅助线样式',
+	'settings.containerOverflow': '容器边界外不显示元素',
 };

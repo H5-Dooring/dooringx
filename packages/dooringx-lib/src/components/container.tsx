@@ -4,7 +4,7 @@ import { innerContainerDrag } from '../core/innerDrag';
 import { NormalMarkLineRender } from '../core/markline';
 import { IStoreData } from '../core/store/storetype';
 import { wrapperMoveState } from './wrapperMove/event';
-import { CSSProperties, PropsWithChildren, useMemo } from 'react';
+import { CSSProperties, PropsWithChildren, useMemo, useState } from 'react';
 import Blocks from './blocks';
 import { containerResizer } from '../core/resizeHandler/containerResizer';
 import React from 'react';
@@ -37,6 +37,10 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 			return props.state.globalState.containerColor;
 		}
 	};
+	const forceUpdate = useState(0)[1];
+	props.config.containerForceUpdate = () => {
+		forceUpdate((p) => p + 1);
+	};
 
 	return (
 		<>
@@ -59,7 +63,7 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 									width: `${props.state.container.width}px`,
 									backgroundColor: bgColor(),
 									position: 'relative',
-									overflow: 'hidden',
+									overflow: props.config.containerOverFlow ? 'hidden' : 'visible',
 									cursor: 'default',
 									...editContainerStyle,
 								}}
