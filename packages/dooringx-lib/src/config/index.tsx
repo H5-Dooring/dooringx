@@ -361,6 +361,7 @@ export class UserConfig {
 		resetFunc: () => {},
 		current: 0,
 	};
+	public blockForceUpdate: Array<Function> = [];
 	public waitAnimate = false;
 	public wrapperMoveState = wrapperMoveState;
 	public iframeWrapperMoveState = iframeWrapperMoveState;

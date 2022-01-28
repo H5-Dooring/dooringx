@@ -158,12 +158,14 @@ export function TimeLineItem(props: TimeLineItemProps) {
 						}}
 					>
 						<div
+							className="yh-timeline-item-left"
 							style={{ ...commonCss, left: -square }}
 							onMouseDown={(e) => {
 								resizeMouseDown(e, v, true);
 							}}
 						></div>
 						<div
+							className="yh-timeline-item-right"
 							style={{ ...commonCss, right: -square }}
 							onMouseDown={(e) => {
 								resizeMouseDown(e, v, false);

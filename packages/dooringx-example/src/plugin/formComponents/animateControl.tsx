@@ -118,7 +118,7 @@ const repeat = ['1', '2', '3', '4', '5', 'infinite'];
 
 const timeFunction: Record<string, string> = {
 	平滑: 'linear',
-	缓入: 'ease in',
+	缓入: 'ease-in',
 };
 
 let lastAnimate: AnimateItem[] = [];
@@ -302,12 +302,13 @@ function AnimateControl(props: AnimateControlProps) {
 			<Row style={{ padding: padding, justifyContent: 'space-around' }}>
 				{animate.length > 0 && (
 					<Button
-						onClick={() => {
+						onClick={async () => {
 							if (!isOmit) {
 								isOmit = true;
-								props.config.waitAnimate = true;
 								const cacheProps = animate;
+								await props.config.timelineNeedleConfig.resetFunc();
 								const data: IStoreData = deepCopy(store.getData());
+								props.config.waitAnimate = true;
 								data.block.forEach((v) => {
 									if (v.id === props.current.id) {
 										v.animate = [];
@@ -323,10 +324,9 @@ function AnimateControl(props: AnimateControlProps) {
 									});
 									isOmit = false;
 									props.config.waitAnimate = false;
-									store.cleanLast();
+									props.config.timelineNeedleConfig.status = 'start';
 									store.setData(clone);
 									store.cleanLast();
-									props.config.timelineNeedleConfig.resetFunc();
 								});
 							}
 						}}
