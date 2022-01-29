@@ -115,7 +115,10 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 	const [animateProps, animationEdit]: [CSSProperties, CSSProperties] = useMemo(() => {
 		const [normal, editProps] = mergeAnimate(props.data.animate, {
 			isPause: props.config.timelineNeedleConfig.status === 'pause' ? true : false,
-			delay: props.config.timelineNeedleConfig.current,
+			delay:
+				props.config.timelineNeedleConfig.status === 'stop'
+					? props.config.timelineNeedleConfig.current
+					: 0,
 		});
 		return [
 			{

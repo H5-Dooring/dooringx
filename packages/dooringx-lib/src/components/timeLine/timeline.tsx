@@ -45,6 +45,7 @@ export interface TimeLineNeedleConfigType {
 	status: 'stop' | 'start' | 'pause';
 	runFunc: Function;
 	resetFunc: Function;
+	pauseFunc: Function;
 	current: number;
 }
 
@@ -169,7 +170,70 @@ let cacheBlock: IBlockType[] = [];
 
 const needleWidth = 2;
 const initialLeft = 20 - needleWidth / 2;
+const needleHeadWidth = 15;
+const needleHeadHeight = 22;
+
 let timer: number | null = null;
+
+const needleState = {
+	isDrag: false,
+	startX: 0,
+	origin: 0,
+};
+
+const needleHeadEvent = (
+	setNeedle: React.Dispatch<React.SetStateAction<number>>,
+	config: UserConfig
+) => {
+	return {
+		onMouseDown: (e: React.MouseEvent) => {
+			console.log('down', setNeedle, config, e.clientX);
+			// 调整为stop模式，
+			e.stopPropagation();
+			setNeedle((p) => {
+				needleState.origin = p;
+				return p;
+			});
+			needleState.isDrag = true;
+			needleState.startX = e.clientX;
+			if (timer) {
+				window.clearInterval(timer);
+			}
+		},
+	};
+};
+const needleMoveEvent = (
+	setNeedle: React.Dispatch<React.SetStateAction<number>>,
+	config: UserConfig
+) => {
+	return {
+		onMouseMove: (e: React.MouseEvent) => {
+			if (needleState.isDrag) {
+				console.log('move', e.clientX, config);
+				const diff = e.clientX - needleState.startX;
+				setNeedle(() => {
+					const shouldMoveX = needleState.origin + diff;
+					if (shouldMoveX < initialLeft) {
+						return initialLeft;
+					} else if (shouldMoveX > ruleWidth) {
+						return ruleWidth;
+					} else {
+						return shouldMoveX;
+					}
+				});
+			}
+		},
+		onMouseUp: () => {
+			console.log('up');
+			needleState.isDrag = false;
+			needleState.startX = 0;
+		},
+		onDoubleClick: (e: React.MouseEvent) => {
+			console.log('dbclick', e.clientX, (e.target as HTMLDivElement).getBoundingClientRect().width);
+		},
+	};
+};
+
 export function TimeLine(props: TimeLineProps) {
 	const store = props.config.getStore();
 	const data = store.getData().block;
@@ -257,6 +321,12 @@ export function TimeLine(props: TimeLineProps) {
 		});
 	};
 
+	const refreshBlock = () => {
+		const cloneData: IStoreData = deepcopy(store.getData());
+		store.setData(cloneData);
+		store.cleanLast();
+	};
+
 	const needlePlay = async () => {
 		if (timer) {
 			window.clearInterval(timer);
@@ -265,33 +335,40 @@ export function TimeLine(props: TimeLineProps) {
 		if (props.config.timelineNeedleConfig.status !== 'pause') {
 			await needleReset();
 		}
+		props.config.timelineNeedleConfig.status = 'start';
+		refreshBlock();
 		setTimeout(() => {
 			timer = window.setInterval(() => {
-				if (needle < ruleWidth) {
-					setNeedle((pre) => {
+				setNeedle((pre) => {
+					if (pre < ruleWidth) {
 						props.config.timelineNeedleConfig.current = (pre - initialLeft) / 20;
 						return pre + 2;
-					});
-					props.config.blockForceUpdate.forEach((v) => v());
-				}
+					} else {
+						if (timer) {
+							window.clearInterval(timer);
+						}
+						return pre;
+					}
+				});
+				//	props.config.blockForceUpdate.forEach((v) => v());
 			}, 100);
 		});
 	};
 
-	const needleReset = async () => {
+	const needleReset = async (needResetAnimate = true) => {
 		if (timer) {
 			window.clearInterval(timer);
 		}
 		props.config.timelineNeedleConfig.status = 'start';
-		await resetAnimate();
+		if (needResetAnimate) {
+			await resetAnimate();
+		}
 		return new Promise<void>((res) => {
 			setTimeout(() => {
 				props.config.timelineNeedleConfig.status = 'pause';
 				props.config.timelineNeedleConfig.current = 0;
 				setNeedle(initialLeft);
-				const cloneData: IStoreData = deepcopy(store.getData());
-				store.setData(cloneData);
-				store.cleanLast();
+				refreshBlock();
 				res();
 			});
 		});
@@ -302,13 +379,12 @@ export function TimeLine(props: TimeLineProps) {
 		if (timer) {
 			window.clearInterval(timer);
 		}
-		const cloneData: IStoreData = deepcopy(store.getData());
-		store.setData(cloneData);
-		store.cleanLast();
+		refreshBlock();
 	};
 
 	props.config.timelineNeedleConfig.resetFunc = needleReset;
-	// props.config.timelineNeedleConfig.runFunc = needleStart;
+	props.config.timelineNeedleConfig.runFunc = needlePlay;
+	props.config.timelineNeedleConfig.pauseFunc = needlePause;
 
 	return (
 		<div
@@ -402,8 +478,27 @@ export function TimeLine(props: TimeLineProps) {
 							overflow: 'hidden',
 							position: 'relative',
 						}}
+						{...needleMoveEvent(setNeedle, props.config)}
 					>
 						<div
+							className="yh-timeline-needle-head"
+							style={{
+								position: 'absolute',
+								transform: `translate(-${scrollx}px, 0px)`,
+								width: needleHeadWidth,
+								height: needleHeadHeight,
+								backgroundColor: '#ff5722',
+								zIndex: 3,
+								left: needle - needleHeadWidth / 2,
+								transition: 'left linear',
+								willChange: 'left',
+								borderRadius: '2px',
+								cursor: 'col-resize',
+							}}
+							{...needleHeadEvent(setNeedle, props.config)}
+						></div>
+						<div
+							className="yh-timeline-needle"
 							style={{
 								position: 'absolute',
 								transform: `translate(-${scrollx}px, 0px)`,

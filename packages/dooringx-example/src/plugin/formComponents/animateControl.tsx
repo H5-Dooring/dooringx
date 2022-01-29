@@ -306,7 +306,7 @@ function AnimateControl(props: AnimateControlProps) {
 							if (!isOmit) {
 								isOmit = true;
 								const cacheProps = animate;
-								await props.config.timelineNeedleConfig.resetFunc();
+								await props.config.timelineNeedleConfig.resetFunc(false);
 								const data: IStoreData = deepCopy(store.getData());
 								props.config.waitAnimate = true;
 								data.block.forEach((v) => {
@@ -314,6 +314,7 @@ function AnimateControl(props: AnimateControlProps) {
 										v.animate = [];
 									}
 								});
+								props.config.timelineNeedleConfig.status = 'pause';
 								store.setData(data);
 								setTimeout(() => {
 									const clone: IStoreData = deepCopy(store.getData());

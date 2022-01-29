@@ -359,6 +359,7 @@ export class UserConfig {
 		status: 'stop',
 		runFunc: () => {},
 		resetFunc: () => {},
+		pauseFunc: () => {},
 		current: 0,
 	};
 	public blockForceUpdate: Array<Function> = [];

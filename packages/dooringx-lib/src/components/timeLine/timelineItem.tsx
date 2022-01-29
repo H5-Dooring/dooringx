@@ -60,7 +60,7 @@ const resizeMouseDown = (
 	left: boolean
 ) => {
 	e.stopPropagation();
-	resizeState.startX = e.screenX;
+	resizeState.startX = e.clientX;
 	resizeState.uid = v.uid;
 	resizeState.isMove = true;
 	resizeState.left = left;
@@ -73,7 +73,7 @@ export const TimeLineItemMouseMove = function (
 ) {
 	if (moveState.isMove) {
 		//修改源属性
-		const diff = e.screenX - moveState.startX;
+		const diff = e.clientX - moveState.startX;
 		animate.forEach((v) => {
 			if (v.uid === moveState.uid) {
 				const f = parseFloat((v.animationDelay + diff / times).toFixed(1));
@@ -81,9 +81,9 @@ export const TimeLineItemMouseMove = function (
 				forceUpdate((p) => p + 1);
 			}
 		});
-		moveState.startX = e.screenX;
+		moveState.startX = e.clientX;
 	} else if (resizeState.isMove) {
-		const diff = e.screenX - resizeState.startX;
+		const diff = e.clientX - resizeState.startX;
 		if (resizeState.left) {
 			animate.forEach((v) => {
 				if (v.uid === resizeState.uid) {
@@ -107,7 +107,7 @@ export const TimeLineItemMouseMove = function (
 				}
 			});
 		}
-		resizeState.startX = e.screenX;
+		resizeState.startX = e.clientX;
 	}
 };
 export const TimeLineItemMouseOver = function () {
@@ -142,7 +142,7 @@ export function TimeLineItem(props: TimeLineItemProps) {
 					<div
 						key={v.uid}
 						onMouseDown={(e) => {
-							moveState.startX = e.screenX;
+							moveState.startX = e.clientX;
 							moveState.uid = v.uid;
 							moveState.isMove = true;
 						}}
