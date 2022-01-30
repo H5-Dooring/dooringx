@@ -47,6 +47,8 @@ export interface TimeLineNeedleConfigType {
 	resetFunc: Function;
 	pauseFunc: Function;
 	current: number;
+	isRefresh: boolean;
+	setNeedle: Function;
 }
 
 const animateTicker = new Array(iter).fill(1).map((_, y) => y);
@@ -186,50 +188,62 @@ const needleHeadEvent = (
 	config: UserConfig
 ) => {
 	return {
-		onMouseDown: (e: React.MouseEvent) => {
-			console.log('down', setNeedle, config, e.clientX);
-			// 调整为stop模式，
+		onMouseDown: async (e: React.MouseEvent) => {
+			e.persist();
 			e.stopPropagation();
+			if (
+				config.timelineNeedleConfig.status === 'start' ||
+				!config.timelineNeedleConfig.isRefresh
+			) {
+				await config.timelineNeedleConfig.resetFunc();
+			}
 			setNeedle((p) => {
 				needleState.origin = p;
 				return p;
 			});
 			needleState.isDrag = true;
 			needleState.startX = e.clientX;
+			config.blockForceUpdate.forEach((v) => {
+				v();
+			});
 			if (timer) {
 				window.clearInterval(timer);
 			}
 		},
 	};
 };
-const needleMoveEvent = (
-	setNeedle: React.Dispatch<React.SetStateAction<number>>,
-	config: UserConfig
-) => {
+export const needleMoveEvent = (config: UserConfig) => {
+	const setNeedle = config.timelineNeedleConfig.setNeedle;
 	return {
-		onMouseMove: (e: React.MouseEvent) => {
+		onMouseMove: async (e: React.MouseEvent) => {
 			if (needleState.isDrag) {
-				console.log('move', e.clientX, config);
+				e.persist(); //不加这个很容易导致clientx为null
 				const diff = e.clientX - needleState.startX;
 				setNeedle(() => {
 					const shouldMoveX = needleState.origin + diff;
 					if (shouldMoveX < initialLeft) {
+						config.timelineNeedleConfig.current = 0;
 						return initialLeft;
 					} else if (shouldMoveX > ruleWidth) {
+						config.timelineNeedleConfig.current = (ruleWidth - initialLeft) / 20;
 						return ruleWidth;
 					} else {
+						config.timelineNeedleConfig.current = (shouldMoveX - initialLeft) / 20;
 						return shouldMoveX;
 					}
+				});
+				config.timelineNeedleConfig.status = 'stop';
+				config.blockForceUpdate.forEach((v) => {
+					v();
 				});
 			}
 		},
 		onMouseUp: () => {
-			console.log('up');
 			needleState.isDrag = false;
 			needleState.startX = 0;
 		},
-		onDoubleClick: (e: React.MouseEvent) => {
-			console.log('dbclick', e.clientX, (e.target as HTMLDivElement).getBoundingClientRect().width);
+		onDoubleClick: () => {
+			// 这个暂时搞不定，可以在起始点埋个点位得到坐标值进行计算。
 		},
 	};
 };
@@ -336,6 +350,7 @@ export function TimeLine(props: TimeLineProps) {
 			await needleReset();
 		}
 		props.config.timelineNeedleConfig.status = 'start';
+		props.config.timelineNeedleConfig.isRefresh = false;
 		refreshBlock();
 		setTimeout(() => {
 			timer = window.setInterval(() => {
@@ -367,6 +382,7 @@ export function TimeLine(props: TimeLineProps) {
 			setTimeout(() => {
 				props.config.timelineNeedleConfig.status = 'pause';
 				props.config.timelineNeedleConfig.current = 0;
+				props.config.timelineNeedleConfig.isRefresh = true;
 				setNeedle(initialLeft);
 				refreshBlock();
 				res();
@@ -376,6 +392,7 @@ export function TimeLine(props: TimeLineProps) {
 
 	const needlePause = () => {
 		props.config.timelineNeedleConfig.status = 'pause';
+		props.config.timelineNeedleConfig.isRefresh = false;
 		if (timer) {
 			window.clearInterval(timer);
 		}
@@ -385,7 +402,7 @@ export function TimeLine(props: TimeLineProps) {
 	props.config.timelineNeedleConfig.resetFunc = needleReset;
 	props.config.timelineNeedleConfig.runFunc = needlePlay;
 	props.config.timelineNeedleConfig.pauseFunc = needlePause;
-
+	props.config.timelineNeedleConfig.setNeedle = setNeedle;
 	return (
 		<div
 			className={`${props.classes} ant-menu yh-timeline-wrap`}
@@ -433,6 +450,7 @@ export function TimeLine(props: TimeLineProps) {
 										cursor: 'pointer',
 										marginRight: '10px',
 									}}
+									title="reset"
 								>
 									<ReloadOutlined
 										onClick={() => {
@@ -446,6 +464,7 @@ export function TimeLine(props: TimeLineProps) {
 										cursor: 'pointer',
 										marginRight: '10px',
 									}}
+									title="pause"
 								>
 									<PauseCircleOutlined
 										onClick={() => {
@@ -478,7 +497,6 @@ export function TimeLine(props: TimeLineProps) {
 							overflow: 'hidden',
 							position: 'relative',
 						}}
-						{...needleMoveEvent(setNeedle, props.config)}
 					>
 						<div
 							className="yh-timeline-needle-head"
