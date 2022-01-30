@@ -16,7 +16,9 @@ import {
 	EyeInvisibleOutlined,
 	EyeOutlined,
 	MenuOutlined,
+	PauseCircleOutlined,
 	PlayCircleOutlined,
+	ReloadOutlined,
 } from '@ant-design/icons';
 import {
 	TimeLineItem,
@@ -43,7 +45,10 @@ export interface TimeLineNeedleConfigType {
 	status: 'stop' | 'start' | 'pause';
 	runFunc: Function;
 	resetFunc: Function;
+	pauseFunc: Function;
 	current: number;
+	isRefresh: boolean;
+	setNeedle: Function;
 }
 
 const animateTicker = new Array(iter).fill(1).map((_, y) => y);
@@ -165,9 +170,84 @@ const SortableList = SortableContainer(
 
 let cacheBlock: IBlockType[] = [];
 
-// const needleWidth = 2;
-// const initialLeft = 20 - needleWidth / 2;
-// let timer: number | null = null;
+const needleWidth = 2;
+const initialLeft = 20 - needleWidth / 2;
+const needleHeadWidth = 15;
+const needleHeadHeight = 22;
+
+let timer: number | null = null;
+
+const needleState = {
+	isDrag: false,
+	startX: 0,
+	origin: 0,
+};
+
+const needleHeadEvent = (
+	setNeedle: React.Dispatch<React.SetStateAction<number>>,
+	config: UserConfig
+) => {
+	return {
+		onMouseDown: async (e: React.MouseEvent) => {
+			e.persist();
+			e.stopPropagation();
+			if (
+				config.timelineNeedleConfig.status === 'start' ||
+				!config.timelineNeedleConfig.isRefresh
+			) {
+				await config.timelineNeedleConfig.resetFunc();
+			}
+			setNeedle((p) => {
+				needleState.origin = p;
+				return p;
+			});
+			needleState.isDrag = true;
+			needleState.startX = e.clientX;
+			config.blockForceUpdate.forEach((v) => {
+				v();
+			});
+			if (timer) {
+				window.clearInterval(timer);
+			}
+		},
+	};
+};
+export const needleMoveEvent = (config: UserConfig) => {
+	const setNeedle = config.timelineNeedleConfig.setNeedle;
+	return {
+		onMouseMove: async (e: React.MouseEvent) => {
+			if (needleState.isDrag) {
+				e.persist(); //不加这个很容易导致clientx为null
+				const diff = e.clientX - needleState.startX;
+				setNeedle(() => {
+					const shouldMoveX = needleState.origin + diff;
+					if (shouldMoveX < initialLeft) {
+						config.timelineNeedleConfig.current = 0;
+						return initialLeft;
+					} else if (shouldMoveX > ruleWidth) {
+						config.timelineNeedleConfig.current = (ruleWidth - initialLeft) / 20;
+						return ruleWidth;
+					} else {
+						config.timelineNeedleConfig.current = (shouldMoveX - initialLeft) / 20;
+						return shouldMoveX;
+					}
+				});
+				config.timelineNeedleConfig.status = 'stop';
+				config.blockForceUpdate.forEach((v) => {
+					v();
+				});
+			}
+		},
+		onMouseUp: () => {
+			needleState.isDrag = false;
+			needleState.startX = 0;
+		},
+		onDoubleClick: () => {
+			// 这个暂时搞不定，可以在起始点埋个点位得到坐标值进行计算。
+		},
+	};
+};
+
 export function TimeLine(props: TimeLineProps) {
 	const store = props.config.getStore();
 	const data = store.getData().block;
@@ -223,72 +303,106 @@ export function TimeLine(props: TimeLineProps) {
 		}
 	}, [props.config]);
 
-	// const [needle, setNeedle] = useState(initialLeft);
+	const [needle, setNeedle] = useState(initialLeft);
 
-	//const needleStart = () => {
-	// props.config.timelineNeedleConfig.current = 0;
-	// setNeedle(initialLeft);
-	// //每过0.1秒移动2
-	// if (timer) {
-	// 	window.clearInterval(timer);
-	// }
-	// props.config.timelineNeedleConfig.status = 'start';
-	// const cloneData: IStoreData = deepcopy(store.getData());
-	// store.setData(cloneData);
-	// store.cleanLast();
-	// timer = window.setInterval(() => {
-	// 	if (needle < ruleWidth) {
-	// 		setNeedle((pre) => {
-	// 			props.config.timelineNeedleConfig.current = (pre - initialLeft) / 20;
-	// 			console.log(props.config.timelineNeedleConfig.current);
-	// 			return pre + 2;
-	// 		});
-	// 	}
-	// }, 100);
-	//	};
+	const resetAnimate = async () => {
+		// 重置动画后才能调整delay
+		return new Promise<void>((res) => {
+			if (!WAIT) {
+				WAIT = true;
+				props.config.waitAnimate = true;
+				const cache = data.map((v) => {
+					return v.animate;
+				});
+				const cloneData: IStoreData = deepcopy(store.getData());
+				cloneData.block.forEach((v) => {
+					v.animate = [];
+				});
+				store.setData(cloneData);
+				setTimeout(() => {
+					props.config.timelineNeedleConfig.status = 'pause';
+					const cloneData: IStoreData = deepcopy(store.getData());
+					cloneData.block.forEach((v, i) => {
+						v.animate = cache[i];
+					});
+					WAIT = false;
+					props.config.waitAnimate = false;
+					store.setData(cloneData);
+					store.cleanLast();
+					res();
+				});
+			}
+		});
+	};
 
-	// const needlePlay = async () => {
-	// 	if (timer) {
-	// 		window.clearInterval(timer);
-	// 	}
-	// 	await resetAnimate();
-	// 	setTimeout(() => {
-	// 		props.config.timelineNeedleConfig.status = 'pause';
-	// 		timer = window.setInterval(() => {
-	// 			if (needle < ruleWidth) {
-	// 				setNeedle((pre) => {
-	// 					props.config.timelineNeedleConfig.current = (pre - initialLeft) / 20;
-	// 					return pre + 2;
-	// 				});
-	// 			}
-	// 		}, 100);
-	// 	});
-	// };
+	const refreshBlock = () => {
+		const cloneData: IStoreData = deepcopy(store.getData());
+		store.setData(cloneData);
+		store.cleanLast();
+	};
 
-	// const needleReset = () => {
-	// 	if (timer) {
-	// 		window.clearInterval(timer);
-	// 	}
-	// 	props.config.timelineNeedleConfig.status = 'pause';
-	// 	props.config.timelineNeedleConfig.current = 0;
-	// 	resetAnimate();
-	// 	setNeedle(initialLeft);
-	// 	store.cleanLast();
-	// };
+	const needlePlay = async () => {
+		if (timer) {
+			window.clearInterval(timer);
+		}
+		//判断如果status不是pause，则要执行reset
+		if (props.config.timelineNeedleConfig.status !== 'pause') {
+			await needleReset();
+		}
+		props.config.timelineNeedleConfig.status = 'start';
+		props.config.timelineNeedleConfig.isRefresh = false;
+		refreshBlock();
+		setTimeout(() => {
+			timer = window.setInterval(() => {
+				setNeedle((pre) => {
+					if (pre < ruleWidth) {
+						props.config.timelineNeedleConfig.current = (pre - initialLeft) / 20;
+						return pre + 2;
+					} else {
+						if (timer) {
+							window.clearInterval(timer);
+						}
+						return pre;
+					}
+				});
+				//	props.config.blockForceUpdate.forEach((v) => v());
+			}, 100);
+		});
+	};
 
-	// const needlePause = () => {
-	// 	props.config.timelineNeedleConfig.status = 'pause';
-	// 	if (timer) {
-	// 		window.clearInterval(timer);
-	// 	}
-	// 	const cloneData: IStoreData = deepcopy(store.getData());
-	// 	store.setData(cloneData);
-	// 	store.cleanLast();
-	// };
+	const needleReset = async (needResetAnimate = true) => {
+		if (timer) {
+			window.clearInterval(timer);
+		}
+		props.config.timelineNeedleConfig.status = 'start';
+		if (needResetAnimate) {
+			await resetAnimate();
+		}
+		return new Promise<void>((res) => {
+			setTimeout(() => {
+				props.config.timelineNeedleConfig.status = 'pause';
+				props.config.timelineNeedleConfig.current = 0;
+				props.config.timelineNeedleConfig.isRefresh = true;
+				setNeedle(initialLeft);
+				refreshBlock();
+				res();
+			});
+		});
+	};
 
-	// props.config.timelineNeedleConfig.resetFunc = needleReset;
-	// props.config.timelineNeedleConfig.runFunc = needleStart;
+	const needlePause = () => {
+		props.config.timelineNeedleConfig.status = 'pause';
+		props.config.timelineNeedleConfig.isRefresh = false;
+		if (timer) {
+			window.clearInterval(timer);
+		}
+		refreshBlock();
+	};
 
+	props.config.timelineNeedleConfig.resetFunc = needleReset;
+	props.config.timelineNeedleConfig.runFunc = needlePlay;
+	props.config.timelineNeedleConfig.pauseFunc = needlePause;
+	props.config.timelineNeedleConfig.setNeedle = setNeedle;
 	return (
 		<div
 			className={`${props.classes} ant-menu yh-timeline-wrap`}
@@ -330,14 +444,19 @@ export function TimeLine(props: TimeLineProps) {
 									textAlign: 'right',
 								}}
 							>
-								{/* <span
+								<span
 									style={{
 										display: 'inline-block',
 										cursor: 'pointer',
 										marginRight: '10px',
 									}}
+									title="reset"
 								>
-									<ReloadOutlined onClick={() => needleReset()} />
+									<ReloadOutlined
+										onClick={() => {
+											needleReset();
+										}}
+									/>
 								</span>
 								<span
 									style={{
@@ -345,9 +464,14 @@ export function TimeLine(props: TimeLineProps) {
 										cursor: 'pointer',
 										marginRight: '10px',
 									}}
+									title="pause"
 								>
-									<PauseCircleOutlined onClick={() => needlePause()} />
-								</span> */}
+									<PauseCircleOutlined
+										onClick={() => {
+											needlePause();
+										}}
+									/>
+								</span>
 								<span
 									title="play"
 									style={{
@@ -356,29 +480,7 @@ export function TimeLine(props: TimeLineProps) {
 										cursor: 'pointer',
 									}}
 									onClick={() => {
-										//缓存所有animate后执行
-										if (!WAIT) {
-											WAIT = true;
-											props.config.waitAnimate = true;
-											const cache = data.map((v) => {
-												return v.animate;
-											});
-											const cloneData: IStoreData = deepcopy(store.getData());
-											cloneData.block.forEach((v) => {
-												v.animate = [];
-											});
-											store.setData(cloneData);
-											setTimeout(() => {
-												const cloneData: IStoreData = deepcopy(store.getData());
-												cloneData.block.forEach((v, i) => {
-													v.animate = cache[i];
-												});
-												WAIT = false;
-												props.config.waitAnimate = false;
-												store.setData(cloneData);
-												store.cleanLast();
-											});
-										}
+										needlePlay();
 									}}
 								>
 									<PlayCircleOutlined />
@@ -396,7 +498,25 @@ export function TimeLine(props: TimeLineProps) {
 							position: 'relative',
 						}}
 					>
-						{/* <div
+						<div
+							className="yh-timeline-needle-head"
+							style={{
+								position: 'absolute',
+								transform: `translate(-${scrollx}px, 0px)`,
+								width: needleHeadWidth,
+								height: needleHeadHeight,
+								backgroundColor: '#ff5722',
+								zIndex: 3,
+								left: needle - needleHeadWidth / 2,
+								transition: 'left linear',
+								willChange: 'left',
+								borderRadius: '2px',
+								cursor: 'col-resize',
+							}}
+							{...needleHeadEvent(setNeedle, props.config)}
+						></div>
+						<div
+							className="yh-timeline-needle"
 							style={{
 								position: 'absolute',
 								transform: `translate(-${scrollx}px, 0px)`,
@@ -407,8 +527,9 @@ export function TimeLine(props: TimeLineProps) {
 								left: needle,
 								transition: 'left linear',
 								willChange: 'left',
+								pointerEvents: 'none',
 							}}
-						></div> */}
+						></div>
 						<div
 							style={{
 								display: 'flex',

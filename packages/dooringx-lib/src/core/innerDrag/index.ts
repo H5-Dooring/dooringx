@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import React, { RefObject } from 'react';
 import { blockFocus, containerFocusRemove } from '../focusHandler';
 import { marklineConfig } from '../markline/marklineConfig';
 import { resizerMouseMove, resizerMouseUp } from '../resizeHandler';
@@ -14,6 +14,7 @@ import { rotateMouseMove, rotateMouseUp } from '../rotateHandler';
 import { specialCoList } from '../utils/special';
 import { marklineState } from '../markline/state';
 import { itemHeight } from '../../components/timeLine/timelineItem';
+import { needleMoveEvent } from '../../components/timeLine/timeline';
 
 export const innerDrag = function (
 	item: IBlockType,
@@ -150,6 +151,7 @@ export const innerContainerDragUp = function (config: UserConfig) {
 		marklineState.sortRight = null;
 		marklineState.sortBottom = null;
 		iframeWrapperMove(config);
+		needleMoveEvent(config).onMouseUp();
 		wrapperMoveMouseUp(config);
 		selectRangeMouseUp(e, config);
 		if (innerDragState.ref && innerDragState.ref.current) {
@@ -171,5 +173,8 @@ export const innerContainerDragUp = function (config: UserConfig) {
 	};
 	return {
 		onMouseUp,
+		onMouseMove: (e: React.MouseEvent) => {
+			needleMoveEvent(config).onMouseMove(e);
+		},
 	};
 };

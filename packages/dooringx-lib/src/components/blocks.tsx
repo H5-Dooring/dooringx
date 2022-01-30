@@ -8,6 +8,8 @@ import { transfer } from '../core/transfer';
 import { UserConfig } from '../config';
 import styles from '../index.less';
 import { RotateReset, RotateResizer } from '../core/rotateHandler';
+import { mergeAnimate } from '../core/utils/animate';
+
 interface BlockProps {
 	data: IBlockType;
 	context: 'edit' | 'preview';
@@ -95,39 +97,39 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		props.data.fixed,
 	]);
 
-	const animateProps: CSSProperties = useMemo(() => {
-		const select: CSSProperties = {
-			animationName: '',
-			animationDelay: '',
-			animationDuration: '',
-			animationIterationCount: '',
-			//	animationFillMode: 'forwards',// 这个属性和transform冲突
-			animationTimingFunction: '',
+	const [force, animateForce] = useState(0);
+
+	useEffect(() => {
+		const fn = () => {
+			animateForce((p) => p + 1);
 		};
-		props.data.animate.forEach((v) => {
-			select.animationName =
-				select.animationName === ''
-					? v.animationName
-					: select.animationName + ',' + v.animationName;
-			select.animationDelay =
-				select.animationDelay === ''
-					? v.animationDelay + 's'
-					: select.animationDelay + ',' + v.animationDelay + 's';
-			select.animationDuration =
-				select.animationDuration === ''
-					? v.animationDuration + 's'
-					: select.animationDuration + ',' + v.animationDuration + 's';
-			select.animationIterationCount =
-				select.animationIterationCount === ''
-					? v.animationIterationCount
-					: select.animationIterationCount + ',' + v.animationIterationCount;
-			select.animationTimingFunction =
-				select.animationTimingFunction === ''
-					? v.animationTimingFunction
-					: select.animationTimingFunction + ',' + v.animationTimingFunction;
+		props.config.blockForceUpdate.push(fn);
+		const unload = () => {
+			props.config.blockForceUpdate = props.config.blockForceUpdate.filter((v) => v !== fn);
+		};
+		return () => {
+			unload();
+		};
+	}, [animateForce, props.config]);
+
+	const [animateProps, animationEdit]: [CSSProperties, CSSProperties] = useMemo(() => {
+		const [normal, editProps] = mergeAnimate(props.data.animate, {
+			isPause: props.config.timelineNeedleConfig.status !== 'start' ? true : false,
+			delay:
+				props.config.timelineNeedleConfig.status === 'stop'
+					? props.config.timelineNeedleConfig.current
+					: 0,
 		});
-		return select;
-	}, [props.data.animate]);
+		return [
+			{
+				animation: normal,
+			},
+			{
+				animation: editProps,
+			},
+		];
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.data.animate, props.config.timelineNeedleConfig, force]);
 
 	const render = useMemo(() => {
 		// 如果是编辑模式下，则需要包裹不能选中层，位移层，缩放控制层，平面移动层。
@@ -167,7 +169,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						<div
 							style={{
 								...style,
-								...animateProps,
+								...animationEdit,
 							}}
 						>
 							{state}
@@ -180,7 +182,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 								pointerEvents: 'none',
 								width: '100%',
 								height: '100%',
-								...animateProps,
+								...animationEdit,
 							}}
 						>
 							{state}
@@ -191,7 +193,7 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						<span
 							style={{
 								pointerEvents: 'none',
-								...animateProps,
+								...animationEdit,
 							}}
 						>
 							{state}
@@ -214,10 +216,9 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						zIndex: props.data.zIndex,
 						display: props.data.display,
 						transform: `rotate(${props.data.rotate.value}deg)`,
-						...animateProps,
 					}}
 				>
-					{state}
+					<div style={{ ...animateProps }}>{state}</div>
 				</div>
 			);
 		}
@@ -225,14 +226,15 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 		state,
 		props.context,
 		props.data,
-		props.config,
 		props.iframe,
+		props.config,
 		innerDragData,
-		animateProps,
+		animationEdit,
 		previewState.top,
 		previewState.left,
 		previewState.width,
 		previewState.height,
+		animateProps,
 	]);
 	return render;
 }

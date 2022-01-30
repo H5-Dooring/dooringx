@@ -356,11 +356,15 @@ export class UserConfig {
 		scrollDom: null,
 	};
 	public timelineNeedleConfig: TimeLineNeedleConfigType = {
-		status: 'stop',
+		status: 'start',
 		runFunc: () => {},
 		resetFunc: () => {},
+		pauseFunc: () => {},
+		setNeedle: () => {},
 		current: 0,
+		isRefresh: true,
 	};
+	public blockForceUpdate: Array<Function> = [];
 	public waitAnimate = false;
 	public wrapperMoveState = wrapperMoveState;
 	public iframeWrapperMoveState = iframeWrapperMoveState;
