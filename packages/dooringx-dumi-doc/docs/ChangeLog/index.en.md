@@ -5,6 +5,8 @@ nav:
   title: change log
   order: 6
 ---
+## 0.12.3
+Fix double click positioning problem
 ## 0.12.2
 Add double click positioning frame.
 Fixed drag frame reset pointer behavior after pause.

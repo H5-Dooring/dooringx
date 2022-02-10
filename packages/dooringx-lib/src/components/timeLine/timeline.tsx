@@ -258,8 +258,8 @@ const needleDoubleClick = (config: UserConfig) => {
 			const dom = config.timelineConfig.scrollDom;
 			if (dom) {
 				const setNeedle = config.timelineNeedleConfig.setNeedle;
-				const left = dom.getBoundingClientRect().left + dom.scrollLeft;
-				const mouseLeft = e.clientX;
+				const left = dom.getBoundingClientRect().left;
+				const mouseLeft = e.clientX + dom.scrollLeft;
 				e.persist();
 				e.stopPropagation();
 				await config.timelineNeedleConfig.resetFunc();
