@@ -5,6 +5,9 @@ nav:
   title: change log
   order: 6
 ---
+## 0.12.2
+Add double click positioning frame.
+Fixed drag frame reset pointer behavior after pause.
 ## 0.12.0
 The operation of adding frames to the animation can accurately view the animation status every 0.1 seconds!
 Timeline adds some class names to facilitate style modification.
@@ -57,7 +60,7 @@ A pop-up event will not appear if the pop-up name is not passed.
 Scripts loading of preview component changes from concurrency to linearity.
 Using remote components in edit mode will save the current canvas state.
 ## 0.9.4
-Fix the bug that the preview component cannot release loading
+The component of preview that cannot be fixed
 ## 0.9.3
 Add double click to place the canvas.
 Change the initial focus state of the element.
@@ -81,7 +84,7 @@ Fix timeline flicker.
 Add animation component timeline. You can preview all animations better.
 ## 0.8.0
 The animation part is reconstructed, which can support the simultaneous configuration of multiple animations.
-Drag the canvas to the minimum value of 0.
+The minimum value of canvas drag is changed to 0.
 ## 0.7.7
 Optimize the drag logic of the canvas to move more smoothly.
 ## 0.7.6
@@ -123,7 +126,7 @@ Remove the runtime export and get all properties from config.
 2. Modify container minimum drag 667. Fix the inconsistency between the distance between the canvas and the mouse when zooming down and dragging.
 3. Innercontainerdragup needs to pass config.
 ## 0.2.0 
-Modify the transfer of the commander to obtain the config. The commander is no longer exported from the index. When it needs to be used, it is obtained from the config. Add the class name on the left to facilitate customization.
+Modify the transmission of the commander to obtain the config. The commander will no longer be exported from the index. When it needs to be used, it will be obtained from the config. Add the class name on the left to facilitate customization.
 ## 0.1.10 
 Modify eslint dependency recommendation
 ## 0.1.9 

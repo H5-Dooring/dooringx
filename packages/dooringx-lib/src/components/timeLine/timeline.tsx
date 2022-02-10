@@ -195,7 +195,14 @@ const needleHeadEvent = (
 				config.timelineNeedleConfig.status === 'start' ||
 				!config.timelineNeedleConfig.isRefresh
 			) {
+				let init = initialLeft;
+				setNeedle((p) => {
+					init = p;
+					return p;
+				});
 				await config.timelineNeedleConfig.resetFunc();
+				// 重置后需要再回正
+				setNeedle(init);
 			}
 			setNeedle((p) => {
 				needleState.origin = p;
@@ -242,8 +249,39 @@ export const needleMoveEvent = (config: UserConfig) => {
 			needleState.isDrag = false;
 			needleState.startX = 0;
 		},
-		onDoubleClick: () => {
-			// 这个暂时搞不定，可以在起始点埋个点位得到坐标值进行计算。
+	};
+};
+
+const needleDoubleClick = (config: UserConfig) => {
+	return {
+		onDoubleClick: async (e: React.MouseEvent) => {
+			const dom = config.timelineConfig.scrollDom;
+			if (dom) {
+				const setNeedle = config.timelineNeedleConfig.setNeedle;
+				const left = dom.getBoundingClientRect().left + dom.scrollLeft;
+				const mouseLeft = e.clientX;
+				e.persist();
+				e.stopPropagation();
+				await config.timelineNeedleConfig.resetFunc();
+				config.timelineNeedleConfig.status = 'stop';
+				let diff = mouseLeft - left;
+				if (diff <= initialLeft) {
+					config.timelineNeedleConfig.current = 0;
+					diff = initialLeft;
+				} else if (diff > ruleWidth) {
+					config.timelineNeedleConfig.current = (ruleWidth - initialLeft) / 20;
+					diff = ruleWidth;
+				} else {
+					config.timelineNeedleConfig.current = (diff - initialLeft) / 20;
+				}
+				setNeedle(diff);
+				config.blockForceUpdate.forEach((v) => {
+					v();
+				});
+				if (timer) {
+					window.clearInterval(timer);
+				}
+			}
 		},
 	};
 };
@@ -491,12 +529,15 @@ export function TimeLine(props: TimeLineProps) {
 					</div>
 
 					<div
+						className="yh-timeline-needle-head-wrap"
 						style={{
 							width: `calc(100% -  ${leftWidth}px)`,
 							borderBottom: '1px solid #dadada',
 							overflow: 'hidden',
 							position: 'relative',
+							cursor: 'crosshair',
 						}}
+						{...needleDoubleClick(props.config)}
 					>
 						<div
 							className="yh-timeline-needle-head"
