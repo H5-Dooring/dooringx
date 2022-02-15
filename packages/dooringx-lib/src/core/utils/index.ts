@@ -17,6 +17,10 @@ export function swap(indexa: number, indexb: number, arr: Array<any>) {
 	return arr;
 }
 
+export function randomColor() {
+	return '#' + ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).slice(-6);
+}
+
 // 将rgba字符串对象转化为rgba对象
 export function rgba2Obj(rgba = '') {
 	let reg = /rgba\(\s*?(\d+)\s*?,\s*?(\d+)\s*?,\s*?(\d+)\s*?,\s*?(\d+)\s*?\)/g;

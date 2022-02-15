@@ -5,6 +5,9 @@ nav:
   title: change log
   order: 6
 ---
+## 0.12.4
+Add a lifecycle.
+Modify the timeline color and style to optimize the selected state.
 ## 0.12.3
 Fix double click positioning problem
 ## 0.12.2

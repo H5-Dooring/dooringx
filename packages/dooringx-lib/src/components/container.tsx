@@ -4,7 +4,7 @@ import { innerContainerDrag } from '../core/innerDrag';
 import { NormalMarkLineRender } from '../core/markline';
 import { IStoreData } from '../core/store/storetype';
 import { wrapperMoveState } from './wrapperMove/event';
-import { CSSProperties, PropsWithChildren, useMemo, useState } from 'react';
+import { CSSProperties, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import Blocks from './blocks';
 import { containerResizer } from '../core/resizeHandler/containerResizer';
 import React from 'react';
@@ -41,6 +41,19 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 	props.config.containerForceUpdate = () => {
 		forceUpdate((p) => p + 1);
 	};
+
+	useEffect(() => {
+		if (props.context === 'preview') {
+			props.config.onMounted();
+			props.config.onMountedFn.forEach((v) => v());
+		}
+		return () => {
+			if (props.context === 'preview') {
+				props.config.destroyed();
+				props.config.destroyedFn.forEach((v) => v());
+			}
+		};
+	}, [props.config, props.context]);
 
 	return (
 		<>

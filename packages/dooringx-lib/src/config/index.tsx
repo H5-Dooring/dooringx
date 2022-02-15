@@ -364,6 +364,14 @@ export class UserConfig {
 		current: 0,
 		isRefresh: true,
 	};
+	public createdFn: Function[] = [];
+	public created: Function = () => {};
+	public beforeOnMountedFn: Function[] = [];
+	public beforeOnMounted: Function = () => {};
+	public onMountedFn: Function[] = [];
+	public onMounted: Function = () => {};
+	public destroyedFn: Function[] = [];
+	public destroyed: Function = () => {};
 	public blockForceUpdate: Array<Function> = [];
 	public waitAnimate = false;
 	public wrapperMoveState = wrapperMoveState;

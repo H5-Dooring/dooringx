@@ -49,6 +49,8 @@ function Preview(props: PreviewProps): ReactElement {
 
 	useEffect(() => {
 		const finalFn = () => {
+			props.config.created();
+			props.config.createdFn.forEach((v) => v());
 			setTimeout(() => {
 				// 链接数据
 				props.config
@@ -67,6 +69,8 @@ function Preview(props: PreviewProps): ReactElement {
 				if (props.completeFn) {
 					props.completeFn();
 				}
+				props.config.beforeOnMounted();
+				props.config.beforeOnMountedFn.forEach((v) => v());
 				if (props.loadingState === undefined) {
 					setLoading(false);
 				}

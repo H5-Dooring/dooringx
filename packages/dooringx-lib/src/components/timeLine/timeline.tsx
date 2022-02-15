@@ -27,6 +27,7 @@ import {
 	TimeLineItemMouseOver,
 	interval,
 	iter,
+	resetCurrentMoveItemId,
 } from './timelineItem';
 import { specialCoList } from '../../core/utils/special';
 import { replaceLocale } from '../../locale';
@@ -453,6 +454,12 @@ export function TimeLine(props: TimeLineProps) {
 				display: 'flex',
 				flexDirection: 'column',
 				...props.style,
+			}}
+			onMouseDown={(e) => {
+				const dom = e.target as HTMLDivElement;
+				if (!(dom.className && dom.className.indexOf('yh-timeline-item-mainblock') > -1)) {
+					resetCurrentMoveItemId();
+				}
 			}}
 		>
 			<>

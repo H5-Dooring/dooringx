@@ -7,6 +7,7 @@
  */
 import React, { CSSProperties } from 'react';
 import { AnimateItem } from '../../core/store/storetype';
+import { randomColor } from '../../core/utils';
 
 export const iter = 500;
 export const itemHeight = 25;
@@ -20,19 +21,6 @@ const times = interval + 1;
 export interface TimeLineItemProps {
 	animate: AnimateItem[];
 }
-const bgColor = [
-	'#4af',
-	'rgb(93, 128, 158)',
-	'rgb(158, 130, 93)',
-	'rgb(219, 72, 34)',
-	'rgb(255, 68, 168)',
-	'#4af',
-	'rgb(93, 128, 158)',
-	'rgb(158, 130, 93)',
-	'rgb(219, 72, 34)',
-	'rgb(255, 68, 168)',
-];
-
 interface MoveStateTypes {
 	startX: number;
 	isMove: boolean;
@@ -47,6 +35,7 @@ const moveState: MoveStateTypes = {
 interface resizeStateTypes extends MoveStateTypes {
 	left: boolean;
 }
+let currentMoveItemId = '';
 
 const resizeState: resizeStateTypes = {
 	startX: 0,
@@ -118,6 +107,9 @@ export const TimeLineItemMouseOver = function () {
 	resizeState.startX = 0;
 	resizeState.uid = '';
 };
+export const resetCurrentMoveItemId = () => {
+	currentMoveItemId = '';
+};
 
 const commonCss: CSSProperties = {
 	transform: `rotate(45deg)`,
@@ -129,6 +121,8 @@ const commonCss: CSSProperties = {
 	cursor: 'e-resize',
 };
 
+const bgColorCache: Record<string, string> = {};
+
 export function TimeLineItem(props: TimeLineItemProps) {
 	return (
 		<>
@@ -137,7 +131,10 @@ export function TimeLineItem(props: TimeLineItemProps) {
 				const repeat =
 					v.animationIterationCount === 'infinite' ? iter : parseInt(v.animationIterationCount);
 				const width = v.animationDuration * times * repeat;
-				const index = v.uid.charCodeAt(0) % 10;
+
+				if (!bgColorCache[v.uid]) {
+					bgColorCache[v.uid] = randomColor();
+				}
 				return (
 					<div
 						key={v.uid}
@@ -145,32 +142,40 @@ export function TimeLineItem(props: TimeLineItemProps) {
 							moveState.startX = e.clientX;
 							moveState.uid = v.uid;
 							moveState.isMove = true;
+							currentMoveItemId = v.uid;
 						}}
+						className="yh-timeline-item-mainblock"
 						style={{
 							position: 'absolute',
 							top: diff / 2,
 							left: left,
 							width: width,
 							height: itemHeight - diff,
-							background: bgColor[index],
+							background: bgColorCache[v.uid],
 							zIndex: 1,
 							cursor: 'move',
+							borderRadius: '4px',
+							opacity: v.uid === currentMoveItemId ? 1 : 0.7,
 						}}
 					>
-						<div
-							className="yh-timeline-item-left"
-							style={{ ...commonCss, left: -square }}
-							onMouseDown={(e) => {
-								resizeMouseDown(e, v, true);
-							}}
-						></div>
-						<div
-							className="yh-timeline-item-right"
-							style={{ ...commonCss, right: -square }}
-							onMouseDown={(e) => {
-								resizeMouseDown(e, v, false);
-							}}
-						></div>
+						{v.uid === currentMoveItemId && (
+							<>
+								<div
+									className="yh-timeline-item-left"
+									style={{ ...commonCss, left: -square }}
+									onMouseDown={(e) => {
+										resizeMouseDown(e, v, true);
+									}}
+								></div>
+								<div
+									className="yh-timeline-item-right"
+									style={{ ...commonCss, right: -square }}
+									onMouseDown={(e) => {
+										resizeMouseDown(e, v, false);
+									}}
+								></div>
+							</>
+						)}
 					</div>
 				);
 			})}
