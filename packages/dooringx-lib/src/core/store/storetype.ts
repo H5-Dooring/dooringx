@@ -26,6 +26,7 @@ export interface AnimateItem {
 	animationDelay: number;
 	animationIterationCount: string;
 	animationTimingFunction: string;
+	isCustom?: boolean;
 }
 
 export interface IBlockType {

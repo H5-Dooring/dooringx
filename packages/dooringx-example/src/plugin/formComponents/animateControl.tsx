@@ -356,6 +356,7 @@ function AnimateControl(props: AnimateControlProps) {
 				>
 					添加动画
 				</Button>
+				<Button>添加自定义动画</Button>
 			</Row>
 		</>
 	);
