@@ -27,6 +27,7 @@ export interface AnimateItem {
 	animationIterationCount: string;
 	animationTimingFunction: string;
 	isCustom?: boolean;
+	customKeyFrame?: string;
 }
 
 export interface IBlockType {
