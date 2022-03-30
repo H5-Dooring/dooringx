@@ -1,10 +1,26 @@
-// 批量情况
+export interface CustomAnimateObj {
+	displayName: string;
+	animateName: string;
+	keyframe: string;
+}
 
 export class DynamicAnimate {
+	constructor(public customAnimateName: Array<CustomAnimateObj> = []) {}
+
+	getCustomAnimateName() {
+		return this.customAnimateName;
+	}
 	getStyleSheets() {
 		return document.styleSheets;
 	}
 
+	/**
+	 *
+	 * 插入动画
+	 * @param {string} ruleText
+	 * @param {string} keyframeName
+	 * @memberof DynamicAnimate
+	 */
 	inserKeyframeAnimate(ruleText: string, keyframeName: string) {
 		const sheets = this.getStyleSheets();
 		if (sheets.length === 0) {
@@ -33,10 +49,34 @@ export class DynamicAnimate {
 		sheet.insertRule(ruleText, sheet.rules ? sheet.rules.length : sheet.cssRules.length);
 	}
 
-	fromObjInsertKeyFrame(obj: Record<string, string>) {
-		// name 唯一
-		Object.keys(obj).forEach((v) => {
-			this.inserKeyframeAnimate(obj[v], v);
+	/**
+	 *
+	 * 配置时使用
+	 * @param {Array<CustomAnimateObj>} [customAnimateName=[]]
+	 * @memberof DynamicAnimate
+	 */
+	addCustomAnimate(customAnimateName: Array<CustomAnimateObj> = []) {
+		this.customAnimateName = [...this.customAnimateName, ...customAnimateName];
+	}
+
+	/**
+	 *
+	 * 删除使用animateName 防止displayName重名
+	 * @param {string} animateName
+	 * @memberof DynamicAnimate
+	 */
+	deleteCustomAnimate(animateName: string) {
+		this.customAnimateName = this.customAnimateName.filter((v) => v.animateName !== animateName);
+	}
+
+	/**
+	 *
+	 * 从配置项插入动画 导入设置
+	 * @memberof DynamicAnimate
+	 */
+	fromArrInsertKeyFrame(customAnimateName: Array<CustomAnimateObj> = this.customAnimateName) {
+		customAnimateName.forEach((v) => {
+			this.inserKeyframeAnimate(v.keyframe, v.animateName);
 		});
 	}
 }

@@ -14,7 +14,7 @@ interface AnimateControlProps {
 	config: UserConfig;
 }
 
-//类型待修改
+// 左侧实际类名-显示名称
 const animateCategory: Record<string, string> = {
 	'': '无',
 	animate__bounce: 'bounce',
@@ -141,11 +141,29 @@ function AnimateControl(props: AnimateControlProps) {
 
 	return (
 		<>
+			<Space
+				style={{ display: 'flex', marginBottom: 8, justifyContent: 'space-around' }}
+				align="baseline"
+			>
+				<Button
+					onClick={() => {
+						setCustomModal(true);
+					}}
+				>
+					添加自定义动画
+				</Button>
+				<Button
+					onClick={() => {
+						setCustomModal(true);
+					}}
+				>
+					删除自定义动画
+				</Button>
+			</Space>
 			{animate.map((v, i) => {
 				return (
 					<div key={v.uid} style={{ borderBottom: '1px dotted #9e9e9e' }}>
-						{v.isCustom && <div>自定义</div>}
-						{!v.isCustom && (
+						{
 							<>
 								<Row style={{ padding: padding, alignItems: 'center' }}>
 									<Col span={5}>动画名称:</Col>
@@ -304,7 +322,7 @@ function AnimateControl(props: AnimateControlProps) {
 									</Col>
 								</Row>
 							</>
-						)}
+						}
 					</div>
 				);
 			})}
@@ -366,13 +384,6 @@ function AnimateControl(props: AnimateControlProps) {
 				>
 					添加动画
 				</Button>
-				<Button
-					onClick={() => {
-						setCustomModal(true);
-					}}
-				>
-					添加自定义动画
-				</Button>
 			</Row>
 			<Modal
 				width={800}
@@ -383,35 +394,40 @@ function AnimateControl(props: AnimateControlProps) {
 					console.log('ok', form.getFieldsValue());
 				}}
 				onCancel={() => {
+					form.resetFields();
 					setCustomModal(false);
 				}}
 			>
 				<Form form={form}>
-					<Col>
-						<Form.Item name={'kkk'} label="解决">
-							<Select></Select>
-						</Form.Item>
-					</Col>
-					<Col>
-						<Form.Item name={'dfd'} label="解决">
-							<Select></Select>
-						</Form.Item>
-					</Col>
+					<Form.Item labelCol={{ span: 6 }} name="displayName" label="自定义动画显示名称">
+						<Input></Input>
+					</Form.Item>
+					<Form.Item
+						initialValue={`dooringx_${Math.random().toString(36).slice(2)}`}
+						labelCol={{ span: 6 }}
+						name="animateName"
+						label="自定义动画名称"
+					>
+						<Input disabled></Input>
+					</Form.Item>
 					<Form.List name="users">
 						{(fields, { add, remove }) => (
 							<>
 								{fields.map(({ key, name, ...restField }) => (
 									<Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-										<Form.Item label="坐标" {...restField} name={[name, 'xx']}>
+										<Form.Item label="坐标x" {...restField} name={[name, 'xx']}>
 											<Input placeholder="First Name" />
 										</Form.Item>
-										<Form.Item label="坐标" {...restField} name={[name, 'cc']}>
+										<Form.Item label="坐标y" {...restField} name={[name, 'cc']}>
 											<Input placeholder="Last Name" />
 										</Form.Item>
-										<Form.Item label="坐标" {...restField} name={[name, '坐标']}>
+										<Form.Item label="旋转" {...restField} name={[name, '坐标']}>
 											<Input placeholder="First Name" />
 										</Form.Item>
-										<Form.Item label="坐标" {...restField} name={[name, '旋转']}>
+										<Form.Item label="缩放" {...restField} name={[name, '旋转']}>
+											<Input placeholder="Last Name" />
+										</Form.Item>
+										<Form.Item label="透明" {...restField} name={[name, '旋转']}>
 											<Input placeholder="Last Name" />
 										</Form.Item>
 
@@ -420,7 +436,7 @@ function AnimateControl(props: AnimateControlProps) {
 								))}
 								<Form.Item>
 									<Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-										Add field
+										添加
 									</Button>
 								</Form.Item>
 							</>
