@@ -82,6 +82,12 @@ export class StoreChanger {
 		return this.map[ORIGIN];
 	}
 
+	/**
+	 *  判断是否在编辑模式。
+	 *  一次也没进行编辑时，storeChanger中未存store，所以只能判断去获取。
+	 * @return {*}
+	 * @memberof StoreChanger
+	 */
 	isEdit() {
 		if (storeChangerState.modalEditName !== '') {
 			return true;

@@ -4,7 +4,7 @@ import { Col, Row, Select, InputNumber, Button, Modal, Form, Space, Input } from
 import { FormMap, FormBaseType } from '../formTypes';
 import { CreateOptionsRes } from 'dooringx-lib/dist/core/components/formTypes';
 import { AnimateItem, IBlockType, IStoreData } from 'dooringx-lib/dist/core/store/storetype';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 export interface FormAnimateControlType extends FormBaseType {}
 
@@ -138,7 +138,7 @@ function AnimateControl(props: AnimateControlProps) {
 
 	const [customModal, setCustomModal] = useState(false);
 	const [form] = Form.useForm();
-
+	const [positionEnable, setPositionEnable] = useState<boolean[]>([]);
 	return (
 		<>
 			<Space
@@ -391,15 +391,39 @@ function AnimateControl(props: AnimateControlProps) {
 				forceRender
 				visible={customModal}
 				onOk={() => {
-					console.log('ok', form.getFieldsValue());
+					form.validateFields().then((res) => {
+						const values = { ...res };
+						// 根据禁用情况去除xy
+						const result = values.keyframes.map((v: any, i: number) => {
+							if (!positionEnable[i]) {
+								// 做删除处理
+								return {
+									...v,
+									positionX: null,
+									positionY: null,
+								};
+							}
+							return v;
+						});
+						values.keyframes = result;
+						props.config.animateFactory.addUserInputIntoCustom(values, props.config);
+						setPositionEnable([]);
+						setCustomModal(false);
+					});
 				}}
 				onCancel={() => {
 					form.resetFields();
 					setCustomModal(false);
 				}}
 			>
-				<Form form={form}>
-					<Form.Item labelCol={{ span: 6 }} name="displayName" label="自定义动画显示名称">
+				<Form labelCol={{ span: 11 }} form={form}>
+					<Form.Item
+						required
+						rules={[{ required: true, message: '请输入名称!' }]}
+						labelCol={{ span: 6 }}
+						name="displayName"
+						label="自定义动画显示名称"
+					>
 						<Input></Input>
 					</Form.Item>
 					<Form.Item
@@ -410,32 +434,108 @@ function AnimateControl(props: AnimateControlProps) {
 					>
 						<Input disabled></Input>
 					</Form.Item>
-					<Form.List name="users">
+					<Form.List name="keyframes">
 						{(fields, { add, remove }) => (
 							<>
 								{fields.map(({ key, name, ...restField }) => (
-									<Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-										<Form.Item label="坐标x" {...restField} name={[name, 'xx']}>
-											<Input placeholder="First Name" />
+									<Space
+										key={key}
+										style={{ display: 'flex', marginBottom: 8, flexWrap: 'wrap' }}
+										align="baseline"
+									>
+										<Form.Item
+											style={{ width: 180 }}
+											label="时间百分比"
+											{...restField}
+											name={[name, 'percent']}
+											initialValue={0}
+										>
+											<InputNumber min={0} max={100} formatter={(value) => `${value}%`} />
 										</Form.Item>
-										<Form.Item label="坐标y" {...restField} name={[name, 'cc']}>
-											<Input placeholder="Last Name" />
-										</Form.Item>
-										<Form.Item label="旋转" {...restField} name={[name, '坐标']}>
-											<Input placeholder="First Name" />
-										</Form.Item>
-										<Form.Item label="缩放" {...restField} name={[name, '旋转']}>
-											<Input placeholder="Last Name" />
-										</Form.Item>
-										<Form.Item label="透明" {...restField} name={[name, '旋转']}>
-											<Input placeholder="Last Name" />
-										</Form.Item>
+										{positionEnable[key] && (
+											<>
+												<Form.Item
+													style={{ width: 180 }}
+													label="坐标x"
+													{...restField}
+													name={[name, 'positionX']}
+													initialValue={0}
+												>
+													<InputNumber min={0} />
+												</Form.Item>
+												<Form.Item
+													style={{ width: 180 }}
+													label="坐标y"
+													{...restField}
+													name={[name, 'positionY']}
+													initialValue={0}
+												>
+													<InputNumber min={0} />
+												</Form.Item>
+											</>
+										)}
 
-										<MinusCircleOutlined onClick={() => remove(name)} />
+										<Form.Item
+											style={{ width: 180 }}
+											label="旋转"
+											{...restField}
+											name={[name, 'rotate']}
+											initialValue={0}
+										>
+											<InputNumber formatter={(value) => `${value}°`} />
+										</Form.Item>
+										<Form.Item
+											style={{ width: 180 }}
+											label="缩放"
+											{...restField}
+											name={[name, 'scale']}
+											initialValue={100}
+										>
+											<InputNumber formatter={(value) => `${value}%`} />
+										</Form.Item>
+										<Form.Item
+											style={{ width: 180 }}
+											label="透明度"
+											{...restField}
+											name={[name, 'opacity']}
+											initialValue={100}
+										>
+											<InputNumber formatter={(value) => `${value}%`} />
+										</Form.Item>
+										<Button
+											onClick={() => {
+												setPositionEnable((pre) => {
+													pre[key] = !pre[key];
+													return [...pre];
+												});
+											}}
+										>
+											切换坐标修改
+										</Button>
+										<Button
+											danger
+											onClick={() => {
+												setPositionEnable((pre) => {
+													pre.splice(key, 1);
+													return [...pre];
+												});
+												remove(name);
+											}}
+										>
+											删除
+										</Button>
 									</Space>
 								))}
 								<Form.Item>
-									<Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+									<Button
+										type="dashed"
+										onClick={() => {
+											setPositionEnable((pre) => [...pre, true]);
+											add();
+										}}
+										block
+										icon={<PlusOutlined />}
+									>
 										添加
 									</Button>
 								</Form.Item>
