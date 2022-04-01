@@ -1,6 +1,18 @@
 import React, { useMemo, useState } from 'react';
 import { UserConfig, deepCopy, createUid } from 'dooringx-lib';
-import { Col, Row, Select, InputNumber, Button, Modal, Form, Space, Input } from 'antd';
+import {
+	Col,
+	Row,
+	Select,
+	InputNumber,
+	Button,
+	Modal,
+	Form,
+	Space,
+	Input,
+	Table,
+	Popconfirm,
+} from 'antd';
 import { FormMap, FormBaseType } from '../formTypes';
 import { CreateOptionsRes } from 'dooringx-lib/dist/core/components/formTypes';
 import { AnimateItem, IBlockType, IStoreData } from 'dooringx-lib/dist/core/store/storetype';
@@ -138,7 +150,46 @@ function AnimateControl(props: AnimateControlProps) {
 
 	const [customModal, setCustomModal] = useState(false);
 	const [form] = Form.useForm();
-	const [positionEnable, setPositionEnable] = useState<boolean[]>([]);
+
+	const [deletModal, setDeletModal] = useState(false);
+	const customAnimate = props.config.animateFactory.getCustomAnimateName();
+
+	const columns = [
+		{
+			title: '动画名称',
+			dataIndex: 'animateName',
+			width: 150,
+		},
+		{
+			title: '显示名称',
+			dataIndex: 'displayName',
+			width: 150,
+		},
+		{
+			title: '动画详情',
+			dataIndex: 'keyframe',
+		},
+		{
+			title: '操作',
+			width: 120,
+			render: (_: any, record: any) => (
+				<Space size="middle">
+					<Popconfirm
+						onConfirm={() => {
+							const name = record.animateName;
+							props.config.animateFactory.deleteCustomAnimate(name);
+							props.config.animateFactory.deleteKeyFrameAnimate(name);
+							props.config.animateFactory.syncToStore(props.config);
+						}}
+						title="确定删除吗？"
+					>
+						<a>删除</a>
+					</Popconfirm>
+				</Space>
+			),
+		},
+	];
+
 	return (
 		<>
 			<Space
@@ -154,7 +205,7 @@ function AnimateControl(props: AnimateControlProps) {
 				</Button>
 				<Button
 					onClick={() => {
-						setCustomModal(true);
+						setDeletModal(true);
 					}}
 				>
 					删除自定义动画
@@ -189,6 +240,13 @@ function AnimateControl(props: AnimateControlProps) {
 												return (
 													<Select.Option key={i} value={animateCategory[v]}>
 														{animateCategory[v]}
+													</Select.Option>
+												);
+											})}
+											{customAnimate.map((v) => {
+												return (
+													<Select.Option key={v.animateName} value={v.animateName}>
+														{v.displayName}
 													</Select.Option>
 												);
 											})}
@@ -393,27 +451,14 @@ function AnimateControl(props: AnimateControlProps) {
 				onOk={() => {
 					form.validateFields().then((res) => {
 						const values = { ...res };
-						// 根据禁用情况去除xy
-						const result = values.keyframes.map((v: any, i: number) => {
-							if (!positionEnable[i]) {
-								// 做删除处理
-								return {
-									...v,
-									positionX: null,
-									positionY: null,
-								};
-							}
-							return v;
-						});
-						values.keyframes = result;
 						props.config.animateFactory.addUserInputIntoCustom(values, props.config);
-						setPositionEnable([]);
 						setCustomModal(false);
+						form.resetFields();
 					});
 				}}
 				onCancel={() => {
-					form.resetFields();
 					setCustomModal(false);
+					form.resetFields();
 				}}
 			>
 				<Form labelCol={{ span: 11 }} form={form}>
@@ -452,28 +497,26 @@ function AnimateControl(props: AnimateControlProps) {
 										>
 											<InputNumber min={0} max={100} formatter={(value) => `${value}%`} />
 										</Form.Item>
-										{positionEnable[key] && (
-											<>
-												<Form.Item
-													style={{ width: 180 }}
-													label="坐标x"
-													{...restField}
-													name={[name, 'positionX']}
-													initialValue={0}
-												>
-													<InputNumber min={0} />
-												</Form.Item>
-												<Form.Item
-													style={{ width: 180 }}
-													label="坐标y"
-													{...restField}
-													name={[name, 'positionY']}
-													initialValue={0}
-												>
-													<InputNumber min={0} />
-												</Form.Item>
-											</>
-										)}
+										<>
+											<Form.Item
+												style={{ width: 180 }}
+												label="坐标偏移X"
+												{...restField}
+												name={[name, 'positionX']}
+												initialValue={0}
+											>
+												<InputNumber />
+											</Form.Item>
+											<Form.Item
+												style={{ width: 180 }}
+												label="坐标偏移Y"
+												{...restField}
+												name={[name, 'positionY']}
+												initialValue={0}
+											>
+												<InputNumber />
+											</Form.Item>
+										</>
 
 										<Form.Item
 											style={{ width: 180 }}
@@ -503,22 +546,8 @@ function AnimateControl(props: AnimateControlProps) {
 											<InputNumber formatter={(value) => `${value}%`} />
 										</Form.Item>
 										<Button
-											onClick={() => {
-												setPositionEnable((pre) => {
-													pre[key] = !pre[key];
-													return [...pre];
-												});
-											}}
-										>
-											切换坐标修改
-										</Button>
-										<Button
 											danger
 											onClick={() => {
-												setPositionEnable((pre) => {
-													pre.splice(key, 1);
-													return [...pre];
-												});
 												remove(name);
 											}}
 										>
@@ -530,7 +559,6 @@ function AnimateControl(props: AnimateControlProps) {
 									<Button
 										type="dashed"
 										onClick={() => {
-											setPositionEnable((pre) => [...pre, true]);
 											add();
 										}}
 										block
@@ -543,6 +571,21 @@ function AnimateControl(props: AnimateControlProps) {
 						)}
 					</Form.List>
 				</Form>
+			</Modal>
+			<Modal
+				width={800}
+				title={'删除自定义动画'}
+				forceRender
+				visible={deletModal}
+				footer={null}
+				onOk={() => {
+					setDeletModal(false);
+				}}
+				onCancel={() => {
+					setDeletModal(false);
+				}}
+			>
+				<Table columns={columns} dataSource={customAnimate}></Table>
 			</Modal>
 		</>
 	);

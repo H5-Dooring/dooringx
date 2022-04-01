@@ -16,8 +16,8 @@ import { deepCopy } from '../utils';
 export interface TransformItemObj {
 	opacity: number;
 	percent: number;
-	positionX: number | null;
-	positionY: number | null;
+	positionX: number;
+	positionY: number;
 	rotate: number;
 	scale: number;
 }
@@ -48,35 +48,62 @@ export class AnimateFactory {
 	 *
 	 * 插入动画
 	 * @param {string} ruleText
-	 * @param {string} keyframeName 动画名称
 	 * @memberof AnimateFactory
 	 */
-	inserKeyframeAnimate(ruleText: string, keyframeName: string) {
+	inserKeyframeAnimate(ruleText: string) {
 		const sheets = this.getStyleSheets();
 		if (sheets.length === 0) {
 			let style = document.createElement('style');
 			style.appendChild(document.createTextNode(''));
 			document.head.appendChild(style);
 		}
-		const len = sheets.length;
-		let ss: number | null = null;
-		let st: number | null = null;
+		// const len = sheets.length;
+		// let ss: number | null = null;
+		// let st: number | null = null;
+		// for (let i = 0; i < len; i++) {
+		// 	for (let k = 0; k < sheets[i].cssRules.length; k++) {
+		// 		const rule = sheets[i].cssRules[k] as CSSKeyframesRule;
+		// 		const name = rule?.name;
+		// 		if (name && name === keyframeName) {
+		// 			// 删除该keyframe
+		// 			ss = i;
+		// 			st = k;
+		// 		}
+		// 	}
+		// }
+		// if (ss !== null && st !== null) {
+		// 	sheets[ss].deleteRule(st);
+		// }
+		// let sheet = sheets[ss ? ss : sheets.length - 1] as CSSStyleSheet;
+		let sheet = sheets[0] as CSSStyleSheet; // 末尾的经常存在重复覆盖的问题
+		sheet.insertRule(ruleText, sheet.cssRules.length);
+	}
+
+	/**
+	 *
+	 * 删除keyframe
+	 * @param {string} animateName
+	 * @returns
+	 * @memberof AnimateFactory
+	 */
+	deleteKeyFrameAnimate(animateName: string) {
+		const sheets = this.getStyleSheets();
+		if (sheets.length === 0) {
+			return;
+		}
+		const sheet = sheets[0] as CSSStyleSheet;
+		const len = sheet.cssRules.length;
+		let ss = null;
 		for (let i = 0; i < len; i++) {
-			for (let k = 0; k < sheets[i].cssRules.length; k++) {
-				const rule = sheets[i].cssRules[k] as CSSKeyframesRule;
-				const name = rule?.name;
-				if (name && name === keyframeName) {
-					// 删除该keyframe
-					ss = i;
-					st = k;
-				}
+			const rule = sheet.cssRules[i] as CSSKeyframesRule;
+			const name = rule?.name;
+			if (name && name === animateName) {
+				ss = i;
 			}
 		}
-		if (ss !== null && st !== null) {
-			sheets[ss].deleteRule(st);
+		if (ss !== null) {
+			sheet.deleteRule(ss);
 		}
-		let sheet = sheets[ss ? ss : sheets.length - 1] as CSSStyleSheet;
-		sheet.insertRule(ruleText, sheet.rules ? sheet.rules.length : sheet.cssRules.length);
 	}
 
 	/**
@@ -106,7 +133,7 @@ export class AnimateFactory {
 	 */
 	fromArrInsertKeyFrame(customAnimateName: Array<CustomAnimateObj> = this.customAnimateName) {
 		customAnimateName.forEach((v) => {
-			this.inserKeyframeAnimate(v.keyframe, v.animateName);
+			this.inserKeyframeAnimate(v.keyframe);
 		});
 	}
 
@@ -145,18 +172,11 @@ export class AnimateFactory {
 	addUserInputIntoCustom(item: TransformItem, config: UserConfig) {
 		// 先转换keyframe
 		const keyframeItem = item.keyframes.map((v) => {
-			if (v.positionX !== null && v.positionY !== null) {
-				// 带入xy 否则不计算xy
-				return `${v.percent}% {
+			return `${v.percent}% {
             transform:translate(${v.positionX}px, ${v.positionY}px) scale(${(v.scale / 100).toFixed(
-					2
-				)}) rotate(${v.rotate}deg);
+				2
+			)}) rotate(${v.rotate}deg);
          }`;
-			} else {
-				return `${v.percent}% {
-          transform: scale(${(v.scale / 100).toFixed(2)}) rotate(${v.rotate}deg);
-       }`;
-			}
 		});
 		const keyframe = `@keyframes ${item.animateName} {
       ${keyframeItem.join(' ')}
@@ -171,7 +191,7 @@ export class AnimateFactory {
 		// 添加内置
 		this.addCustomAnimate(customAnimateNameArr);
 		// 插入动画
-		this.inserKeyframeAnimate(keyframe, item.animateName);
+		this.inserKeyframeAnimate(keyframe);
 		// 写入store
 		this.syncToStore(config);
 	}
