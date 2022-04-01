@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-09 15:15:25
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-12 17:44:22
+ * @LastEditTime: 2022-04-01 13:41:34
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\timeLine\timeline.tsx
  */
 import deepcopy from 'deepcopy';
@@ -457,7 +457,13 @@ export function TimeLine(props: TimeLineProps) {
 			}}
 			onMouseDown={(e) => {
 				const dom = e.target as HTMLDivElement;
-				if (!(dom.className && dom.className.indexOf('yh-timeline-item-mainblock') > -1)) {
+				if (
+					!(
+						dom.className &&
+						dom.className.indexOf &&
+						dom.className.indexOf('yh-timeline-item-mainblock') > -1
+					)
+				) {
 					resetCurrentMoveItemId();
 				}
 			}}

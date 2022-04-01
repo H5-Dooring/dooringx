@@ -6,7 +6,7 @@
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
-import { IBlockType, IStoreData } from '../core/store/storetype';
+import { IBlockType, IMainStoreData, IStoreData } from '../core/store/storetype';
 import { ComponentClass, FunctionComponent, ReactNode } from 'react';
 import { ComponentItemFactory } from '../core/components/abstract';
 import { marklineConfig } from '../core/markline/marklineConfig';
@@ -34,6 +34,7 @@ import { VerticalAlignMiddleOutlined } from '@ant-design/icons';
 import { wrapperMoveState } from '../components/wrapperMove/event';
 import { wrapperMoveState as iframeWrapperMoveState } from '../components/IframeWrapperMove/event';
 import { TimeLineConfigType, TimeLineNeedleConfigType } from '../components/timeLine/timeline';
+import { AnimateFactory } from '../core/AnimateFactory';
 // 组件部分
 
 /**
@@ -158,7 +159,7 @@ export interface InitConfig {
 	containerIcon: ReactNode;
 }
 
-export const defaultStore: IStoreData = {
+export const defaultStore: IMainStoreData = {
 	container: {
 		width: 375,
 		height: 667,
@@ -173,6 +174,7 @@ export const defaultStore: IStoreData = {
 		title: 'dooring',
 		bodyColor: 'rgba(255,255,255,1)',
 		script: [],
+		customAnimate: [],
 	},
 	modalConfig: {},
 };
@@ -337,6 +339,7 @@ export class UserConfig {
 	public componentRegister = new ComponentRegister();
 	public formRegister = new FormComponentRegister();
 	public storeChanger = new StoreChanger();
+	public animateFactory = new AnimateFactory();
 	public componentCache = {};
 	public asyncComponentUrlMap = {} as AsyncCacheComponentType;
 	public marklineConfig = marklineConfig;

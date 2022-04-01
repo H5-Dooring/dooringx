@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:40:37
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-10-10 00:54:55
+ * @LastEditTime: 2022-04-01 14:29:39
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\preview.tsx
  */
 import Container from './container';
@@ -62,10 +62,17 @@ function Preview(props: PreviewProps): ReactElement {
 					.syncEventMap(props.config.getStore().getData(), props.config.getStoreChanger());
 
 				// 设置全局
-				const bodyColor = props.config.getStore().getData().globalState?.bodyColor;
+				const global = props.config.getStore().getData().globalState;
+				const bodyColor = global?.bodyColor;
 				if (bodyColor) {
 					document.body.style.backgroundColor = bodyColor;
 				}
+				const customAnimate = global?.customAnimate;
+				if (customAnimate && Array.isArray(customAnimate)) {
+					// 插入自定义动画
+					props.config.animateFactory.fromArrInsertKeyFrame(customAnimate);
+				}
+
 				if (props.completeFn) {
 					props.completeFn();
 				}

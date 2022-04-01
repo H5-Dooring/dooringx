@@ -84,7 +84,11 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						);
 					});
 				} else {
-					return <div>{replaceLocale('right.noprops', '还没有配置属性', props.config)}</div>;
+					return (
+						<div className="yh-right-noprops" style={{ textAlign: 'center' }}>
+							{replaceLocale('right.noprops', '还没有配置属性', props.config)}
+						</div>
+					);
 				}
 			}
 			return null;

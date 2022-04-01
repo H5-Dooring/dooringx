@@ -8,6 +8,15 @@
 
 import { EventCenterMapType } from '../eventCenter';
 
+export interface GlobalState {
+	[key: string]: any;
+	customAnimate: CustomAnimateObj[];
+	containerColor: string;
+	title: string;
+	bodyColor: string;
+	script: string[];
+}
+
 export interface IStoreData {
 	container: {
 		width: number;
@@ -19,6 +28,10 @@ export interface IStoreData {
 	globalState: Record<string, any>;
 	modalConfig: Record<string, any>;
 }
+export interface IMainStoreData extends IStoreData {
+	globalState: GlobalState;
+}
+
 export interface AnimateItem {
 	uid: string;
 	animationName: string;
@@ -26,6 +39,12 @@ export interface AnimateItem {
 	animationDelay: number;
 	animationIterationCount: string;
 	animationTimingFunction: string;
+}
+
+export interface CustomAnimateObj {
+	displayName: string;
+	animateName: string;
+	keyframe: string;
 }
 
 export interface IBlockType {
