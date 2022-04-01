@@ -5,6 +5,8 @@ nav:
   title: change log
   order: 6
 ---
+## 0.13.0
+Add custom animation, you can customize the animation freely.
 ## 0.12.4
 Add a lifecycle.
 Modify the timeline color and style to optimize the selected state.
@@ -65,7 +67,7 @@ A pop-up event will not appear if the pop-up name is not passed.
 Scripts loading of preview component changes from concurrency to linearity.
 Using remote components in edit mode will save the current canvas state.
 ## 0.9.4
-The component of preview that cannot be fixed
+Fix the bug that the preview component cannot release loading
 ## 0.9.3
 Add double click to place the canvas.
 Change the initial focus state of the element.
@@ -99,7 +101,7 @@ Change the roller direction.
 ## 0.7.4
 Fix box move bug.
 ## 0.7.3
-Fix pop-up location and selection issues.
+Pop up and fix the problem.
 ## 0.7.2
 Fix the impact of locking components. You can't drag, zoom or rotate during locking.
 ## 0.7.1
