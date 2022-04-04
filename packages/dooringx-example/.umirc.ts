@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 11:11:52
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-13 15:42:40
+ * @LastEditTime: 2022-04-03 23:02:07
  * @FilePath: \dooringx\packages\dooringx-example\.umirc.ts
  */
 import { defineConfig } from 'umi';

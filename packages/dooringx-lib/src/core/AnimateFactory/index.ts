@@ -165,6 +165,26 @@ export class AnimateFactory {
 
 	/**
 	 *
+	 * 将store中的配置写入config
+	 * 注意！只在导入新store后使用
+	 * @memberof AnimateFactory
+	 */
+	syncStoreToConfig(config: UserConfig) {
+		const store = config.getStore();
+		let data: IStoreData;
+		const isEdit = config.getStoreChanger().isEdit();
+		if (isEdit) {
+			const origin = config.getStoreChanger().getOrigin()!;
+			data = origin.data[origin.current];
+		} else {
+			data = store.getData();
+		}
+		const dataAnimate = data.globalState?.customAnimate;
+		this.customAnimateName = [...dataAnimate];
+	}
+
+	/**
+	 *
 	 * 将用户输入转换为新的动画
 	 * @param {TransformItem} item
 	 * @memberof AnimateFactory

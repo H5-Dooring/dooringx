@@ -5,6 +5,8 @@ nav:
   title: change log
   order: 6
 ---
+## 0.13.1
+Fixed editing problem of custom animation overloaded canvas.
 ## 0.13.0
 Add custom animation, you can customize the animation freely.
 ## 0.12.4
@@ -34,7 +36,7 @@ Timeline adds auto focus function.
 ## 0.11.7
 Cancel the multi selection adsorption function.
 ## 0.11.6
-Cancel the adsorption of the first mouse click.
+Cancel the first mouse click.
 Modify the selected color of timeline.
 ## 0.11.5
 Fix reference line adsorption and wrong displacement bug
@@ -95,13 +97,13 @@ The minimum value of canvas drag is changed to 0.
 ## 0.7.7
 Optimize the drag logic of the canvas to move more smoothly.
 ## 0.7.6
-The custom rightglobalcustom type on the right is changed to the function passed in config
+The custom globalconfig function on the right is changed to the custom type
 ## 0.7.5
 Change the roller direction.
 ## 0.7.4
 Fix box move bug.
 ## 0.7.3
-Pop up and fix the problem.
+Fix pop-up location and selection issues.
 ## 0.7.2
 Fix the impact of locking components. You can't drag, zoom or rotate during locking.
 ## 0.7.1

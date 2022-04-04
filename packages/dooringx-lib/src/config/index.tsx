@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-12 17:26:07
+ * @LastEditTime: 2022-04-04 20:17:55
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -451,9 +451,16 @@ export class UserConfig {
 		return JSON.parse(json);
 	}
 
+	/**
+	 *
+	 * 重设store并根据store重设
+	 * @param {IStoreData[]} data
+	 * @memberof UserConfig
+	 */
 	resetData(data: IStoreData[]) {
 		this.store.resetToInitData(data, true);
 		this.toRegist();
+		this.animateFactory.syncStoreToConfig(this);
 	}
 
 	getWrapperMove() {
@@ -477,6 +484,9 @@ export class UserConfig {
 	}
 	getStoreChanger() {
 		return this.storeChanger;
+	}
+	getAnimateFactory() {
+		return this.animateFactory;
 	}
 	getConfig() {
 		return this.initConfig;
