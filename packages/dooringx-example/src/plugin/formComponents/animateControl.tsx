@@ -585,7 +585,7 @@ function AnimateControl(props: AnimateControlProps) {
 					setDeletModal(false);
 				}}
 			>
-				<Table columns={columns} dataSource={customAnimate}></Table>
+				<Table columns={columns} dataSource={customAnimate} pagination={false}></Table>
 			</Modal>
 		</>
 	);

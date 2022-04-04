@@ -1,10 +1,12 @@
 ---
-title: change log
+title: Change log
 toc: menu
 nav:
-  title: change log
+  title: Change log
   order: 6
 ---
+## 0.13.2
+Fixed possible invalidation of custom animation.
 ## 0.13.1
 Fixed editing problem of custom animation overloaded canvas.
 ## 0.13.0

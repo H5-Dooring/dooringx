@@ -33,15 +33,34 @@ export interface TransformItem {
 	animateName: string;
 	keyframes: TransformItemObj[];
 }
-
+export const styleSheetId = 'dooringx_dynamic_style';
 export class AnimateFactory {
 	constructor(public customAnimateName: Array<CustomAnimateObj> = []) {}
 
 	getCustomAnimateName() {
 		return this.customAnimateName;
 	}
+	searchSheet(): null | CSSStyleSheet {
+		let sheet: null | CSSStyleSheet = null;
+		Array.from(document.styleSheets).forEach((v) => {
+			const node = v?.ownerNode as Element;
+			if (node?.id === styleSheetId) {
+				sheet = v;
+			}
+		});
+		return sheet;
+	}
+
 	getStyleSheets() {
-		return document.styleSheets;
+		let sheet = this.searchSheet();
+		if (!sheet) {
+			let style = document.createElement('style');
+			style.id = styleSheetId;
+			style.appendChild(document.createTextNode(''));
+			document.head.appendChild(style);
+		}
+		sheet = this.searchSheet();
+		return sheet;
 	}
 
 	/**
@@ -51,32 +70,8 @@ export class AnimateFactory {
 	 * @memberof AnimateFactory
 	 */
 	inserKeyframeAnimate(ruleText: string) {
-		const sheets = this.getStyleSheets();
-		if (sheets.length === 0) {
-			let style = document.createElement('style');
-			style.appendChild(document.createTextNode(''));
-			document.head.appendChild(style);
-		}
-		// const len = sheets.length;
-		// let ss: number | null = null;
-		// let st: number | null = null;
-		// for (let i = 0; i < len; i++) {
-		// 	for (let k = 0; k < sheets[i].cssRules.length; k++) {
-		// 		const rule = sheets[i].cssRules[k] as CSSKeyframesRule;
-		// 		const name = rule?.name;
-		// 		if (name && name === keyframeName) {
-		// 			// 删除该keyframe
-		// 			ss = i;
-		// 			st = k;
-		// 		}
-		// 	}
-		// }
-		// if (ss !== null && st !== null) {
-		// 	sheets[ss].deleteRule(st);
-		// }
-		// let sheet = sheets[ss ? ss : sheets.length - 1] as CSSStyleSheet;
-		let sheet = sheets[0] as CSSStyleSheet; // 末尾的经常存在重复覆盖的问题
-		sheet.insertRule(ruleText, sheet.cssRules.length);
+		const sheet = this.getStyleSheets();
+		if (sheet) sheet.insertRule(ruleText, sheet.cssRules.length);
 	}
 
 	/**
@@ -88,21 +83,20 @@ export class AnimateFactory {
 	 */
 	deleteKeyFrameAnimate(animateName: string) {
 		const sheets = this.getStyleSheets();
-		if (sheets.length === 0) {
+		if (!sheets) {
 			return;
 		}
-		const sheet = sheets[0] as CSSStyleSheet;
-		const len = sheet.cssRules.length;
+		const len = sheets.cssRules.length;
 		let ss = null;
 		for (let i = 0; i < len; i++) {
-			const rule = sheet.cssRules[i] as CSSKeyframesRule;
+			const rule = sheets.cssRules[i] as CSSKeyframesRule;
 			const name = rule?.name;
 			if (name && name === animateName) {
 				ss = i;
 			}
 		}
 		if (ss !== null) {
-			sheet.deleteRule(ss);
+			sheets.deleteRule(ss);
 		}
 	}
 

@@ -51,6 +51,7 @@ const concatResult = (result) => {
 			//替换Title:
 			if (v.src.startsWith('title:') && v.dst.startsWith('Title:')) {
 				v.dst = v.dst.replace('Title:', 'title:');
+				v.dst = v.dst.replace('change log', 'Change log');
 			}
 			const fi = v.src.startsWith('##') ? v.src : v.dst;
 			if (i > navstart && i < line) {
