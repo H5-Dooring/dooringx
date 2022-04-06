@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-16 11:18:41
+ * @LastEditTime: 2022-04-05 17:08:35
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\index.ts
  */
 import { IStoreData } from './storetype';
@@ -47,7 +47,7 @@ class Store {
 	 *
 	 * 重置需要注册事件
 	 * @param {IStoreData[]} initData
-	 * @param {boolean} [check=false] 检查编辑弹窗状态
+	 * @param {boolean} [check=false] 清空编辑弹窗状态
 	 * @memberof Store
 	 */
 	resetToInitData(initData: IStoreData[], check = false) {

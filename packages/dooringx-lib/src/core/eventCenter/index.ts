@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-04-06 19:33:17
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-09 16:33:22
- * @FilePath: \DooringV2\packages\dooringx-lib\src\core\eventCenter\index.ts
+ * @LastEditTime: 2022-04-06 17:23:54
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\eventCenter\index.ts
  */
 import UserConfig from '../../config';
 import { FunctionCenter, FunctionCenterType } from '../functionCenter';

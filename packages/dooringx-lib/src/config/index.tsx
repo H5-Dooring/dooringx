@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-04 20:17:55
+ * @LastEditTime: 2022-04-06 22:27:51
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -171,7 +171,7 @@ export const defaultStore: IMainStoreData = {
 	},
 	globalState: {
 		containerColor: 'rgba(255,255,255,1)',
-		title: 'dooring',
+		title: 'Dooringx',
 		bodyColor: 'rgba(255,255,255,1)',
 		script: [],
 		customAnimate: [],
@@ -505,6 +505,23 @@ export class UserConfig {
 	}
 	getCommanderRegister() {
 		return this.commanderRegister;
+	}
+
+	/**
+	 *
+	 * 用于获取当前store数据，已判断弹窗编辑 不会储存正在编辑的内容
+	 * @returns
+	 * @memberof UserConfig
+	 */
+	getCurrentData() {
+		let data: IStoreData;
+		const isEdit = this.storeChanger.isEdit();
+		if (isEdit) {
+			data = this.storeChanger.getOrigin()!.now;
+		} else {
+			data = this.store.getData();
+		}
+		return data;
 	}
 
 	/**

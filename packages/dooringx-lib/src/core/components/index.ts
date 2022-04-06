@@ -2,9 +2,10 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-10 18:34:34
+ * @LastEditTime: 2022-04-06 22:21:00
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\components\index.ts
  */
+import { ComponentItemFactory } from './abstract';
 import { ComponentItem } from './componentItem';
 
 /**
@@ -58,6 +59,10 @@ class ComponentRegister {
 			// console.error(`${item.name} component has registed`);
 			return;
 		}
+		if (!(item instanceof ComponentItemFactory)) {
+			console.error(item, 'may be a problem in register');
+		}
+
 		this.componentMap[item.name] = item;
 		this.componentList.push(item);
 		this.emit();

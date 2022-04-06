@@ -2,12 +2,12 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-20 12:21:48
+ * @LastEditTime: 2022-04-06 22:59:57
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
 import { IBlockType, IStoreData } from '../core/store/storetype';
-import { CSSProperties, PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, PropsWithChildren, ReactNode, useEffect, useMemo, useState } from 'react';
 import React from 'react';
 import { Tabs, Input, Row, Col, Checkbox, InputNumber } from 'antd';
 import UserConfig from '../config';
@@ -24,6 +24,8 @@ const colStyle: CSSProperties = {
 interface RightConfigProps {
 	state: IStoreData;
 	config: UserConfig;
+	globalExtra?: ReactNode;
+	modalExtra?: ReactNode;
 }
 
 /**
@@ -261,6 +263,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 							></ColorPicker>
 						</Col>
 					</Row>
+					{props.globalExtra && props.globalExtra}
 				</div>
 			)}
 			{!current && !isEdit && customGlobal && customGlobal(props.config)}
@@ -288,6 +291,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 							></Checkbox>
 						</Col>
 					</Row>
+					{props.modalExtra && props.modalExtra}
 				</div>
 			)}
 		</div>

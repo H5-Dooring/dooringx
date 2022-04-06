@@ -5,6 +5,8 @@ nav:
   title: Change log
   order: 6
 ---
+## 0.13.3
+Fix the Title Failure and add the right panel configuration
 ## 0.13.2
 Fixed possible invalidation of custom animation.
 ## 0.13.1
@@ -38,7 +40,7 @@ Timeline adds auto focus function.
 ## 0.11.7
 Cancel the multi selection adsorption function.
 ## 0.11.6
-Cancel the first mouse click.
+Cancel the adsorption of the first mouse click.
 Modify the selected color of timeline.
 ## 0.11.5
 Fix reference line adsorption and wrong displacement bug
@@ -99,7 +101,7 @@ The minimum value of canvas drag is changed to 0.
 ## 0.7.7
 Optimize the drag logic of the canvas to move more smoothly.
 ## 0.7.6
-The custom globalconfig function on the right is changed to the custom type
+The custom rightglobalcustom type on the right is changed to the function passed in config
 ## 0.7.5
 Change the roller direction.
 ## 0.7.4
@@ -134,7 +136,7 @@ Remove the runtime export and get all properties from config.
 2. Control component adds ruler control.
 ## 0.3.0 
 1. Add a ruler. The containerwrapper needs to pass config before it can be used.
-2. Modify container minimum drag 667. Fix the inconsistency between the distance between the canvas and the mouse when zooming down and dragging.
+2. Drag the smallest container 667. Fix the inconsistency between the distance between the canvas and the mouse when zooming down and dragging.
 3. Innercontainerdragup needs to pass config.
 ## 0.2.0 
 Modify the transmission of the commander to obtain the config. The commander will no longer be exported from the index. When it needs to be used, it will be obtained from the config. Add the class name on the left to facilitate customization.
