@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-06 22:59:57
+ * @LastEditTime: 2022-04-08 01:37:25
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
@@ -150,7 +150,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 										width: 380,
 									}}
 								>
-									{v.custom && v.customRender && v.customRender(v.type, current)}
+									{v.custom && v.customRender && v.customRender(v.type, current, props.config)}
 									{!v.custom && render(v.type, current)}
 								</div>
 							</Tabs.TabPane>

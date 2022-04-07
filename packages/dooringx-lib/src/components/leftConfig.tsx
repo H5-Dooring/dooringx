@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-04 10:32:45
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-10-07 12:35:38
+ * @LastEditTime: 2022-04-08 01:35:32
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftConfig.tsx
  */
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
@@ -169,7 +169,7 @@ function LeftConfig(props: LeftConfigProps) {
 			);
 		} else {
 			const render = leftMapRenderListCategory[parseInt(menuSelect, 10)]?.customRender;
-			setLeftRender(<div className={styles.leftco}>{render}</div>);
+			setLeftRender(<div className={styles.leftco}>{render && render(props.config)}</div>);
 		}
 	}, [menuSelect, props.config, leftMapRenderListCategory, search]);
 

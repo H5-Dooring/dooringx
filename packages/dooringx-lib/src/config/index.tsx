@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-06 22:27:51
+ * @LastEditTime: 2022-04-08 01:37:07
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -60,7 +60,7 @@ export interface LeftMapRenderListPropsItemCategory {
 	type: string;
 	icon: ReactNode;
 	custom?: boolean;
-	customRender?: ReactNode;
+	customRender?: (config: UserConfig) => ReactNode;
 	displayName?: string;
 }
 
@@ -74,7 +74,7 @@ export interface RightMapRenderListPropsItemCategory {
 	type: string;
 	icon: ReactNode;
 	custom?: boolean;
-	customRender?: (type: string, current: IBlockType) => ReactNode;
+	customRender?: (type: string, current: IBlockType, config: UserConfig) => ReactNode;
 }
 
 // 设置部分

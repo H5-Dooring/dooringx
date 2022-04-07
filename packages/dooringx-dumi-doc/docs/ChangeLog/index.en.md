@@ -5,6 +5,8 @@ nav:
   title: Change log
   order: 6
 ---
+## 0.14.0
+Fix the problem that the left and right configurations cannot get config.
 ## 0.13.3
 Fix the Title Failure and add the right panel configuration
 ## 0.13.2
@@ -19,7 +21,7 @@ Modify the timeline color and style to optimize the selected state.
 ## 0.12.3
 Fix double click positioning problem
 ## 0.12.2
-Add double click positioning frame.
+New double click positioning frame.
 Fixed drag frame reset pointer behavior after pause.
 ## 0.12.0
 The operation of adding frames to the animation can accurately view the animation status every 0.1 seconds!
@@ -136,7 +138,7 @@ Remove the runtime export and get all properties from config.
 2. Control component adds ruler control.
 ## 0.3.0 
 1. Add a ruler. The containerwrapper needs to pass config before it can be used.
-2. Drag the smallest container 667. Fix the inconsistency between the distance between the canvas and the mouse when zooming down and dragging.
+2. Modify container minimum drag 667. Fix the inconsistency between the distance between the canvas and the mouse when zooming down and dragging.
 3. Innercontainerdragup needs to pass config.
 ## 0.2.0 
 Modify the transmission of the commander to obtain the config. The commander will no longer be exported from the index. When it needs to be used, it will be obtained from the config. Add the class name on the left to facilitate customization.

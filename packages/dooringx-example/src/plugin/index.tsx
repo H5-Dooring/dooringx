@@ -1,8 +1,8 @@
 /*
  * @Author: yehuozhili
  * @Date: 2021-02-27 21:33:36
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-18 19:54:56
+ * @LastEditors: yehuozhili
+ * @LastEditTime: 2022-04-08 01:35:05
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\index.tsx
  */
 
@@ -56,7 +56,7 @@ export const defaultConfig: Partial<InitConfig> = {
 			icon: <ContainerOutlined />,
 			custom: true,
 			displayName: '自定义',
-			customRender: <div>我是自定义渲染</div>,
+			customRender: () => <div>我是自定义渲染</div>,
 		},
 	],
 	initComponentCache: {
