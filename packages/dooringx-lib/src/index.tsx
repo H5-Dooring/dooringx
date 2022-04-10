@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:22:18
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-09-27 21:08:40
+ * @LastEditTime: 2022-04-09 21:49:01
  * @FilePath: \dooringx\packages\dooringx-lib\src\index.tsx
  */
 
@@ -22,6 +22,9 @@ export { default as RightConfig } from './components/rightConfig';
 export { default as ContainerWrapper } from './components/wrapperMove';
 // 控制全局 弹窗等
 export { default as Control } from './components/control/control';
+// 左侧数据源tab
+export { default as LeftDataPannel } from './components/leftDataPannel';
+
 // 这个放到外层容器属性里 ...innerContainerDragUp()
 export { innerContainerDragUp } from './core/innerDrag';
 

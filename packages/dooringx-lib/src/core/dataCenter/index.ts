@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-04-13 11:20:55
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-05-04 20:34:36
- * @FilePath: \dooringv2\packages\dooring-v2-lib\src\core\dataCenter\index.ts
+ * @LastEditTime: 2022-04-10 01:02:03
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\dataCenter\index.ts
  */
 
 import UserConfig from '../../config';
@@ -63,7 +63,7 @@ export class DataCenter {
 		if (sign) {
 			const originData = storeChanger.getOrigin();
 			if (originData) {
-				const currentData = originData.data[originData.current];
+				const currentData = originData.now;
 				currentData.dataSource = data;
 			}
 		} else {

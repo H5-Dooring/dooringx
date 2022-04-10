@@ -5,6 +5,8 @@ nav:
   title: Change log
   order: 6
 ---
+## 0.14.1
+Add data source left panel settings.
 ## 0.14.0
 Fix the problem that the left and right configurations cannot get config.
 ## 0.13.3
@@ -21,7 +23,7 @@ Modify the timeline color and style to optimize the selected state.
 ## 0.12.3
 Fix double click positioning problem
 ## 0.12.2
-New double click positioning frame.
+Add double click positioning frame.
 Fixed drag frame reset pointer behavior after pause.
 ## 0.12.0
 The operation of adding frames to the animation can accurately view the animation status every 0.1 seconds!
@@ -36,7 +38,7 @@ Add color and style settings for markline
 ## 0.11.9
 A new setting panel is added to control adsorption scaling and other behaviors.
 Fixed pop-up button style issues.
-Fix the problem that some prompts do not display.
+The repair prompt is not displayed.
 ## 0.11.8
 Timeline adds auto focus function.
 ## 0.11.7

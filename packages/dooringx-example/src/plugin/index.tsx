@@ -2,11 +2,11 @@
  * @Author: yehuozhili
  * @Date: 2021-02-27 21:33:36
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-08 01:35:05
+ * @LastEditTime: 2022-04-09 21:55:03
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\index.tsx
  */
 
-import { InitConfig } from 'dooringx-lib';
+import { InitConfig, LeftDataPannel } from 'dooringx-lib';
 import { LeftRegistComponentMapItem } from 'dooringx-lib/dist/core/crossDrag';
 import { ContainerOutlined, PlayCircleOutlined, HighlightOutlined } from '@ant-design/icons';
 import commandModules from './commanderModules';
@@ -50,6 +50,13 @@ export const defaultConfig: Partial<InitConfig> = {
 			type: 'media',
 			icon: <PlayCircleOutlined />,
 			displayName: '媒体组件',
+		},
+		{
+			type: 'datax',
+			icon: <ContainerOutlined />,
+			custom: true,
+			displayName: '数据源',
+			customRender: (config) => <LeftDataPannel config={config}></LeftDataPannel>,
 		},
 		{
 			type: 'xxc',
