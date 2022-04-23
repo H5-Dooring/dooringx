@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-09 11:30:52
+ * @LastEditTime: 2022-04-23 17:07:19
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\storetype.ts
  */
 
@@ -23,10 +23,12 @@ export interface IStoreData {
 		height: number;
 	};
 	block: Array<IBlockType>;
-	modalMap: Record<string, IStoreData>;
+	modalMap: Record<string, Array<IBlockType>>;
 	dataSource: Record<string, any>;
 	globalState: Record<string, any>;
 	modalConfig: Record<string, any>;
+	modalEditName: string;
+	origin: Array<IBlockType> | null;
 }
 export interface IMainStoreData extends IStoreData {
 	globalState: GlobalState;

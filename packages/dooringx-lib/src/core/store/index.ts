@@ -2,11 +2,12 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-05 17:08:35
+ * @LastEditTime: 2022-04-23 18:53:36
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\index.ts
  */
-import { IStoreData } from './storetype';
-import { storeChangerState } from '../storeChanger/state';
+import deepcopy from 'deepcopy';
+import { createDefaultModalBlock } from './createModal';
+import { IBlockType, IStoreData } from './storetype';
 
 export const initialData: IStoreData = {
 	container: {
@@ -18,6 +19,8 @@ export const initialData: IStoreData = {
 	dataSource: {},
 	globalState: {},
 	modalConfig: {},
+	origin: null,
+	modalEditName: '',
 };
 
 class Store {
@@ -43,6 +46,190 @@ class Store {
 	getIndex() {
 		return this.current;
 	}
+	getOriginBlock() {
+		if (this.isEdit()) {
+			return this.getData().origin as IBlockType[];
+		} else {
+			return this.getData().block;
+		}
+	}
+
+	/**
+	 *
+	 * 编辑状态转普通
+	 * @param {IStoreData} data
+	 * @returns
+	 * @memberof Store
+	 */
+	changeModaltoNormal(data: IStoreData) {
+		if (data.modalEditName === '') {
+			return;
+		}
+		const tmp = data.origin || [];
+		data.modalMap = { ...data.modalMap, [data.modalEditName]: data.block };
+		data.block = tmp;
+		data.modalEditName = '';
+		data.origin = null;
+		return {};
+	}
+	/**
+	 *
+	 * 非编辑转编辑且已有弹窗
+	 * @param {IStoreData} data
+	 * @returns
+	 * @memberof Store
+	 */
+	changeNormalToModal(data: IStoreData, name: string) {
+		if (data.modalEditName !== '') {
+			return {
+				success: false,
+				sign: 0,
+			};
+		}
+		const sign2 = this.isInModalMap(name);
+		if (!sign2) {
+			return {
+				success: false,
+				sign: 1,
+				param: name,
+			};
+		}
+		const tmp = data.block || [];
+		const modalBlock = data.modalMap[name];
+		data.block = modalBlock;
+		data.modalEditName = name;
+		data.origin = tmp;
+		return { success: true, sign: -1 };
+	}
+	/**
+	 *
+	 * 非编辑状态新增
+	 * @param {IStoreData} data
+	 * @returns
+	 * @memberof Store
+	 */
+	newModaltoNormal(data: IStoreData, name: string) {
+		if (data.modalEditName !== '') {
+			return;
+		}
+		const tmp = data.block || [];
+		const modalBlock = createDefaultModalBlock();
+		data.modalMap = { ...data.modalMap, [name]: modalBlock };
+		data.block = modalBlock;
+		data.modalEditName = name;
+		data.origin = tmp;
+	}
+
+	/**
+	 *
+	 * 判断是否编辑
+	 * @returns
+	 * @memberof Store
+	 */
+	isEdit() {
+		if (this.getData().modalEditName !== '') {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 *  判断有没有这个弹窗
+	 * @param {Store} store
+	 * @param {string} name
+	 * @returns
+	 * @memberof Store
+	 */
+	isInModalMap(name: string) {
+		const modalNameList = Object.keys(this.getData().modalMap);
+		if (modalNameList.includes(name)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * 保存现阶段store，将store替换为新modal数据
+	 */
+	newModalMap(name: string) {
+		const sign = this.isEdit();
+		if (sign) {
+			return {
+				succeess: false,
+				sign: 0,
+			};
+		}
+		//新建modal name不能重名，否则直接报错
+		const sign2 = this.isInModalMap(name);
+		if (sign2) {
+			return {
+				succeess: false,
+				sign: 1,
+				param: name,
+			};
+		}
+		const copyData = deepcopy(this.getData());
+		this.newModaltoNormal(copyData, name);
+		this.setData(copyData);
+		return {
+			succeess: true,
+			sign: -1,
+		};
+	}
+
+	/**
+	 *
+	 * 存储modal到主store的map中，切换主store
+	 * @memberof StoreChanger
+	 */
+	closeModal() {
+		const sign = this.isEdit();
+		if (!sign) {
+			return {
+				success: false,
+				sign: 0,
+			};
+		}
+		const data = deepcopy(this.getData());
+		this.changeModaltoNormal(data);
+		this.setData(data);
+		return {
+			success: true,
+			sign: 0,
+		};
+	}
+	/**
+	 *
+	 * 删除弹窗，不能处于编辑弹窗状态
+	 * @param {string} name
+	 * @returns
+	 */
+	removeModal(name: string) {
+		const sign = this.isEdit();
+		if (sign) {
+			return {
+				success: false,
+				sign: 0,
+			};
+		}
+		const sign2 = this.isInModalMap(name);
+		if (!sign2) {
+			return {
+				success: false,
+				sign: 1,
+				param: name,
+			};
+		}
+		const cloneData: IStoreData = deepcopy(this.getData());
+		delete cloneData.modalMap[name];
+		this.setData(cloneData);
+		return {
+			success: true,
+			sign: -1,
+		};
+	}
 	/**
 	 *
 	 * 重置需要注册事件
@@ -53,9 +240,10 @@ class Store {
 	resetToInitData(initData: IStoreData[], check = false) {
 		this.storeDataList = initData;
 		this.current = 0;
+		const d = this.getData();
 		//如果是编辑模式，需要修改
-		if (storeChangerState.modalEditName !== '' && check) {
-			storeChangerState.modalEditName = '';
+		if (d.modalEditName !== '' && check) {
+			this.changeModaltoNormal(d);
 		}
 		this.emit();
 	}
@@ -71,8 +259,9 @@ class Store {
 		this.storeDataList = initData;
 		this.current = current;
 		//如果是编辑模式，需要修改
-		if (storeChangerState.modalEditName !== '' && check) {
-			storeChangerState.modalEditName = '';
+		const d = this.getData();
+		if (d.modalEditName !== '' && check) {
+			this.changeModaltoNormal(d);
 		}
 		this.emit();
 	}

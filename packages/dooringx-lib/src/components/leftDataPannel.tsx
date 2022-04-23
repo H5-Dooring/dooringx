@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2022-04-09 21:44:55
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-10 15:59:37
+ * @LastEditTime: 2022-04-24 00:34:55
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\leftDataPannel.tsx
  */
 import {
@@ -62,6 +62,7 @@ function LeftDataPannel(props: LeftDataPannelProps) {
 		},
 		{
 			title: '操作',
+			align: 'center',
 			render: (_v, record: any) => {
 				return (
 					<Space size="middle">

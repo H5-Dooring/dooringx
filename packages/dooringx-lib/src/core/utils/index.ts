@@ -8,7 +8,7 @@ import deepCopys from 'deepcopy';
 import { FunctionDataMap } from '../functionCenter/config';
 import UserConfig from '../../config';
 
-export function deepCopy<T = any>(obj: any): T {
+export function deepCopy<T = any>(obj: T): T {
 	return deepCopys(obj);
 }
 

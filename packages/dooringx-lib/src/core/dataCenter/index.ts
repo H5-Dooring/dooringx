@@ -2,13 +2,12 @@
  * @Author: yehuozhili
  * @Date: 2021-04-13 11:20:55
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-10 01:02:03
+ * @LastEditTime: 2022-04-23 17:54:22
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\dataCenter\index.ts
  */
 
 import UserConfig from '../../config';
 import { IStoreData } from '../store/storetype';
-import { StoreChanger } from '../storeChanger';
 
 /**
  *
@@ -56,19 +55,9 @@ export class DataCenter {
 	 */
 	staticSetToMap(data: Record<string, any>, config: UserConfig) {
 		this.dataMap = data;
-		const storeChanger = config.getStoreChanger();
 		const store = config.getStore();
 		const storeCurrentData = store.getData();
-		const sign = storeChanger.isEdit();
-		if (sign) {
-			const originData = storeChanger.getOrigin();
-			if (originData) {
-				const currentData = originData.now;
-				currentData.dataSource = data;
-			}
-		} else {
-			storeCurrentData.dataSource = data;
-		}
+		storeCurrentData.dataSource = data;
 	}
 
 	/**
@@ -77,19 +66,8 @@ export class DataCenter {
 	 * @param {IStoreData} data
 	 * @memberof DataCenter
 	 */
-	initAddToDataMap(data: IStoreData, storeChanger: StoreChanger) {
-		const sign = storeChanger.isEdit();
-		//这里只能初始触发，一般不会走编辑状态，否则逻辑可能会有问题
-		if (sign) {
-			// 编辑状态收集orgin
-			const originData = storeChanger.getOrigin();
-			if (originData) {
-				const currentData = originData.data[originData.current];
-				this.dataMap = currentData.dataSource;
-			}
-		} else {
-			this.dataMap = data.dataSource;
-		}
+	initAddToDataMap(data: IStoreData) {
+		this.dataMap = data.dataSource;
 	}
 
 	/**

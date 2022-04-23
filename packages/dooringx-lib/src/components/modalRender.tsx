@@ -17,13 +17,13 @@ export const unmountMap: Map<string, Function> = new Map();
 
 export function ModalRender(props: ModalRenderProps) {
 	//先获取数据
-	const storeData: IStoreData = useMemo(() => {
+	const storeData = useMemo(() => {
 		const z = props.data.modalMap[props.name];
 		if (z) {
 			const data = deepCopy(z);
 			//需要把第一个mask扔了手动写一个
-			data.block.shift();
-			return data;
+			data.shift();
+			return { block: data };
 		}
 		return { block: [] };
 	}, [props.data.modalMap, props.name]);

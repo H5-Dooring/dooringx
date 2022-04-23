@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:35:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-04 20:13:58
+ * @LastEditTime: 2022-04-23 23:34:15
  * @FilePath: \dooringx\packages\dooringx-lib\src\hooks\index.ts
  */
 import { useEffect, useMemo, useState } from 'react';
@@ -23,7 +23,8 @@ export function useStoreState(
 		const unRegister = store.subscribe(() => {
 			const data = store.getData();
 			setState(data);
-			config.getEventCenter().syncEventMap(store.getData(), config.getStoreChanger());
+			config.getEventCenter().syncEventMap(store.getData(), config.getStore());
+			config.getEventCenter().getFunctionCenter().syncFunction(store);
 			extraFn();
 		});
 		store.setForceUpdate(() => forceUpdate((v) => v + 1));
@@ -124,11 +125,8 @@ export function useIframePostMessage(
 			const data = {
 				store: store.getData(),
 				scaleState: config.getScaleState(),
-				origin: config.getStoreChanger().getOrigin(),
-				isEdit: config.getStoreChanger().isEdit(),
 				wrapperState: config.getWrapperMove().iframe,
 			};
-
 			postMessage(data, origin, target);
 		};
 	}, [config, origin, store, target]);

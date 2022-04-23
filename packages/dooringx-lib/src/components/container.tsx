@@ -30,7 +30,7 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 	}, [props.context, scaleState]);
 
 	const bgColor = () => {
-		const isEdit = props.config.getStoreChanger().isEdit();
+		const isEdit = props.config.getStore().isEdit();
 		if (isEdit) {
 			return 'rgba(255,255,255,1)';
 		} else {

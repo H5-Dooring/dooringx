@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:46:01
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-13 11:30:17
+ * @LastEditTime: 2022-04-23 18:40:40
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\formComponents\actionButton.tsx
  */
 
@@ -39,14 +39,8 @@ function ActionButton(props: ActionButtonProps) {
 	const functionConfig = functionCenter.getConfigMap();
 	const functionMap = functionCenter.getFunctionMap();
 	const functionNameMap = functionCenter.getNameMap();
-	const isEdit = props.config.getStoreChanger().isEdit();
 	const dataMap = props.config.getDataCenter().getDataMap();
-	let modalMap: Record<string, IStoreData>;
-	if (isEdit) {
-		modalMap = props.config.getStoreChanger().getOrigin()?.now.modalMap || {};
-	} else {
-		modalMap = props.config.getStore().getData().modalMap;
-	}
+	let modalMap = props.config.getStore().getData().modalMap;
 
 	const handleInputDataSource = useCallback(
 		(

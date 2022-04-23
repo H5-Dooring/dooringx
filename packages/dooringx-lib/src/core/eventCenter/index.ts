@@ -2,14 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-04-06 19:33:17
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-06 17:23:54
+ * @LastEditTime: 2022-04-24 00:18:18
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\eventCenter\index.ts
  */
 import UserConfig from '../../config';
 import { FunctionCenter, FunctionCenterType } from '../functionCenter';
 import { FunctionDataType } from '../functionCenter/config';
+import Store from '../store';
 import { IStoreData } from '../store/storetype';
-import { StoreChanger } from '../storeChanger';
 import { EventQuene } from './eventQuene';
 
 // 每个组件制作时可以抛出多个事件，事件名为id+自定义name，
@@ -64,35 +64,32 @@ export class EventCenter {
 	 * @param {IStoreData} data
 	 * @memberof EventCenter
 	 */
-	syncEventMap(data: IStoreData, storeChanger: StoreChanger) {
-		// 需要判断是否在弹窗状态。如果在弹窗状态，数据以storeChanger为准，否则就以store为准
-		const sign = storeChanger.isEdit();
+	syncEventMap(data: IStoreData, store: Store) {
+		const sign = store.isEdit();
 		this.eventMap = {};
 		if (sign) {
-			const originData = storeChanger.getOrigin();
-			if (originData) {
-				const currentData = originData.data[originData.current];
-				// 收集源block数据
-				currentData.block.forEach((v) => {
-					this.eventMap = Object.assign(this.eventMap, v.eventMap);
-				});
-				//收集源modal数据
-				Object.keys(currentData.modalMap).forEach((v) => {
-					currentData.modalMap[v].block.forEach((k) => {
-						this.eventMap = Object.assign(this.eventMap, k.eventMap);
-					});
-				});
-				//收集当前modal数据
-				data.block.forEach((v) => {
+			// 收集源block数据
+			if (data.origin) {
+				data.origin.forEach((v) => {
 					this.eventMap = Object.assign(this.eventMap, v.eventMap);
 				});
 			}
+			//收集源modal数据
+			Object.keys(data.modalMap).forEach((v) => {
+				data.modalMap[v].forEach((k) => {
+					this.eventMap = Object.assign(this.eventMap, k.eventMap);
+				});
+			});
+			//收集当前modal数据
+			data.block.forEach((v) => {
+				this.eventMap = Object.assign(this.eventMap, v.eventMap);
+			});
 		} else {
 			data.block.forEach((v) => {
 				this.eventMap = Object.assign(this.eventMap, v.eventMap);
 			});
 			Object.keys(data.modalMap).forEach((v) => {
-				data.modalMap[v].block.forEach((k) => {
+				data.modalMap[v].forEach((k) => {
 					this.eventMap = Object.assign(this.eventMap, k.eventMap);
 				});
 			});

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-08 01:37:07
+ * @LastEditTime: 2022-04-23 23:03:56
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -28,7 +28,6 @@ import MmodalMask from '../core/components/defaultFormComponents/modalMask';
 import CommanderWrapper from '../core/command';
 import { focusState } from '../core/focusHandler/state';
 import ComponentRegister from '../core/components';
-import { StoreChanger } from '../core/storeChanger';
 import Store from '../core/store';
 import { VerticalAlignMiddleOutlined } from '@ant-design/icons';
 import { wrapperMoveState } from '../components/wrapperMove/event';
@@ -177,6 +176,8 @@ export const defaultStore: IMainStoreData = {
 		customAnimate: [],
 	},
 	modalConfig: {},
+	modalEditName: '',
+	origin: null,
 };
 
 export const defaultConfig: InitConfig = {
@@ -189,7 +190,7 @@ export const defaultConfig: InitConfig = {
 		modalMask: { component: MmodalMask }, // 这个组件不配置显示
 	},
 	initFunctionMap: {
-		打开弹窗函数: {
+		open_modal: {
 			fn: (_ctx, next, config, args) => {
 				const modalName = args['_modal'];
 				const storeData = config.getStore().getData();
@@ -207,8 +208,9 @@ export const defaultConfig: InitConfig = {
 				},
 			],
 			name: '打开弹窗函数',
+			componentId: '_inner',
 		},
-		关闭弹窗函数: {
+		close_modal: {
 			fn: (_ctx, next, _config, args) => {
 				const modalName = args['_modal'];
 				const fn = unmountMap.get(modalName);
@@ -228,6 +230,7 @@ export const defaultConfig: InitConfig = {
 				},
 			],
 			name: '关闭弹窗函数',
+			componentId: '_inner',
 		},
 	},
 	initDataCenterMap: {},
@@ -338,7 +341,6 @@ export class UserConfig {
 	public store = new Store();
 	public componentRegister = new ComponentRegister();
 	public formRegister = new FormComponentRegister();
-	public storeChanger = new StoreChanger();
 	public animateFactory = new AnimateFactory();
 	public componentCache = {};
 	public asyncComponentUrlMap = {} as AsyncCacheComponentType;
@@ -427,11 +429,11 @@ export class UserConfig {
 		// 注册data
 		this.dataCenter = new DataCenter(this.initConfig.initDataCenterMap);
 		//数据需要加上store上的
-		this.dataCenter.initAddToDataMap(this.store.getData(), this.storeChanger);
+		this.dataCenter.initAddToDataMap(this.store.getData());
 		// 修改事件与数据初始
 		this.eventCenter = new EventCenter({}, this.initConfig.initFunctionMap);
 		// 注册画布事件
-		this.eventCenter.syncEventMap(this.store.getData(), this.storeChanger);
+		this.eventCenter.syncEventMap(this.store.getData(), this.store);
 	}
 
 	init() {
@@ -482,9 +484,6 @@ export class UserConfig {
 	getEventCenter() {
 		return this.eventCenter;
 	}
-	getStoreChanger() {
-		return this.storeChanger;
-	}
 	getAnimateFactory() {
 		return this.animateFactory;
 	}
@@ -514,14 +513,7 @@ export class UserConfig {
 	 * @memberof UserConfig
 	 */
 	getCurrentData() {
-		let data: IStoreData;
-		const isEdit = this.storeChanger.isEdit();
-		if (isEdit) {
-			data = this.storeChanger.getOrigin()!.now;
-		} else {
-			data = this.store.getData();
-		}
-		return data;
+		return this.store.getData();
 	}
 
 	/**
@@ -679,13 +671,8 @@ export class UserConfig {
 		leftProps: Partial<LeftRegistComponentMapItem>,
 		callback?: Function
 	) {
-		let isEdit = this.storeChanger.isEdit();
 		let storeData = this.store.getData();
 		let globalState = storeData.globalState;
-		if (isEdit) {
-			storeData = this.storeChanger.getOrigin()!.now;
-			globalState = storeData.globalState;
-		}
 		if (globalState['script'].includes(src)) {
 			console.error(src + 'scripts have been loaded');
 			return;
@@ -707,11 +694,7 @@ export class UserConfig {
 				// 前面加载会重置store 新增组件需要事件初始化
 				setTimeout(() => {
 					window[this.SCRIPTGLOBALNAME as any] = undefined as any;
-					isEdit = this.storeChanger.isEdit();
 					globalState = this.store.getData().globalState;
-					if (isEdit) {
-						globalState = this.storeChanger.getOrigin()!.now.globalState;
-					}
 					globalState['script'].push(src);
 					storeData.globalState = globalState;
 					this.store.resetToInitData([storeData], true);

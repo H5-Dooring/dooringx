@@ -2,8 +2,8 @@
  * @Author: yehuozhili
  * @Date: 2021-04-04 20:35:11
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-05 23:55:53
- * @FilePath: \DooringV2\packages\dooring-v2-lib\src\core\components\defaultFormComponents\modalMask.tsx
+ * @LastEditTime: 2022-04-23 18:36:23
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\components\defaultFormComponents\modalMask.tsx
  */
 import { SaveOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
@@ -45,7 +45,7 @@ const MmodalMask = new ComponentItemFactory(
 						style={{ position: 'absolute', right: '10px', top: '10px' }}
 						icon={<SaveOutlined></SaveOutlined>}
 						onClick={() => {
-							config.getStoreChanger().closeModal(config.getStore());
+							config.getStore().closeModal();
 						}}
 					></Button>
 				)}

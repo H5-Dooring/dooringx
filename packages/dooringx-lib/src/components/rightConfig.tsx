@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-08 01:37:25
+ * @LastEditTime: 2022-04-23 18:12:53
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
@@ -96,29 +96,21 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 			return null;
 		};
 	}, [props.config]);
-
 	const initColor = useMemo(() => {
-		return props.config.getStoreChanger().isEdit()
-			? rgba2Obj(props.config.getStoreChanger().getOrigin()?.now.globalState.containerColor)
-			: rgba2Obj(props.config.getStore().getData().globalState.containerColor);
+		return rgba2Obj(props.config.getStore().getData().globalState.containerColor);
 	}, [props.config]);
 	const initColor2 = useMemo(() => {
-		return props.config.getStoreChanger().isEdit()
-			? rgba2Obj(props.config.getStoreChanger().getOrigin()?.now.globalState.bodyColor)
-			: rgba2Obj(props.config.getStore().getData().globalState.bodyColor);
+		return rgba2Obj(props.config.getStore().getData().globalState.bodyColor);
 	}, [props.config]);
 	const initTitle = useMemo(() => {
-		const title = props.config.getStoreChanger().isEdit()
-			? props.config.getStoreChanger().getOrigin()?.now.globalState.title
-			: props.config.getStore().getData().globalState.title;
-		return title;
+		return props.config.getStore().getData().globalState.title;
 	}, [props.config]);
 	const [title, setTitle] = useState(initTitle);
 
 	const customGlobal = props.config.getConfig().rightGlobalCustom;
-	const isEdit = props.config.getStoreChanger().isEdit();
-	const modalName = props.config.getStoreChanger().getState().modalEditName;
-	const originData = props.config.getStoreChanger().getOrigin()?.now;
+	const isEdit = props.config.getStore().isEdit();
+	const data = props.config.getStore().getData();
+	const modalName = data.modalEditName;
 	return (
 		<div
 			className="ant-menu right-pannel-wrap"
@@ -173,18 +165,9 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 								onChange={(e) => {
 									const val = e.target.value;
 									setTitle(val);
-									const isEdit = props.config.getStoreChanger().isEdit();
-									if (isEdit) {
-										const originData: IStoreData = deepcopy(
-											props.config.getStoreChanger().getOrigin()!.now
-										);
-										originData.globalState.title = val;
-										props.config.getStoreChanger().updateOrigin(originData);
-									} else {
-										const originData = deepcopy(props.config.getStore().getData());
-										originData.globalState.title = val;
-										props.config.getStore().setData(originData);
-									}
+									const originData = deepcopy(props.config.getStore().getData());
+									originData.globalState.title = val;
+									props.config.getStore().setData(originData);
 								}}
 							/>
 						</Col>
@@ -199,18 +182,9 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 								value={props.config.getStore().getData().container.height}
 								onChange={(e) => {
 									const val = e;
-									const isEdit = props.config.getStoreChanger().isEdit();
-									if (isEdit) {
-										const originData: IStoreData = deepcopy(
-											props.config.getStoreChanger().getOrigin()!.now
-										);
-										originData.container.height = val;
-										props.config.getStoreChanger().updateOrigin(originData);
-									} else {
-										const originData = deepcopy(props.config.getStore().getData());
-										originData.container.height = val;
-										props.config.getStore().setData(originData);
-									}
+									const originData = deepcopy(props.config.getStore().getData());
+									originData.container.height = val;
+									props.config.getStore().setData(originData);
 								}}
 							/>
 						</Col>
@@ -223,18 +197,9 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 							<ColorPicker
 								initColor={initColor}
 								onChange={(newcolor) => {
-									const isEdit = props.config.getStoreChanger().isEdit();
-									if (isEdit) {
-										const originData: IStoreData = deepcopy(
-											props.config.getStoreChanger().getOrigin()!.now
-										);
-										originData.globalState.containerColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
-										props.config.getStoreChanger().updateOrigin(originData);
-									} else {
-										const originData = deepcopy(props.config.getStore().getData());
-										originData.globalState.containerColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
-										props.config.getStore().setData(originData);
-									}
+									const originData = deepcopy(props.config.getStore().getData());
+									originData.globalState.containerColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
+									props.config.getStore().setData(originData);
 								}}
 							></ColorPicker>
 						</Col>
@@ -247,18 +212,9 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 							<ColorPicker
 								initColor={initColor2}
 								onChange={(newcolor) => {
-									const isEdit = props.config.getStoreChanger().isEdit();
-									if (isEdit) {
-										const originData: IStoreData = deepcopy(
-											props.config.getStoreChanger().getOrigin()!.now
-										);
-										originData.globalState.bodyColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
-										props.config.getStoreChanger().updateOrigin(originData);
-									} else {
-										const originData = deepcopy(props.config.getStore().getData());
-										originData.globalState.bodyColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
-										props.config.getStore().setData(originData);
-									}
+									const originData = deepcopy(props.config.getStore().getData());
+									originData.globalState.bodyColor = `rgba(${newcolor.r}, ${newcolor.g}, ${newcolor.b}, ${newcolor.a})`;
+									props.config.getStore().setData(originData);
 								}}
 							></ColorPicker>
 						</Col>
@@ -278,15 +234,12 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						</Col>
 						<Col span={16} style={{ ...colStyle }}>
 							<Checkbox
-								checked={originData ? originData.modalConfig[modalName] : false}
+								checked={data.modalConfig[modalName] || false}
 								onChange={(e) => {
 									const val = e.target.checked;
-									const cloneData = deepcopy(originData);
-									if (cloneData) {
-										cloneData.modalConfig[modalName] = val;
-										props.config.getStoreChanger().updateOrigin(cloneData);
-										props.config.getStore().forceUpdate();
-									}
+									const cloneData = deepcopy(data);
+									cloneData.modalConfig[modalName] = val;
+									props.config.getStore().setData(cloneData);
 								}}
 							></Checkbox>
 						</Col>

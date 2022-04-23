@@ -139,22 +139,11 @@ export class AnimateFactory {
 	syncToStore(config: UserConfig) {
 		// 先判断global的位置
 		const store = config.getStore();
-		let data: IStoreData;
-		const isEdit = config.getStoreChanger().isEdit();
-		if (isEdit) {
-			const origin = config.getStoreChanger().getOrigin()!;
-			data = origin.data[origin.current];
-		} else {
-			data = store.getData();
-		}
+		let data = store.getData();
 		const copy: IMainStoreData = deepCopy(data);
 		const originGlobal = copy.globalState as IMainStoreData['globalState'];
 		originGlobal.customAnimate = [...this.customAnimateName];
-		if (isEdit) {
-			config.getStoreChanger().updateOrigin(copy);
-		} else {
-			store.setData(copy);
-		}
+		store.setData(copy);
 	}
 
 	/**
@@ -166,13 +155,7 @@ export class AnimateFactory {
 	syncStoreToConfig(config: UserConfig) {
 		const store = config.getStore();
 		let data: IStoreData;
-		const isEdit = config.getStoreChanger().isEdit();
-		if (isEdit) {
-			const origin = config.getStoreChanger().getOrigin()!;
-			data = origin.data[origin.current];
-		} else {
-			data = store.getData();
-		}
+		data = store.getData();
 		const dataAnimate = data.globalState?.customAnimate;
 		this.customAnimateName = [...dataAnimate];
 	}

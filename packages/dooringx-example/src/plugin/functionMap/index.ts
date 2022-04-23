@@ -2,12 +2,37 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:22:51
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-05 14:53:12
+ * @LastEditTime: 2022-04-24 00:11:35
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\functionMap\index.ts
  */
 import { FunctionCenterType } from 'dooringx-lib/dist/core/functionCenter';
 
 export const functionMap: FunctionCenterType = {
+	sleep: {
+		fn: (ctx, next, _config, args) => {
+			const arr = args['_sk'];
+			let num = parseInt(arr[0]);
+			if (isNaN(num)) {
+				next();
+			} else {
+				setTimeout(() => {
+					next();
+				}, arr[0]);
+			}
+		},
+		config: [
+			{
+				name: '输入数值单位ms',
+				data: ['input'],
+				options: {
+					receive: '_sk',
+					multi: false,
+				},
+			},
+		],
+		name: '等待',
+		componentId: '_inner',
+	},
 	上下文转对象: {
 		fn: (ctx, next, _config, args) => {
 			const arr = args['_sk'];
@@ -39,5 +64,6 @@ export const functionMap: FunctionCenterType = {
 			},
 		],
 		name: '上下文转对象',
+		componentId: '_inner',
 	},
 };

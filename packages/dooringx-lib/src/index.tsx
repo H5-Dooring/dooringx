@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:22:18
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-09 21:49:01
+ * @LastEditTime: 2022-04-23 23:02:04
  * @FilePath: \dooringx\packages\dooringx-lib\src\index.tsx
  */
 
@@ -58,7 +58,7 @@ export { defaultStore } from './config';
 export { focusState } from './core/focusHandler/state';
 //utils
 export { deepCopy, rgba2Obj, swap, createUid, arrayMove, postMessage } from './core/utils';
-export { specialCoList } from './core/utils/special';
+export { specialCoList, specialFnList } from './core/utils/special';
 // iframe
 export { default as IframeContainer } from './components/iframeContainer';
 export { default as IframeContainerWrapper } from './components/IframeWrapperMove';
