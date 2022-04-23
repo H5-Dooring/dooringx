@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-24 00:29:46
+ * @LastEditTime: 2022-04-24 00:44:25
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -16,7 +16,6 @@ import {
 } from 'dooringx-lib';
 import { FormMap } from '../formTypes';
 import { ComponentRenderConfigProps } from 'dooringx-lib/dist/core/components/componentItem';
-let s = 0;
 function ButtonTemp(pr: ComponentRenderConfigProps) {
 	const props = pr.data.props;
 	const eventCenter = useMemo(() => {
@@ -50,9 +49,7 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 						config,
 						ctx
 					);
-					s = s++;
-					const text = ctxVal[0] + s;
-
+					const text = ctxVal[0];
 					setText(text);
 					next();
 				},
