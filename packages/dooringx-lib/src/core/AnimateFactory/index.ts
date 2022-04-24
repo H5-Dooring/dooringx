@@ -140,7 +140,7 @@ export class AnimateFactory {
 		// 先判断global的位置
 		const store = config.getStore();
 		let data = store.getData();
-		const copy: IMainStoreData = deepCopy(data);
+		const copy = deepCopy(data);
 		const originGlobal = copy.globalState as IMainStoreData['globalState'];
 		originGlobal.customAnimate = [...this.customAnimateName];
 		store.setData(copy);

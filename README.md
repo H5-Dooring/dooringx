@@ -32,6 +32,8 @@ dooringx-lib 在运行时维护一套数据流，主要分为json数据部分，
 
 ## 文档 | Doc
 
+当前版本变化较大，请等待文档完善。
+
 [Read the Docs to Learn More](https://h5-dooring.github.io/dooringx/).
 
 [阅读文档了解更多信息](https://h5-dooring.github.io/dooringx/).

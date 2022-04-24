@@ -5,6 +5,10 @@ nav:
   title: Change log
   order: 6
 ---
+## 0.15.0
+Discard storechanger and iframe containers.
+Add function configuration to unload correctly.
+Modify the pop-up logic to save the preview correctly.
 ## 0.14.1
 Add data source left panel settings.
 ## 0.14.0
