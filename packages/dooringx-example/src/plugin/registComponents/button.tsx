@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-24 00:44:25
+ * @LastEditTime: 2022-04-24 20:42:01
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -36,7 +36,6 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 	useEffect(() => {
 		let unRegist = () => {};
 		if (op1) {
-			console.log('kkk');
 			const functionCenter = eventCenter.getFunctionCenter();
 			unRegist = functionCenter.register({
 				id: `${pr.data.id}+changeText`,
