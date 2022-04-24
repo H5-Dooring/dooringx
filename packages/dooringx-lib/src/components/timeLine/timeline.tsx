@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-09 15:15:25
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-01 13:41:34
+ * @LastEditTime: 2022-04-23 18:34:46
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\timeLine\timeline.tsx
  */
 import deepcopy from 'deepcopy';
@@ -294,7 +294,7 @@ export function TimeLine(props: TimeLineProps) {
 	const onSortEnd = (sort: SortEnd) => {
 		const { oldIndex, newIndex } = sort;
 		const newblocks: IBlockType[] = arrayMove(data, oldIndex, newIndex);
-		const isEdit = props.config.getStoreChanger().isEdit();
+		const isEdit = props.config.getStore().isEdit();
 		if (isEdit) {
 			const firstType = newblocks[0].name;
 			if (firstType !== 'modalMask') {

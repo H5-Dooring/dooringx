@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-21 10:55:56
+ * @LastEditTime: 2022-04-23 18:58:26
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\zh-CN.ts
  */
 export const zhCN = {
@@ -27,6 +27,7 @@ export const zhCN = {
 	'modal.popup.name': '请输入弹窗名称',
 	'modal.name': '弹窗名称',
 	'modal.control.remove': '取消点击删除弹窗',
+	edit: '编辑',
 	yes: '确定',
 	no: '取消',
 	'right.noprops': '还没有配置属性',

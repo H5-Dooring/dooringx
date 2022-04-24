@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:40:37
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-06 22:07:33
+ * @LastEditTime: 2022-04-23 18:01:55
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\preview.tsx
  */
 import Container from './container';
@@ -43,7 +43,7 @@ export interface PreviewProps {
 }
 
 function Preview(props: PreviewProps): ReactElement {
-	const isEdit = props.config.getStoreChanger().isEdit();
+	const isEdit = props.config.getStore().isEdit();
 	/// 这里需要在渲染组件之前必须把所有config加载完成，否则会导致先运行的函数无法运行
 	const [loading, setLoading] = useState(true);
 
@@ -53,13 +53,11 @@ function Preview(props: PreviewProps): ReactElement {
 			props.config.createdFn.forEach((v) => v());
 			setTimeout(() => {
 				// 链接数据
-				props.config
-					.getDataCenter()
-					.initAddToDataMap(props.config.getStore().getData(), props.config.getStoreChanger());
+				props.config.getDataCenter().initAddToDataMap(props.config.getStore().getData());
 				// 链接事件
 				props.config
 					.getEventCenter()
-					.syncEventMap(props.config.getStore().getData(), props.config.getStoreChanger());
+					.syncEventMap(props.config.getStore().getData(), props.config.getStore());
 
 				// 设置全局
 				const global = props.config.getStore().getData().globalState;
@@ -129,10 +127,12 @@ function Preview(props: PreviewProps): ReactElement {
 
 	if (isEdit) {
 		// 正常情况不会走这
-		const state = props.config.getStoreChanger().getOrigin()!.now;
+		const store = props.config.getStore();
+		const data = store.getData();
+		store.changeModaltoNormal(data);
 		return (
 			<>
-				<Container config={props.config} context="preview" state={state}></Container>
+				<Container config={props.config} context="preview" state={store.getData()}></Container>
 			</>
 		);
 	} else {

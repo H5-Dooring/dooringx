@@ -12,21 +12,7 @@ dooringx-lib的插件需要一个类型为`Partial<InitConfig>`的对象。
 
 userConfigMerge不是所有属性都会合并，部分属性会进行覆盖。
 
-```
- * 部分无法合并属性如果b传了会以b为准
- * initstore不合并
- * leftallregistmap合并
- * leftRenderListCategory合并
- * rightRenderListCategory合并
- * rightGlobalCustom 不合并
- * initComponentCache合并
- * initFunctionMap合并
- * initDataCenterMap合并
- * initCommandModule合并
- * initFormComponents合并
-```
 
-config支持部分配置异步导入，比如左侧分类等，这个是实验性功能，所以不推荐这么做。
 
 
 ### 左侧面板
@@ -34,29 +20,11 @@ config支持部分配置异步导入，比如左侧分类等，这个是实验�
 
 左侧面板传入leftRenderListCategory即可。
 
-```js
-leftRenderListCategory: [
-  {
-        type: 'basic',
-        icon: <HighlightOutlined />,
-        displayName: '基础组件',
-  },
-  {
-        type: 'xxc',
-        icon: <ContainerOutlined />,
-        custom: true,
-        customRender: <div>我是自定义渲染</div>,
-  },
-],
-```
-
 type是分类，左侧组件显示在哪个分类由该字段决定。
 
 icon则是左侧分类小图标。
 
 当custom为true时，可以使用customRender自定义渲染。
-
-### 左侧组件
 
 
 ### 插件导入
@@ -65,27 +33,10 @@ icon则是左侧分类小图标。
 
 左侧组件支持同步导入或者异步导入。
 
-```js
-const LeftRegistMap: LeftRegistComponentMapItem[] = [
-  {
-      type: 'basic',
-      component: 'button',
-      img: 'icon-anniu',
-      displayName: '按钮',
-      urlFn: () => import('./registComponents/button'),
-  },
-];
-```
-
 如果需要异步导入组件，则需要填写urlFn，需要一个返回promise的函数。也可以支持远程载入组件，只要webpack配上就行了。
 
 如果需要同步导入组件，则需要将组件放入配置项的initComponentCache中，这样在载入时便会注册进componentRegister里。
 
-```js
-initComponentCache: {
-    modalMask: { component: MmodalMask },  
-},
-```
 
 ### 组件编写
 
@@ -178,45 +129,10 @@ useDynamicAddEventCenter第一个参数是render的四个参数组成的对象�
 
 函数由组件抛出，可以加载到事件链上。比如，注册个改变文本函数，那么我可以在任意组件的时机中去调用该函数，从而触发该组件改变文本。
 
-函数注册需要放入useEffect中，在组件卸载时需要卸载函数！否则会导致函数越来越多。
+函数注册需要放入useEffect中。目前不需要主动卸载，但在和弹窗上函数通信时，可能需要在预览环境卸载，否则可能第二次执行不生效。
 
 注意id要带上组件id，因为一个组件可以拖出n个组件生成n个函数。
 
-```js
-useEffect(() => {
-		const functionCenter = eventCenter.getFunctionCenter();
-		const unregist = functionCenter.register(
-			`${pr.data.id}+改变文本函数`,
-			async (ctx, next, config, args, _eventList, iname) => {
-				const userSelect = iname.data;
-				const ctxVal = changeUserValue(
-					userSelect['改变文本数据源'],
-					args,
-					'_changeval',
-					config,
-					ctx
-				);
-				const text = ctxVal[0];
-				setText(text);
-				next();
-			},
-			[
-				{
-					name: '改变文本数据源',
-					data: ['ctx', 'input', 'dataSource'],
-					options: {
-						receive: '_changeval',
-						multi: false,
-					},
-				},
-			],
-			`${pr.data.id}+改变文本函数`
-		);
-		return () => {
-			unregist();
-		};
-}, []);
-```
  
 函数中参数与配置见后面函数开发。
 
@@ -225,14 +141,6 @@ useEffect(() => {
 
 右侧面板的配置和左侧面板一样：
 
-```js
-export interface RightMapRenderListPropsItemCategory {
-    type: string;
-    icon: ReactNode;
-    custom?: boolean;
-    customRender?: (type: string, current: IBlockType) => ReactNode;
-}
-```
 
 type会影响左侧组件在开发时第三个参数的键名。那个键名中即代表该右侧中展示的type。
 
@@ -371,174 +279,7 @@ export default undo;
 ```
 
 第一个参数是注册名。
-第二个参数是快捷键名，快捷键映射是键盘事件key值：
-
-```js
-	Cancel: 3,
-	Help: 6,
-	Backspace: 8,
-	Tab: 9,
-	Clear: 12,
-	Enter: 13,
-	Shift: 16,
-	Control: 17,
-	Alt: 18,
-	Pause: 19,
-	CapsLock: 20,
-	Escape: 27,
-	Convert: 28,
-	NonConvert: 29,
-	Accept: 30,
-	ModeChange: 31,
-	' ': 32,
-	PageUp: 33,
-	PageDown: 34,
-	End: 35,
-	Home: 36,
-	ArrowLeft: 37,
-	ArrowUp: 38,
-	ArrowRight: 39,
-	ArrowDown: 40,
-	Select: 41,
-	Print: 42,
-	Execute: 43,
-	PrintScreen: 44,
-	Insert: 45,
-	Delete: 46,
-	0: 48,
-	')': 48,
-	1: 49,
-	'!': 49,
-	2: 50,
-	'@': 50,
-	3: 51,
-	'#': 51,
-	4: 52,
-	$: 52,
-	5: 53,
-	'%': 53,
-	6: 54,
-	'^': 54,
-	7: 55,
-	'&': 55,
-	8: 56,
-	'*': 56,
-	9: 57,
-	'(': 57,
-	a: 65,
-	A: 65,
-	b: 66,
-	B: 66,
-	c: 67,
-	C: 67,
-	d: 68,
-	D: 68,
-	e: 69,
-	E: 69,
-	f: 70,
-	F: 70,
-	g: 71,
-	G: 71,
-	h: 72,
-	H: 72,
-	i: 73,
-	I: 73,
-	j: 74,
-	J: 74,
-	k: 75,
-	K: 75,
-	l: 76,
-	L: 76,
-	m: 77,
-	M: 77,
-	n: 78,
-	N: 78,
-	o: 79,
-	O: 79,
-	p: 80,
-	P: 80,
-	q: 81,
-	Q: 81,
-	r: 82,
-	R: 82,
-	s: 83,
-	S: 83,
-	t: 84,
-	T: 84,
-	u: 85,
-	U: 85,
-	v: 86,
-	V: 86,
-	w: 87,
-	W: 87,
-	x: 88,
-	X: 88,
-	y: 89,
-	Y: 89,
-	z: 90,
-	Z: 90,
-	OS: 91,
-	ContextMenu: 93,
-	F1: 112,
-	F2: 113,
-	F3: 114,
-	F4: 115,
-	F5: 116,
-	F6: 117,
-	F7: 118,
-	F8: 119,
-	F9: 120,
-	F10: 121,
-	F11: 122,
-	F12: 123,
-	F13: 124,
-	F14: 125,
-	F15: 126,
-	F16: 127,
-	F17: 128,
-	F18: 129,
-	F19: 130,
-	F20: 131,
-	F21: 132,
-	F22: 133,
-	F23: 134,
-	F24: 135,
-	NumLock: 144,
-	ScrollLock: 145,
-	VolumeMute: 181,
-	VolumeDown: 182,
-	VolumeUp: 183,
-	';': 186,
-	':': 186,
-	'=': 187,
-	'+': 187,
-	',': 188,
-	'<': 188,
-	'-': 189,
-	_: 189,
-	'.': 190,
-	'>': 190,
-	'/': 191,
-	'?': 191,
-	'`': 192,
-	'~': 192,
-	'[': 219,
-	'{': 219,
-	'\\': 220,
-	'|': 220,
-	']': 221,
-	'}': 221,
-	"'": 222,
-	'"': 222,
-	Meta: 224,
-	AltGraph: 225,
-	Attn: 246,
-	CrSel: 247,
-	ExSel: 248,
-	EraseEof: 249,
-	Play: 250,
-	ZoomOut: 251,
-```
+第二个参数是快捷键名，快捷键映射是键盘事件key值 
 
 26个英文字母是忽略大小写的，一个命令目前只能注册一个快捷键。不需要注册快捷键则填空字符串即可。
 
@@ -612,113 +353,7 @@ initFunctionMap: functionMap,
 
 #### 函数开发
 
-
-键名会显示出来所以键名是唯一的。
-
-它的值是2个对象，一个是函数内容fn，一个是配置项config (0.10.0以上还需要传入函数名称，用于显示)。
-
-config中的数组里每个配置会显示出来让用户去配置，name则是展示名字，data代表数据去哪里获取，可以选择从输入框（input），数据源（dataSource）,上下文（ctx）中获取，另外还有个特殊的弹窗（modal）。
-
-options中的receive表示会从args哪个键上获取该值。
-
-multi代表是否允许多个选项配置。
-
-dooringx-lib中写好了2个函数changeUserValue与changeUserValueRecord，第一个函数会将得到的结果做成数组，如果非multi则取第一个结果就行。而第二个函数会将结果做成对象，比如用户在数据源中选了keya，那么就会把数据源的键值对作为个对象返回。
-
-
-fn中，第一个ctx参数代表上下文，如果有转换函数之类，可能需要使用（比如要把第一个函数的结果导给后面的函数）
-
-第二个参数next是需要运行完毕后执行的，否则事件链会一直在该函数中不退出。
-
-第三个参数config就可以拿到整个config对象。
-
-第四个参数args是用户填写的参数，会根据options里填写的字段进行返回。
-
-第五个是eventList，可以获取整个事件链的参数。
-
-第六个参数iname可以拿到用户的选择项。
-
-
-```js
- 通用GET请求函数: {
-    fn: (ctx, next, config, args, _eventList, iname) => {
-      console.log(args, '参数x');
-      const userSelect = iname.data;
-      const urlVal = changeUserValue(
-        userSelect['请求url'],
-        args,
-        '_url',
-        config,
-        ctx
-      ); // input datasource ctx //datasource会去取值 ，ctx取ctx上字段
-      const paramSource = changeUserValueRecord(
-        // 设定只能从datasource或者ctx里取
-        userSelect['请求参数'],
-        args,
-        '_origin',
-        config,
-        ctx
-      );
-      const ctxVal = changeUserValue(
-        userSelect['返回上下文字段'],
-        args,
-        '_ctx',
-        config,
-        ctx
-      );
-      // 检查参数是否存在
-      // 都是数组，非multi则取第一个。
-      const url = urlVal[0];
-      if (!url) {
-        return next();
-      }
-      const ctxKey = ctxVal[0];
-
-      axios
-        .get(url, {
-          params: {
-            ...paramSource,
-          },
-        })
-        .then((res) => {
-          const data = res.data;
-          ctx[ctxKey] = data;
-          next();
-        })
-        .catch((e) => {
-          console.log(e);
-          next();
-        });
-    },
-    config: [
-      {
-        name: '请求url',
-        data: ['dataSource', 'ctx', 'input'],
-        options: {
-          receive: '_url',
-          multi: false,
-        },
-      },
-      {
-        name: '请求参数',
-        data: ['dataSource', 'ctx'],
-        options: {
-          receive: '_origin',
-          multi: true,
-        },
-      },
-      {
-        name: '返回上下文字段',
-        data: ['input'],
-        options: {
-          receive: '_ctx',
-          multi: false,
-        },
-      },
-    ],
-    name: '通用GET请求函数'
-  },
-```
+该部分等待更新
 
 #### 时机与函数装载
 

@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-05 10:50:57
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-05 15:10:46
+ * @LastEditTime: 2022-04-23 23:38:31
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\inputCo.tsx
  */
 
@@ -33,9 +33,9 @@ const InputTemp = (pr: InputProps) => {
 		let unregist = () => {};
 		if (props.op1) {
 			const functionCenter = eventCenter.getFunctionCenter();
-			unregist = functionCenter.register(
-				`${pr.data.id}+validate-func`,
-				async (_ctx, next, _config, _args: any, _eventList, _iname) => {
+			unregist = functionCenter.register({
+				id: `${pr.data.id}+validate-func`,
+				fn: async (_ctx, next, _config, _args: any, _eventList, _iname) => {
 					if (value === '') {
 						setErr(props.warnning);
 					} else {
@@ -43,7 +43,7 @@ const InputTemp = (pr: InputProps) => {
 						next();
 					}
 				},
-				[
+				config: [
 					{
 						name: '验证已填函数',
 						data: [],
@@ -53,8 +53,9 @@ const InputTemp = (pr: InputProps) => {
 						},
 					},
 				],
-				`${pr.data.id}+验证已填函数`
-			);
+				name: `${pr.data.id}+验证已填函数`,
+				componentId: pr.data.id,
+			});
 		}
 		return () => {
 			unregist();
@@ -65,14 +66,14 @@ const InputTemp = (pr: InputProps) => {
 		let unregist = () => {};
 		if (props.op2) {
 			const functionCenter = eventCenter.getFunctionCenter();
-			unregist = functionCenter.register(
-				`${pr.data.id}+get-input`,
-				async (ctx, next, _config, args: any, _eventList, _iname) => {
+			unregist = functionCenter.register({
+				id: `${pr.data.id}+get-input`,
+				fn: async (ctx, next, _config, args: any, _eventList, _iname) => {
 					const key = args['_changeval'][0];
 					ctx[key] = value;
 					next();
 				},
-				[
+				config: [
 					{
 						name: '获取数据至上下文',
 						data: ['ctx'],
@@ -82,8 +83,9 @@ const InputTemp = (pr: InputProps) => {
 						},
 					},
 				],
-				`${pr.data.id}+获取输入数据`
-			);
+				name: `${pr.data.id}+获取输入数据`,
+				componentId: pr.data.id,
+			});
 		}
 		return () => {
 			unregist();

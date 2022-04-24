@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:23
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-01-21 10:56:25
+ * @LastEditTime: 2022-04-23 18:58:39
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\en.ts
  */
 
@@ -30,6 +30,7 @@ export const en: typeof zhCN = {
 	'modal.popup.name': 'Please enter modal name',
 	'modal.name': 'Modal name',
 	'modal.control.remove': 'Delete click to delete the effect of the modal',
+	edit: 'Edit',
 	yes: 'Ok',
 	no: 'Cancel',
 	'right.noprops': 'No properties have been configured',

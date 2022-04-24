@@ -38,7 +38,7 @@ Add color and style settings for markline
 ## 0.11.9
 A new setting panel is added to control adsorption scaling and other behaviors.
 Fixed pop-up button style issues.
-The repair prompt is not displayed.
+Fix the problem that some prompts do not display.
 ## 0.11.8
 Timeline adds auto focus function.
 ## 0.11.7
@@ -53,7 +53,7 @@ Change the position of rotation justification
 Fix guide line bug
 Optimized drag and drop algorithm
 ## 0.11.3
-Increase the function of rotary return.
+Positive rotation function is added.
 Optimize mouse style.
 ## 0.11.2
 Optimize drag speed
@@ -103,7 +103,7 @@ Add animation component timeline. You can preview all animations better.
 The animation part is reconstructed, which can support the simultaneous configuration of multiple animations.
 The minimum value of canvas drag is changed to 0.
 ## 0.7.7
-Optimize the drag logic of the canvas to move more smoothly.
+Drag and drop to make the canvas smoother and move logically.
 ## 0.7.6
 The custom rightglobalcustom type on the right is changed to the function passed in config
 ## 0.7.5

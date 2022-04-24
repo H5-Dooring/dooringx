@@ -2,12 +2,14 @@
  * @Author: yehuozhili
  * @Date: 2021-04-08 19:59:01
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-07-09 16:23:02
- * @FilePath: \DooringV2\packages\dooringx-lib\src\core\functionCenter\index.ts
+ * @LastEditTime: 2022-04-24 00:14:25
+ * @FilePath: \dooringx\packages\dooringx-lib\src\core\functionCenter\index.ts
  */
 
 import UserConfig from '../../config';
 import { EventCenterMapItem, EventCenterUserSelect } from '../eventCenter';
+import Store from '../store';
+import { specialFnList } from '../utils/special';
 import { FunctionConfigType } from './config';
 
 /**
@@ -32,6 +34,7 @@ export type FunctionCenterValue = {
 	fn: FunctionCenterFunction;
 	config: FunctionConfigType;
 	name: string;
+	componentId: string;
 };
 
 export type FunctionCenterType = Record<string, FunctionCenterValue>;
@@ -39,6 +42,7 @@ export type FunctionCenterType = Record<string, FunctionCenterValue>;
 /**
  *
  * 初始化时可以加载初始已配好的函数
+ * {}
  * @export
  * @class FunctionCenter
  */
@@ -52,6 +56,7 @@ export class FunctionCenter {
 	public configMap: Record<string, FunctionConfigType> = {};
 	public funcitonMap: Record<string, FunctionCenterFunction> = {};
 	public nameMap: Record<string, string> = {}; // id对名字
+	public componentIdMap: Record<string, Set<string>> = {}; // 组件id对函数id
 	constructor(public initConfig: FunctionCenterType = {}) {
 		this.init(initConfig);
 	}
@@ -76,12 +81,25 @@ export class FunctionCenter {
 			prev[next] = initConfig[next].name;
 			return prev;
 		}, {});
+		this.componentIdMap = Object.keys(initConfig).reduce<Record<string, Set<string>>>(
+			(prev, next) => {
+				const cid = initConfig[next].componentId;
+				if (prev[cid]) {
+					prev[cid].add(next);
+				} else {
+					prev[cid] = new Set([next]);
+				}
+				return prev;
+			},
+			{}
+		);
 	}
 
 	reset() {
 		this.funcitonMap = {};
 		this.configMap = {};
 		this.nameMap = {};
+		this.componentIdMap = {};
 	}
 
 	getFunctionMap() {
@@ -117,31 +135,34 @@ export class FunctionCenter {
 
 	/**
 	 *
-	 * 删除的组件需要删除动态注册的函数
-	 * @param {string} name
-	 * @memberof FunctionCenter
-	 */
-	deleteFunc(name: string) {
-		delete this.funcitonMap[name];
-		delete this.configMap[name];
-		delete this.nameMap[name];
-	}
-
-	/**
 	 *
-	 *注册函数，同id覆盖，返回删除函数
-	 * @param {string} id 唯一值 注意！每个组件都要不一样，所以需要带着每个组件的id，这样也方便区分是哪个组件抛出的函数!!
-	 * @param {FunctionCenterFunction} fn 函数体
-	 * @param {FunctionConfigType} config 配置项
-	 * @param {string} name 显示名
-	 * @return {*}
+	 * @param {{
+	 * 		id: string;唯一值 注意！每个组件都要不一样，所以需要带着每个组件的id，这样也方便区分是哪个组件抛出的函数!!
+	 * 		fn: FunctionCenterFunction;函数体
+	 * 		config: FunctionConfigType;配置项
+	 * 		name: string;显示名
+	 * 		componentId: string;所属组件id名用于卸载函数
+	 * 	}} obj
+	 * @returns
 	 * @memberof FunctionCenter
 	 */
-	register(id: string, fn: FunctionCenterFunction, config: FunctionConfigType, name: string) {
+	register(obj: {
+		id: string;
+		fn: FunctionCenterFunction;
+		config: FunctionConfigType;
+		name: string;
+		componentId: string;
+	}) {
+		const { id, fn, config, name, componentId } = obj;
 		// 注册时，需要通知asyncmap已经拿到
 		this.funcitonMap[id] = fn;
 		this.configMap[id] = config;
 		this.nameMap[id] = name;
+		if (this.componentIdMap[componentId]) {
+			this.componentIdMap[componentId].add(id);
+		} else {
+			this.componentIdMap[componentId] = new Set([id]);
+		}
 		if (this.asyncMap[id]) {
 			this.asyncMap[id]();
 		}
@@ -149,12 +170,60 @@ export class FunctionCenter {
 			delete this.funcitonMap[id];
 			delete this.configMap[id];
 			delete this.nameMap[id];
+			this.componentIdMap[componentId].delete(id);
 		};
 	}
 
 	/**
 	 *
-	 * 获取函数，包含异步获取函数
+	 * 画布更新时检查所有组件，不存在的组件和其挂载函数则删除，剔除_inner下的
+	 * @memberof FunctionCenter
+	 */
+	syncFunction(store: Store) {
+		const special = specialFnList;
+		const allId: string[] = [];
+		const data = store.getData();
+		// modalmap上
+		const map = data.modalMap;
+		Object.keys(map).forEach((v) => {
+			map[v].forEach((k) => {
+				allId.push(k.id);
+			});
+		});
+		// block上
+		data.block.forEach((v) => {
+			allId.push(v.id);
+		});
+		if (store.isEdit()) {
+			// 额外origin上
+			if (data.origin)
+				data.origin?.forEach((v) => {
+					allId.push(v.id);
+				});
+		}
+		const needDelete: string[] = [];
+		Object.keys(this.componentIdMap).forEach((v) => {
+			if (!special.includes(v)) {
+				if (!allId.includes(v)) {
+					needDelete.push(v);
+				}
+			}
+		});
+
+		needDelete.forEach((v) => {
+			const ids = this.componentIdMap[v];
+			ids.forEach((id) => {
+				delete this.funcitonMap[id];
+				delete this.configMap[id];
+				delete this.nameMap[id];
+			});
+			delete this.componentIdMap[v];
+		});
+	}
+
+	/**
+	 *
+	 * 获取函数，包含异步获取函数 注意某些情况执行顺序
 	 * @param {string} name
 	 * @return {*}  {Promise<FunctionCenterFunction>}
 	 * @memberof FunctionCenter

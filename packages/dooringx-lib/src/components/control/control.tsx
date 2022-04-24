@@ -13,6 +13,7 @@ import { wrapperMoveState } from '../wrapperMove/event';
 import { replaceLocale } from '../../locale';
 import { mouseUp, moveState } from './state';
 import SettingsModal from './settings';
+import deepcopy from 'deepcopy';
 
 export interface ControlProps {
 	config: UserConfig;
@@ -124,12 +125,12 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 				footer={null}
 			>
 				<List>
-					{props.config.getStoreChanger().getState().modalEditName !== '' && (
+					{props.config.getStore().isEdit() && (
 						<div>
 							{replaceLocale('modal.popup.exit', '请退出编辑弹窗后再打开该配置', props.config)}
 						</div>
 					)}
-					{props.config.getStoreChanger().getState().modalEditName === '' &&
+					{!props.config.getStore().isEdit() &&
 						Object.keys(props.config.getStore().getData().modalMap).map((v) => {
 							return (
 								<List.Item
@@ -142,9 +143,9 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 												props.config
 											)}
 											onConfirm={() => {
-												const sign = props.config
-													.getStoreChanger()
-													.updateModal(props.config.getStore(), v);
+												const store = props.config.getStore();
+												const clone = deepcopy(store.getData());
+												const sign = store.changeNormalToModal(clone, v);
 												if (!sign.success && sign.sign === 0) {
 													api.error(
 														replaceLocale(
@@ -153,6 +154,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 															props.config
 														)
 													);
+													return;
 												}
 												if (!sign.success && sign.sign === 1) {
 													api.error(
@@ -164,21 +166,21 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 															'未找到该弹窗 {name}'
 														)
 													);
+													return;
 												}
 												setConfigVisible(false);
+												store.setData(clone);
 											}}
 											okText={replaceLocale('yes', '确定', props.config)}
 											cancelText={replaceLocale('no', '取消', props.config)}
 										>
-											<Button type="link">修改</Button>
+											<Button type="link">{replaceLocale('edit', '编辑', props.config)}</Button>
 										</Popconfirm>,
 
 										<Popconfirm
 											title="您确定要删除这个弹窗吗?"
 											onConfirm={() => {
-												const sign = props.config
-													.getStoreChanger()
-													.removeModal(props.config.getStore(), v);
+												const sign = props.config.getStore().removeModal(v);
 												if (!sign.success && sign.sign === 0) {
 													api.error(
 														replaceLocale(
@@ -215,7 +217,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 								</List.Item>
 							);
 						})}
-					{props.config.getStoreChanger().getState().modalEditName === '' &&
+					{!props.config.getStore().isEdit() &&
 						Object.keys(props.config.getStore().getData().modalMap).length === 0 && (
 							<div style={{ textAlign: 'center' }}>
 								{replaceLocale('modal.popup.nomodal', `暂时没有弹窗`, props.config)}
@@ -232,9 +234,7 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 						.then((values) => {
 							form.resetFields();
 							const modalName = values.modalName;
-							const sign = props.config
-								.getStoreChanger()
-								.newModalMap(props.config.getStore(), modalName);
+							const sign = props.config.getStore().newModalMap(modalName);
 
 							if (!sign.succeess && sign.sign === 0) {
 								api.error(
@@ -283,7 +283,6 @@ export function Control(props: PropsWithChildren<ControlProps>) {
 				config={props.config}
 				visible={settingVisible}
 				onOk={(v: any) => {
-					console.log(v);
 					props.config.marklineConfig.isAbsorb = v.absorb;
 					props.config.marklineConfig.indent = v.indent;
 					props.config.scaleState.minValue = v.min;

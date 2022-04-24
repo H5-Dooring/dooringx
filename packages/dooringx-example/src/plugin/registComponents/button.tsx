@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2021-08-05 15:10:31
+ * @LastEditTime: 2022-04-24 20:42:01
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -16,7 +16,6 @@ import {
 } from 'dooringx-lib';
 import { FormMap } from '../formTypes';
 import { ComponentRenderConfigProps } from 'dooringx-lib/dist/core/components/componentItem';
-
 function ButtonTemp(pr: ComponentRenderConfigProps) {
 	const props = pr.data.props;
 	const eventCenter = useMemo(() => {
@@ -35,12 +34,12 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 	const [text, setText] = useState('');
 	const op1 = props.op1;
 	useEffect(() => {
-		let unregist = () => {};
+		let unRegist = () => {};
 		if (op1) {
 			const functionCenter = eventCenter.getFunctionCenter();
-			unregist = functionCenter.register(
-				`${pr.data.id}+changeText`,
-				async (ctx, next, config, args: any, _eventList, iname) => {
+			unRegist = functionCenter.register({
+				id: `${pr.data.id}+changeText`,
+				fn: async (ctx, next, config, args: any, _eventList, iname) => {
 					const userSelect = iname.data;
 					const ctxVal = changeUserValue(
 						userSelect['改变文本数据源'],
@@ -53,7 +52,7 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 					setText(text);
 					next();
 				},
-				[
+				config: [
 					{
 						name: '改变文本数据源',
 						data: ['ctx', 'input', 'dataSource'],
@@ -63,14 +62,16 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 						},
 					},
 				],
-				`${pr.data.id}+改变文本函数`
-			);
+				name: `${pr.data.id}+改变文本函数`,
+				componentId: pr.data.id,
+			});
 		}
 		return () => {
-			unregist();
+			if (pr.context === 'preview') {
+				unRegist(); // 必须在预览时注销，否则影响二次点击效果，不在预览注销影响编辑时跨弹窗
+			}
 		};
 	}, [op1]);
-
 	return (
 		<Button
 			style={{
