@@ -5,6 +5,9 @@ nav:
   title: Change log
   order: 6
 ---
+## 0.15.1
+Useregistfunc is added to register functions.
+Update some documents.
 ## 0.15.0
 Discard storechanger and iframe containers.
 Add function configuration to unload correctly.
@@ -107,7 +110,7 @@ Add animation component timeline. You can preview all animations better.
 The animation part is reconstructed, which can support the simultaneous configuration of multiple animations.
 The minimum value of canvas drag is changed to 0.
 ## 0.7.7
-Drag and drop to make the canvas smoother and move logically.
+Optimize the drag logic of the canvas to move more smoothly.
 ## 0.7.6
 The custom rightglobalcustom type on the right is changed to the function passed in config
 ## 0.7.5

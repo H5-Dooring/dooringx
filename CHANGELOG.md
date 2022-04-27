@@ -1,3 +1,9 @@
+## 0.15.1
+
+新增useRegistFunc用于注册函数。
+
+更新部分文档。
+
 ## 0.15.0
 
 废弃storechanger与iframe容器。

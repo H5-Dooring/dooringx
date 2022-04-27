@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:22:18
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-23 23:02:04
+ * @LastEditTime: 2022-04-27 22:45:42
  * @FilePath: \dooringx\packages\dooringx-lib\src\index.tsx
  */
 
@@ -52,6 +52,9 @@ export { changeUserValueRecord } from './core/utils/index';
 export { changeUserValue } from './core/utils/index';
 // 用于制作快捷键
 export { CommanderItemFactory } from './core/command/abstract';
+
+// 用于制作函数
+export { useRegistFunc } from './hooks/useRegistFunc';
 
 export { defaultStore } from './config';
 //state

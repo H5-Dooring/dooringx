@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-07-07 14:35:38
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-24 20:42:01
+ * @LastEditTime: 2022-04-27 22:24:23
  * @FilePath: \dooringx\packages\dooringx-example\src\plugin\registComponents\button.tsx
  */
 
@@ -13,6 +13,7 @@ import {
 	ComponentItemFactory,
 	createPannelOptions,
 	useDynamicAddEventCenter,
+	useRegistFunc,
 } from 'dooringx-lib';
 import { FormMap } from '../formTypes';
 import { ComponentRenderConfigProps } from 'dooringx-lib/dist/core/components/componentItem';
@@ -33,45 +34,41 @@ function ButtonTemp(pr: ComponentRenderConfigProps) {
 
 	const [text, setText] = useState('');
 	const op1 = props.op1;
-	useEffect(() => {
-		let unRegist = () => {};
-		if (op1) {
-			const functionCenter = eventCenter.getFunctionCenter();
-			unRegist = functionCenter.register({
-				id: `${pr.data.id}+changeText`,
-				fn: async (ctx, next, config, args: any, _eventList, iname) => {
-					const userSelect = iname.data;
-					const ctxVal = changeUserValue(
-						userSelect['改变文本数据源'],
-						args,
-						'_changeval',
-						config,
-						ctx
-					);
-					const text = ctxVal[0];
-					setText(text);
-					next();
-				},
-				config: [
-					{
-						name: '改变文本数据源',
-						data: ['ctx', 'input', 'dataSource'],
-						options: {
-							receive: '_changeval',
-							multi: false,
-						},
+
+	const fn = useMemo(() => {
+		const functionCenter = eventCenter.getFunctionCenter();
+		return functionCenter.register({
+			id: `${pr.data.id}+changeText`,
+			fn: async (ctx, next, config, args: any, _eventList, iname) => {
+				const userSelect = iname.data;
+				const ctxVal = changeUserValue(
+					userSelect['改变文本数据源'],
+					args,
+					'_changeval',
+					config,
+					ctx
+				);
+				const text = ctxVal[0];
+				setText(text);
+				next();
+			},
+			config: [
+				{
+					name: '改变文本数据源',
+					data: ['ctx', 'input', 'dataSource'],
+					options: {
+						receive: '_changeval',
+						multi: false,
 					},
-				],
-				name: `${pr.data.id}+改变文本函数`,
-				componentId: pr.data.id,
-			});
-		}
-		return () => {
-			if (pr.context === 'preview') {
-				unRegist(); // 必须在预览时注销，否则影响二次点击效果，不在预览注销影响编辑时跨弹窗
-			}
-		};
-	}, [op1]);
+				},
+			],
+			name: `${pr.data.id}+改变文本函数`,
+			componentId: pr.data.id,
+		});
+	}, []);
+
+	useRegistFunc(op1, pr.context, fn);
+
 	return (
 		<Button
 			style={{

@@ -25,144 +25,247 @@ dooringx-lib 在运行时维护一套数据流，主要分为json数据部分，
 
 ### 快速上手
 
+首先创建个文件夹，例如dooringx-example。
 
-#### 安装
+我们推荐使用Umi脚手架快速搭建我们的项目。
 
-使用 npm 或者 yarn 安装
+在文件夹内使用命令`yarn create @umijs/umi-app `或` npx @umijs/create-umi-app` 
 
-```bash
-npm i dooringx-lib
+安装dooringx-lib:
+
 ```
-参考demo:
+yarn add dooringx-lib
+```
+lib中部分组件来源于antd和其icon。需要安装antd和icon。动画部分主要使用了animate.css，也需要安装下。
+
+```
+yarn add antd @ant-design/icons animate.css
+```
+
+首先新增路由，用于预览显示。编辑根目录下的.umirc.ts:
+
+```js
+  routes: [
+    {
+      exact: false,
+      path: '/',
+      component: '@/layouts/index',
+      routes: [
+        { path: '/', component: '@/pages/index' },
+        { path: '/preview', component: '@/pages/preview' },
+        { path: '/iframe', component: '@/pages/iframe' },
+      ],
+    },
+  ],
+```
+src下新增layouts用于嵌套子页面
+```js
+import { UserConfig } from 'dooringx-lib';
+import 'dooringx-lib/dist/dooringx-lib.esm.css';
+import { createContext, useState } from 'react';
+import { IRouteComponentProps } from 'umi';
+import plugin from '../plugin';
+import 'antd/dist/antd.css';
+import 'animate.css';
+
+export const config = new UserConfig(plugin);
+export const configContext = createContext<UserConfig>(config);
+config.i18n = false;
+export default function Layout({ children }: IRouteComponentProps) {
+  return (
+    <configContext.Provider value={config}>{children}</configContext.Provider>
+  );
+}
+```
+layout依赖个人定制的plugin，我们简单做个测试组件。
+
+src下新增plugin文件夹，index.tsx:
+```js
+import { InitConfig } from 'dooringx-lib';
+import { LeftRegistComponentMapItem } from 'dooringx-lib/dist/core/crossDrag';
+import { PlayCircleOutlined } from '@ant-design/icons';
+
+const LeftRegistMap: LeftRegistComponentMapItem[] = [
+  {
+    type: 'basic',
+    component: 'button',
+    img: 'icon-anniu',
+    imgCustom: <PlayCircleOutlined />,
+    displayName: '按钮',
+    urlFn: () => import('./button'),
+  },
+];
+
+export const defaultConfig: Partial<InitConfig> = {
+  leftAllRegistMap: LeftRegistMap,
+  leftRenderListCategory: [
+      {
+      type: 'basic',
+      icon: <HighlightOutlined />,
+      displayName: '基础',
+    },
+  ],
+  initComponentCache: {},
+  rightRenderListCategory: [],
+  initFunctionMap: {},
+  initCommandModule: [],
+  initFormComponents: {},
+};
+
+export default defaultConfig;
+```
+src/plugin/button/index.tsx
+```js
+import { ComponentItemFactory } from 'dooringx-lib';
+import { Button } from 'antd';
+
+const Dbutton = new ComponentItemFactory(
+  'button',
+  '按钮',
+  {},
+  {
+    width: 200,
+    height: 55,
+  },
+  () => {
+    return <Button>测试</Button>;
+  },
+  true,
+);
+export default Dbutton;
+
+
+```
+在src/pages/index.tsx处新增编辑器代码：
 
 ```js
 import {
-	RightConfig,
-	Container,
-	useStoreState,
-	innerContainerDragUp,
-	LeftConfig,
-	ContainerWrapper,
-	Control,
+  RightConfig,
+  Container,
+  useStoreState,
+  innerContainerDragUp,
+  LeftConfig,
+  ContainerWrapper,
+  Control,
 } from 'dooringx-lib';
 import { useContext } from 'react';
 import { configContext } from '@/layouts';
 import { useCallback } from 'react';
-import { PREVIEWSTATE } from '@/constant';
-
 export const HeaderHeight = '40px';
-
 export default function IndexPage() {
-	const config = useContext(configContext);
+  const config = useContext(configContext);
+  const subscribeFn = useCallback(() => {
+    localStorage.setItem(
+      'PREVIEWSTATE',
+      JSON.stringify(config.getStore().getData()),
+    );
+  }, [config]);
+  const [state] = useStoreState(config, subscribeFn)
+  return (
+    <div {...innerContainerDragUp(config)}>
+      <div style={{ height: HeaderHeight }}>
+        head
+        <button
+          onClick={() => {
+            window.open('/iframe');
+          }}
+        >
+          go preview
+        </button>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: `calc(100vh - ${HeaderHeight})`,
+          width: '100vw',
+        }}
+      >
+        <div style={{ height: '100%' }}>
+          <LeftConfig config={config}></LeftConfig>
+        </div>
 
-	const everyFn = () => {};
-
-	const subscribeFn = useCallback(() => {
-		localStorage.setItem(PREVIEWSTATE, JSON.stringify(config.getStore().getData()));
-	}, [config]);
-
-	const [state] = useStoreState(config, subscribeFn, everyFn);
-
-	return (
-		<div {...innerContainerDragUp(config)}>
-			<div style={{ height: HeaderHeight }}>
-				head
-				<button
-					onClick={() => {
-						window.open('/iframe');
-					}}
-				>
-					go preview
-				</button>
-				<button
-					onClick={() => {
-						window.open('/preview');
-					}}
-				>
-					go preview
-				</button>
-			</div>
-			<div
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: `calc(100vh - ${HeaderHeight})`,
-					width: '100vw',
-				}}
-			>
-				<div style={{ height: '100%' }}>
-					<LeftConfig config={config}></LeftConfig>
-				</div>
-
-				<ContainerWrapper config={config}>
-					<>
-						<Control
-							config={config}
-							style={{ position: 'fixed', bottom: '60px', right: '450px', zIndex: 100 }}
-						></Control>
-						<Container state={state} config={config} context="edit"></Container>
-					</>
-				</ContainerWrapper>
-				<div className="rightrender" style={{ height: '100%' }}>
-					<RightConfig state={state} config={config}></RightConfig>
-				</div>
-			</div>
-		</div>
-	);
+        <ContainerWrapper config={config}>
+          <>
+            <Control
+              config={config}
+              style={{
+                position: 'fixed',
+                bottom: '60px',
+                right: '450px',
+                zIndex: 100,
+              }}
+            ></Control>
+            <Container state={state} config={config} context="edit"></Container>
+          </>
+        </ContainerWrapper>
+        <div className="rightrender" style={{ height: '100%' }}>
+          <RightConfig state={state} config={config}></RightConfig>
+        </div>
+      </div>
+    </div>
+  );
 }
 ```
+此时启动项目，可以看见编辑器已经显示出来了。拖动组件时，也能正确置入画布。
 
+src的pages下新增对应的页面：
 
-
-
-预览时preview套iframe:
-
-```html
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-		>
-			<iframe style={{ width: '375px', height: '667px' }} src="/preview"></iframe>
-		</div>
-```
-preview路由：
-
+src/pages/preview/index.tsx
 ```js
-import { PREVIEWSTATE } from '@/constant';
-import { Preview, UserConfig } from 'dooringx-lib';
-import plugin from '../../plugin';
-
-const config = new UserConfig(plugin);
+import { configContext } from '@/layouts';
+import { Preview } from 'dooringx-lib';
+import { useContext } from 'react';
 
 function PreviewPage() {
-	const data = localStorage.getItem(PREVIEWSTATE);
-	if (data) {
-		try {
-			const json = JSON.parse(data);
-			config.resetData([json]);
-		} catch {
-			console.log('err');
-		}
-	}
-	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-		>
-			<Preview config={config}></Preview>
-		</div>
-	);
+  const data = localStorage.getItem('PREVIEWSTATE');
+  const config = useContext(configContext);
+  if (data) {
+    try {
+      const json = JSON.parse(data);
+      config.resetData([json]);
+    } catch {
+      console.log('err');
+    }
+  }
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Preview config={config}></Preview>
+    </div>
+  );
 }
 
 export default PreviewPage;
 ```
 
-有关 api 部分请参考 api
 
+src/pages/iframe/index.tsx
+```js
+function IframePage() {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <iframe
+        style={{ width: '375px', height: '667px' }}
+        src="/preview"
+      ></iframe>
+    </div>
+  );
+}
+export default IframePage;
+
+```
+
+此时拖拽组件进入画布后，点击按钮进入预览则可看见预览状态也被渲染出来了。
