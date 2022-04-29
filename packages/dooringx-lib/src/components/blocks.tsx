@@ -180,8 +180,6 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 						<div
 							style={{
 								pointerEvents: 'none',
-								width: '100%',
-								height: '100%',
 								...animationEdit,
 							}}
 						>
@@ -205,21 +203,37 @@ function Blocks(props: PropsWithChildren<BlockProps>) {
 				</div>
 			);
 		} else {
+			const style = {
+				position: props.data.fixed ? 'fixed' : props.data.position,
+				top: previewState.top,
+				left: previewState.left,
+				width: previewState.width,
+				height: previewState.height,
+				zIndex: props.data.zIndex,
+				display: props.data.display,
+				transform: `rotate(${props.data.rotate.value}deg)`,
+			};
 			return (
-				<div
-					style={{
-						position: props.data.fixed ? 'fixed' : props.data.position,
-						top: previewState.top,
-						left: previewState.left,
-						width: previewState.width,
-						height: previewState.height,
-						zIndex: props.data.zIndex,
-						display: props.data.display,
-						transform: `rotate(${props.data.rotate.value}deg)`,
-					}}
-				>
-					<div style={{ ...animateProps }}>{state}</div>
-				</div>
+				<>
+					{/* 绝对定位元素 */}
+					{props.data.position !== 'static' && (
+						<div style={style}>
+							<div style={{ ...animateProps }}>{state}</div>
+						</div>
+					)}
+					{/* 静态定位 非行内 这里暂不考虑布局影响 */}
+					{props.data.position === 'static' && props.data.display !== 'inline' && (
+						<div style={style}>
+							<div style={{ ...animateProps }}>{state}</div>
+						</div>
+					)}
+					{/* 静态定位 行内 这里暂不考虑布局影响 */}
+					{props.data.position === 'static' && props.data.display === 'inline' && (
+						<span style={style}>
+							<span style={{ ...animateProps }}>{state}</span>
+						</span>
+					)}
+				</>
 			);
 		}
 	}, [

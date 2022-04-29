@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 05:42:13
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-23 18:12:53
+ * @LastEditTime: 2022-04-29 23:36:45
  * @FilePath: \dooringx\packages\dooringx-lib\src\components\rightConfig.tsx
  */
 import { CreateOptionsRes } from '../core/components/formTypes';
@@ -20,6 +20,12 @@ const colStyle: CSSProperties = {
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'flex-end',
+};
+const titletStyle: CSSProperties = {
+	display: 'flex',
+	alignItems: 'center',
+	userSelect: 'none',
+	height: 32,
 };
 interface RightConfigProps {
 	state: IStoreData;
@@ -156,7 +162,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						{replaceLocale('right.global', '全局设置', props.config)}
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={6} style={{ userSelect: 'none' }}>
+						<Col span={6} style={{ ...titletStyle }}>
 							{replaceLocale('title', '标题', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
@@ -173,7 +179,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						</Col>
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={6} style={{ userSelect: 'none' }}>
+						<Col span={6} style={{ ...titletStyle }}>
 							{replaceLocale('right.containerheight', '容器高度', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
@@ -190,7 +196,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						</Col>
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={6} style={{ userSelect: 'none' }}>
+						<Col span={6} style={{ ...titletStyle }}>
 							{replaceLocale('right.containerColor', '容器底色', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
@@ -205,7 +211,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						</Col>
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={6} style={{ userSelect: 'none' }}>
+						<Col span={6} style={{ ...titletStyle }}>
 							{replaceLocale('right.bodyColor', 'body底色', props.config)}
 						</Col>
 						<Col span={18} style={colStyle}>
@@ -219,6 +225,41 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 							></ColorPicker>
 						</Col>
 					</Row>
+					<Row style={{ padding: '10px 0' }}>
+						<Col span={6} style={{ ...titletStyle }}>
+							{replaceLocale('right.lineHeight', '容器行高', props.config)}
+						</Col>
+						<Col span={18} style={colStyle}>
+							<InputNumber
+								min={0}
+								step="0.1"
+								value={props.config.getStore().getData().globalState?.lineHeight ?? 1.575}
+								onChange={(e) => {
+									const val = e;
+									const originData = deepcopy(props.config.getStore().getData());
+									originData.globalState.lineHeight = val;
+									props.config.getStore().setData(originData);
+								}}
+							/>
+						</Col>
+					</Row>
+					<Row style={{ padding: '10px 0' }}>
+						<Col span={6} style={{ ...titletStyle }}>
+							{replaceLocale('right.fontSize', '容器字号', props.config)}
+						</Col>
+						<Col span={18} style={colStyle}>
+							<InputNumber
+								min={0}
+								value={props.config.getStore().getData().globalState?.fontSize ?? 14}
+								onChange={(e) => {
+									const val = e;
+									const originData = deepcopy(props.config.getStore().getData());
+									originData.globalState.fontSize = val;
+									props.config.getStore().setData(originData);
+								}}
+							/>
+						</Col>
+					</Row>
 					{props.globalExtra && props.globalExtra}
 				</div>
 			)}
@@ -229,7 +270,7 @@ function RightConfig(props: PropsWithChildren<RightConfigProps>) {
 						{replaceLocale('modal.control', '弹窗配置', props.config)}
 					</Row>
 					<Row style={{ padding: '10px 0' }}>
-						<Col span={8}>
+						<Col span={8} style={{ ...titletStyle }}>
 							{replaceLocale('modal.control.remove', '取消点击删除弹窗', props.config)}
 						</Col>
 						<Col span={16} style={{ ...colStyle }}>

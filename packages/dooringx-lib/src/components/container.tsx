@@ -78,6 +78,8 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 									position: 'relative',
 									overflow: props.config.containerOverFlow ? 'hidden' : 'visible',
 									cursor: 'default',
+									lineHeight: props.state.globalState?.lineHeight ?? 1.575,
+									fontSize: props.state.globalState?.fontSize ?? 14,
 									...editContainerStyle,
 								}}
 								{...(props.context === 'edit' ? containerDragResolve(props.config) : null)}
@@ -129,6 +131,8 @@ function Container(props: PropsWithChildren<ContainerProps>) {
 						overflow: 'hidden',
 						backgroundColor: bgColor(),
 						transform: transform,
+						lineHeight: props.state.globalState?.lineHeight ?? 1.575,
+						fontSize: props.state.globalState?.fontSize ?? 14,
 						...previewContainerStyle,
 					}}
 				>

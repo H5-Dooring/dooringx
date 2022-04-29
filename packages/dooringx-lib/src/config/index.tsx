@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-02-25 21:16:58
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-23 23:03:56
+ * @LastEditTime: 2022-04-29 23:23:42
  * @FilePath: \dooringx\packages\dooringx-lib\src\config\index.tsx
  */
 import React from 'react';
@@ -174,6 +174,8 @@ export const defaultStore: IMainStoreData = {
 		bodyColor: 'rgba(255,255,255,1)',
 		script: [],
 		customAnimate: [],
+		lineHeight: 1.575,
+		fontSize: 14,
 	},
 	modalConfig: {},
 	modalEditName: '',

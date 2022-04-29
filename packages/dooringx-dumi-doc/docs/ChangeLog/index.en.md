@@ -5,6 +5,9 @@ nav:
   title: Change log
   order: 6
 ---
+## 0.15.2
+Fix inconsistencies in line element editing preview.
+Add line height font size configuration item.
 ## 0.15.1
 Useregistfunc is added to register functions.
 Update some documents.
@@ -60,7 +63,7 @@ Change the position of rotation justification
 Fix guide line bug
 Optimized drag and drop algorithm
 ## 0.11.3
-Positive rotation function is added.
+Increase the function of rotary return.
 Optimize mouse style.
 ## 0.11.2
 Optimize drag speed

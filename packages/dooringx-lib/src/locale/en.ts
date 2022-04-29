@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:23
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-23 18:58:39
+ * @LastEditTime: 2022-04-29 23:23:13
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\en.ts
  */
 
@@ -38,6 +38,8 @@ export const en: typeof zhCN = {
 	'right.containerheight': 'Container height',
 	'right.containerColor': 'Container background color',
 	'right.bodyColor': 'Body background color',
+	'right.fontSize': 'Container font size',
+	'right.lineHeight': 'Container line height',
 	title: 'Title',
 	'system.setting': 'System Settings',
 	'settings.openabsorb': 'Turn on adsorption',

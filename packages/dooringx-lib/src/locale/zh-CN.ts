@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-08-27 10:20:15
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-23 18:58:26
+ * @LastEditTime: 2022-04-29 23:19:30
  * @FilePath: \dooringx\packages\dooringx-lib\src\locale\zh-CN.ts
  */
 export const zhCN = {
@@ -35,6 +35,8 @@ export const zhCN = {
 	'right.containerheight': '容器高度',
 	'right.containerColor': '容器底色',
 	'right.bodyColor': 'body底色',
+	'right.fontSize': '容器字号',
+	'right.lineHeight': '容器行高',
 	title: '标题',
 	'system.setting': '系统设置',
 	'settings.openabsorb': '开启吸附',

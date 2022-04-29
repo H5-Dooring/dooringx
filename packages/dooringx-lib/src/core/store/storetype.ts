@@ -2,7 +2,7 @@
  * @Author: yehuozhili
  * @Date: 2021-03-14 04:29:09
  * @LastEditors: yehuozhili
- * @LastEditTime: 2022-04-23 17:07:19
+ * @LastEditTime: 2022-04-29 23:15:50
  * @FilePath: \dooringx\packages\dooringx-lib\src\core\store\storetype.ts
  */
 
@@ -15,6 +15,8 @@ export interface GlobalState {
 	title: string;
 	bodyColor: string;
 	script: string[];
+	lineHeight: number;
+	fontSize: number;
 }
 
 export interface IStoreData {
