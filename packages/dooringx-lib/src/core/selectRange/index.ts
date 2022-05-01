@@ -2,7 +2,7 @@ import { IStoreData } from '../store/storetype';
 import { deepCopy } from '../utils';
 import style from '../../index.less';
 import UserConfig from '../../config';
-import { getComponentRotatedStyle } from '../markline/calcRender';
+import { Sat } from './sat';
 export interface SelectDataProps {
 	selectDiv: HTMLDivElement | null;
 	posx: number;
@@ -60,8 +60,6 @@ function selectFocus(left: number, top: number, width: number, height: number, c
 	const focusState = config.getFocusState();
 	const blocks = clonedata.block;
 	let change = false;
-	const maxleft = left + width;
-	const maxtop = top + height;
 	blocks.forEach((v) => {
 		const l = v.left;
 		const t = v.top;
@@ -74,13 +72,21 @@ function selectFocus(left: number, top: number, width: number, height: number, c
 			typeof h === 'number' &&
 			v.canDrag === true
 		) {
-			const style = getComponentRotatedStyle(v.rotate.value, w, h, l, t);
-			if (
-				style.left >= left &&
-				style.right <= maxleft &&
-				style.top >= top &&
-				style.bottom <= maxtop
-			) {
+			const curItem = {
+				left: l,
+				top: t,
+				width: w,
+				height: h,
+				rotate: v.rotate.value,
+			};
+			const res = Sat(curItem, {
+				left,
+				width,
+				height,
+				top,
+				rotate: 0,
+			});
+			if (res) {
 				change = true;
 				v.focus = true;
 				focusState.blocks.push(v);
