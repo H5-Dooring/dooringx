@@ -5,6 +5,8 @@ nav:
   title: Change log
   order: 6
 ---
+## 0.15.3
+Modify check box selection algorithm
 ## 0.15.2
 Fix inconsistencies in line element editing preview.
 Add line height font size configuration item.
@@ -33,7 +35,7 @@ Modify the timeline color and style to optimize the selected state.
 ## 0.12.3
 Fix double click positioning problem
 ## 0.12.2
-Add double click positioning frame.
+New double click positioning frame.
 Fixed drag frame reset pointer behavior after pause.
 ## 0.12.0
 The operation of adding frames to the animation can accurately view the animation status every 0.1 seconds!
@@ -44,7 +46,7 @@ Add container overflow configuration.
 Adjust the style of the timeline section.
 Example part style adjustment.
 ## 0.11.10
-Add color and style settings for markline
+New color pair
 ## 0.11.9
 A new setting panel is added to control adsorption scaling and other behaviors.
 Fixed pop-up button style issues.
