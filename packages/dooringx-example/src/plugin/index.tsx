@@ -29,6 +29,14 @@ const LeftRegistMap: LeftRegistComponentMapItem[] = [
 		img: 'https://img.guguzhu.com/d/file/android/ico/2021/09/08/rytzi2w34tm.png',
 		displayName: '输入框',
 	},
+	{
+		type: 'basic',
+		component: 'testco',
+		img: 'icon-anniu',
+		imgCustom: <PlayCircleOutlined />,
+		displayName: '测试按钮',
+		urlFn: () => import('./registComponents/testco'),
+	},
 ];
 
 export const defaultConfig: Partial<InitConfig> = {
