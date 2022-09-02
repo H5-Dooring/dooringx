@@ -240,6 +240,7 @@ leftRenderListCategory: [
 示例：
 ```js
 <div {...innerContainerDragUp(config)}>
+...
 </div>
 ```
 | 参数                 | 类型                   |  说明 |
@@ -292,9 +293,39 @@ const ContextMenu = () => {
 
 
 ## UserConfig
+
 总设置项，包括可以获取store commander等，也需传递给组件。
 
-待补全文档
+### Store
+
+存放json数据源并提供redo undo以及弹窗状态转换
+
+| 方法                            |  说明 |
+| -----------------      | ---- |
+| getData             |   获取当前json |
+| getStoreList             |    获取操作列表json |
+| isEdit             |    判断是否在弹窗编辑 |
+| isInModalMap             |    判断有没有该弹窗 |
+| newModalMap             |   新增弹窗 |
+| closeModal             |   关闭弹窗 |
+| removeModal             |   删除弹窗 |
+| resetToInitData             |   重置json数据 |
+| redo             |   重做 |
+| undo             |   撤销 |
+| setData             |   设置值 |
+| cleanLast             |   清除前一个json |
+| emit             |   让监听函数执行 |
+| subscribe             |   监听 |
+| forceUpdate             |   强刷监听函数 |
+| setIndex             |   设置索引 |
+
+
+### dataCenter
+
+### eventCenter
+
+
+### commanderRegister
 
 ## userConfigMerge
 
@@ -504,33 +535,105 @@ createComponent({
 | 参数                 | 类型                   |  说明 |
 | -----------------  | ----------------       | ---- |
 |  type   |  string  |  右侧配置组件对应的name    |
-| option| any | 发给该右侧配置组件的属性（根据右侧组件定义） |
+| option| any | 发给该右侧配置组件的属性（自行根据右侧组件定义） |
 
 
 ## useRegistFunc 
 
-用于制作函数
+用于注册组件所抛出的函数，供事件链中给别的组件调用。
+
+示例：
+```js
+	useRegistFunc(op1, pr.context, fn);
+```
+| 参数                 | 类型                   |  说明 |
+| -----------------  | ----------------       | ---- |
+|  dep   |  boolean  |  配置的开关 （开启时抛出该函数，关闭时不抛出函数，一般做到右侧配置项中）  |
+| context | 'preview' \| 'edit' |  预览环境还是编辑环境 |
+| registFn | Function |  所注册的函数 |
 
 ## CommanderItemFactory
 
 用于制作快捷键
-## changeUserValueRecord
 
-用于制作函数转换
+示例：
 
-## changeUserValue
+```js
+const undo = new CommanderItemFactory(
+	'redo',
+	'Control+Shift+z',
+	(store) => {
+		store.redo();
+	},
+	'重做'
+);
 
-用于制作函数转换
+export default undo;
+```
+
+| 参数                 | 类型                   |  说明 |
+| -----------------  | ----------------       | ---- |
+|  name   |  string  |   命令执行的id  |
+| keyboard | string |  键位设置。如果ctrl、alt、meta键，可加对应的加号进行组合键注册，内部忽略大小写（注意！不是忽略注册的键名大小写，而是A和a的key处理时等价） |
+| excute |  (store: Store, config: UserConfig, options?: Record\<string, any\> \| undefined) => void |  所注册的函数 |
+| display | string |  显示名称 |
+| init |  () => void |  加载时函数 |
+| destroy |  () => void | 销毁时函数 |
 
 
 ## dragEventResolve
 
-用于菜单拖拽函数
+用于菜单拖拽函数(通常不需要)
+
+示例：
+
+```js
+	<div
+    className={`${styles.coitem} yh-left-item-wrap`}
+    key={index}
+    {...dragEventResolve(v, props.config)}
+  >
+  ...
+  </div>
+```
+
+
+| 参数                 | 类型                   |  说明 |
+| -----------------  | ----------------       | ---- |
+|  item   |  LeftRegistComponentMapItem  |  左侧对象 |
+| config | UserConfig |  用户设置 |
+
 
 
 ## defaultStore
 
-默认store
+默认store对象
+
+```js
+export const defaultStore: IMainStoreData = {
+	container: {
+		width: 375,
+		height: 667,
+	},
+	block: [],
+	modalMap: {},
+	dataSource: {
+		defaultKey: 'defaultValue',
+	},
+	globalState: {
+		containerColor: 'rgba(255,255,255,1)',
+		title: 'Dooringx',
+		bodyColor: 'rgba(255,255,255,1)',
+		script: [],
+		customAnimate: [],
+		lineHeight: 1.575,
+		fontSize: 14,
+	},
+	modalConfig: {},
+	modalEditName: '',
+	origin: null,
+};
+```
 
 ## deepCopy
 
@@ -538,13 +641,78 @@ createComponent({
 
 ## specialCoList
 
-需要特殊处理的组件，用于弹窗mask，一般不做处理
+需要特殊处理的组件，用于弹窗mask和timeline的禁止移动，一般不做处理
+
+```js
+export const specialCoList = ['modalMask'];
+```
 
 ## specialFnList
 
 需要特殊处理的函数，通过includes判断，函数不会像组件函数一样卸载。
 
+```js
+export const specialFnList = ['_inner'];
+```
 
 ## locale
 
 国际化设置
+
+示例：
+
+```js
+import { IntlProvider } from 'react-intl';
+import { locale } from 'dooringx-lib';
+import { localeKey } from '../../../dooringx-lib/dist/locale';
+
+export default function Layout({ children }: IRouteComponentProps) {
+	const [l, setLocale] = useState<localeKey>('zh-CN');
+	return (
+		<LocaleContext.Provider value={{ change: setLocale, current: l }}>
+			<IntlProvider messages={locale.localeMap[l]} locale={l} defaultLocale={l}>
+				<configContext.Provider value={config}>{children}</configContext.Provider>
+			</IntlProvider>
+		</LocaleContext.Provider>
+	);
+}
+```
+
+### replaceLocale
+
+用于替换文字函数
+
+示例：
+
+```js
+	replaceLocale(
+  'modal.popup.notfond',
+  `未找到该弹窗 ${sign.param}`,
+  props.config,
+  { name: sign.param },
+  '未找到该弹窗 {name}'
+)
+```
+
+
+| 参数                 | 类型                   |  说明 |
+| -----------------  | ----------------       | ---- |
+|  id   |  LeftRegistComponentMapItem  |  消息id |
+| msg | string |  消息名称 |
+| config | UserConfig |  用户设置 |
+| param | object |  序列化字符串参数 |
+| paramString | string |  序列化字符串，需要跟param参数结合使用 |
+
+### localeMap 
+
+用于制作语言包
+
+```js
+import { en } from './en';
+import { zhCN } from './zh-CN';
+
+export const localeMap = {
+	'zh-CN': zhCN,
+	en,
+};
+```
