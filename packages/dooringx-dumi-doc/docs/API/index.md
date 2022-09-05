@@ -296,6 +296,33 @@ const ContextMenu = () => {
 
 总设置项，包括可以获取store commander等，也需传递给组件。
 
+| 方法                            |  说明 |
+| -----------------      | ---- |
+| getFocusState             |   获取当前选择的元素 |
+| getScaleState             |    获取当前缩放状态 |
+| getDataCenter             |    获取数据源类 |
+| getEventCenter             |    获取事件中心类 |
+| getAnimateFactory             |   获取自定义动画 |
+| getConfig             |   获取初始设置 |
+| getStore             |   获取store |
+| getComponentRegister             |   获取左侧组件注册类 |
+| getContextMenuState             |   获取右键菜单状态 |
+| getFormRegister             |   获取右侧组件注册类 |
+| getCommanderRegister             |   获取快捷键指令设置的类 |
+| getCurrentData             |   获取当前store数据 |
+| resetConfig             |   以默认设置重置配置项 |
+| addLeftCategory             |   异步增加左侧tab页 |
+| addRightCategory             |    异步增加右侧tab页 |
+| addCoRegistMap             |   异步增加左侧组件 |
+| setConfig             |   异步修改config 重置store |
+| registCommander             |   同步注册指令 |
+| getComponentCache             |   获取左侧组件缓存 |
+| registComponent             |   同步注册左侧组件 |
+| scriptRegistComponentSingle             |   同步注册左侧组件，并加入左侧面板 |
+| scriptSingleLoad             |   注册远程组件umd形式 |
+
+
+
 ### Store
 
 存放json数据源并提供redo undo以及弹窗状态转换
@@ -322,10 +349,60 @@ const ContextMenu = () => {
 
 ### dataCenter
 
+数据源，一般用来做第三方传递数据使用，也可以不用。
+
+| 方法                            |  说明 |
+| -----------------      | ---- |
+| getDataMap             |   获取数据源总数据 |
+| setToMap             |    动态设置map数据，可触发getValue的获取。 |
+| staticSetToMap             |    静态设置map数据 |
+| getValue             |    异步获取数据， |
+| get             |   同步获取数据 |
+
+
 ### eventCenter
+
+事件中心，组装与执行事件链使用。
+
+
+| 方法                            |  说明 |
+| -----------------      | ---- |
+| getFunctionCenter             |   获取函数中心类 |
+| getEventMap             |   获取事件中心数据 |
+| resetEventMap             |    数据置空 |
+| syncEventMap             |    自动收集更新事件数据 |
+| manualUpdateMap             |   手动更新事件数据 |
+| runEventQueue             |  执行数据链  |
+
+#### FunctionCenter
+
+函数中心，组装函数使用。
+
+| 方法                            |  说明 |
+| -----------------      | ---- |
+| getFunctionMap             |   获取函数map |
+| getConfigMap             |   获取函数设置map |
+| getNameMap             |   获取函数名称map |
+| nameToKey             |   通过name查id |
+| register             |   注册函数 |
+| syncFunction             |   自动收集更新函数 |
+| getFunction             |   获取函数，可异步获取 |
+
 
 
 ### commanderRegister
+
+指CommanderWrapper类，用于指令快捷键注册。
+
+| 方法                            |  说明 |
+| -----------------      | ---- |
+| getList             |   获取指令map |
+| register             |   注册指令 |
+| unRegister             |    卸载指令 |
+| exec             |    执行指令 |
+
+
+
 
 ## userConfigMerge
 
@@ -657,7 +734,7 @@ export const specialFnList = ['_inner'];
 
 ## locale
 
-国际化设置
+国际化设置，不用可以在config上设置i18n为false。
 
 示例：
 

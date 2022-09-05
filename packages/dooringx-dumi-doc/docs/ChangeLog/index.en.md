@@ -5,52 +5,54 @@ nav:
   title: Change log
   order: 6
 ---
+## 1.0.0
+New document and createcomponent function
 ## 0.15.3
-Modify check box selection algorithm
+Modify the checkbox and select the algorithm
 ## 0.15.2
-Fix inconsistencies in line element editing preview.
+Fixed inconsistency in editing preview of elements in the line.
 Add line height font size configuration item.
 ## 0.15.1
 Useregistfunc is added to register functions.
 Update some documents.
 ## 0.15.0
-Discard storechanger and iframe containers.
-Add function configuration to unload correctly.
-Modify the pop-up logic to save the preview correctly.
+Discard the storechanger and iframe containers.
+Add function configuration to properly uninstall.
+Modify logic such as pop-up window to save preview correctly.
 ## 0.14.1
 Add data source left panel settings.
 ## 0.14.0
-Fix the problem that the left and right configurations cannot get config.
+Fixed the problem that the left and right configurations could not get config.
 ## 0.13.3
-Fix the Title Failure and add the right panel configuration
+Fixed Title Failure and added right panel configuration
 ## 0.13.2
-Fixed possible invalidation of custom animation.
+Fixed the problem that custom animation might fail.
 ## 0.13.1
-Fixed editing problem of custom animation overloaded canvas.
+Fixed the editing problem of custom animation reloading canvas.
 ## 0.13.0
 Add custom animation, you can customize the animation freely.
 ## 0.12.4
-Add a lifecycle.
-Modify the timeline color and style to optimize the selected state.
+Add lifecycle.
+Modify the color and style of timeline and optimize the selected state.
 ## 0.12.3
 Fix double click positioning problem
 ## 0.12.2
-New double click positioning frame.
-Fixed drag frame reset pointer behavior after pause.
+Add double click positioning frame.
+Fixed the behavior of dragging frame to reset pointer after pause.
 ## 0.12.0
-The operation of adding frames to the animation can accurately view the animation status every 0.1 seconds!
-Timeline adds some class names to facilitate style modification.
+The operation of adding new frames in animation can accurately view the animation status every 0.1 seconds!
+Timeline adds some class names for easy style modification.
 ## 0.11.11
 Fixed animation causing rotation preview not to take effect.
 Add container overflow configuration.
-Adjust the style of the timeline section.
-Example part style adjustment.
+The style of timeline is adjusted.
+Example section style adjustment.
 ## 0.11.10
-New color pair
+Add color style settings for markline
 ## 0.11.9
-A new setting panel is added to control adsorption scaling and other behaviors.
-Fixed pop-up button style issues.
-Fix the problem that some prompts do not display.
+Add setting panel control to control adsorption, scaling and other behaviors.
+Fixed pop-up button style problem.
+Fixed the problem that some prompts were not displayed.
 ## 0.11.8
 Timeline adds auto focus function.
 ## 0.11.7
@@ -59,105 +61,105 @@ Cancel the multi selection adsorption function.
 Cancel the adsorption of the first mouse click.
 Modify the selected color of timeline.
 ## 0.11.5
-Fix reference line adsorption and wrong displacement bug
-Change the position of rotation justification
+Fix the bug of reference line adsorption and wrong displacement
+Change the position of rotation back to normal
 ## 0.11.4
-Fix guide line bug
-Optimized drag and drop algorithm
+Fix reference line bug
+Optimize drag and drop algorithm
 ## 0.11.3
-Increase the function of rotary return.
-Optimize mouse style.
+Add the function of rotation return.
+Optimize the mouse style.
 ## 0.11.2
 Optimize drag speed
 ## 0.11.1
-Compatible with legacy properties
+Compatible with old properties
 ## 0.11.0
-Modify the timeline style and add cansee attribute to make it easy to hide when editing.
+Modify the timeline style and add the cansee attribute to make it easy to hide when editing.
 ## 0.10.4
-Config adds a new custommap transfer, which is used to store temporary data that is not brought into JSON.
-The remote component configuration is changed from URL to object to store more configurations.
+Config adds a custommap transfer to store temporary data that is not brought into JSON.
+The configuration of remote components is changed from URL to object to store more configurations.
 ## 0.10.3
-Fix the color difference problem of the left tab.
+Fixed the color difference of the left tab.
 ## 0.10.2
-Modify the timeline, select the background color, and add the item class name to facilitate modification.
+Modify the background color of timeline, and add the item class name to facilitate modification.
 ## 0.10.1
 Modify the timeline class name to facilitate style modification.
 ## 0.10.0
-The function name proposes name as a separate configuration item, the first parameter as ID and the last parameter as function name, so that the display name of the function can support conversion.
-A pop-up event will not appear if the pop-up name is not passed.
+The function name proposes that name is passed as a separate configuration item, the first parameter is ID, and the last parameter is function name. In this way, the display name of the function can support conversion.
+If the pop-up event does not pass the pop-up name, no pop-up window will appear.
 ## 0.9.5
-Scripts loading of preview component changes from concurrency to linearity.
+The scripts loading of the preview component changes from concurrent to linear.
 Using remote components in edit mode will save the current canvas state.
 ## 0.9.4
 Fix the bug that the preview component cannot release loading
 ## 0.9.3
 Add double click to place the canvas.
 Change the initial focus state of the element.
-If there is an element width and height, it is positioned at the center of the element when placed.
+If the width and height of an element exist, it is positioned at the center of the element during placement.
 ## 0.9.2
-Add remote component to call the whole process, and Add URL attribute in component to facilitate script loading.
+Add the whole process of remote component calling, and Add URL attribute in component to facilitate script loading.
 ## 0.9.1
-Add config I18N configuration. If internationalization is not used, there is no need to import the context of Intl.
+Add config.i18n configuration. If internationalization is not used, there is no need to import Intl context.
 The first button of the control component is changed to drag and drop, and the functions are merged into the timeline
 ## 0.9.0
 Add react Intl and modify some styles.
 ## 0.8.4
-Add the preview attribute to control loading from outside.
+Add the content of preview to control loading from outside.
 ## 0.8.3
 Add timeline drag bar and select.
-Fix the error reported by the antd menu attribute.
+Fixed an error in the antd menu attribute.
 ## 0.8.2
 Add left panel configuration.
-Fix timeline flicker.
+Fixed the problem of timeline flicker.
 ## 0.8.1
-Add animation component timeline. You can preview all animations better.
+New animation component timeline. All animations can be previewed better.
 ## 0.8.0
-The animation part is reconstructed, which can support the simultaneous configuration of multiple animations.
+Partial reconstruction of animation can support simultaneous configuration of multiple animations.
 The minimum value of canvas drag is changed to 0.
 ## 0.7.7
 Optimize the drag logic of the canvas to move more smoothly.
 ## 0.7.6
-The custom rightglobalcustom type on the right is changed to the function passed in config
+The user-defined rightglobalcustom type on the right side is changed to function, and config is passed in
 ## 0.7.5
 Change the roller direction.
 ## 0.7.4
-Fix box move bug.
+Fixed the box move bug.
 ## 0.7.3
-Fix pop-up location and selection issues.
+Fixed pop-up location and selection issues.
 ## 0.7.2
-Fix the impact of locking components. You can't drag, zoom or rotate during locking.
+Fixed the effect of locking components. Dragging, zooming and rotating cannot be performed during locking.
 ## 0.7.1
-The repair lock component cannot be unlocked.
+Fix that the lock component cannot be unlocked.
 ## 0.7.0
 Component rotation is supported!
-Fix optimization logic such as dragging reference lines.
+Fixed optimization logic such as dragging reference lines.
 ## 0.6.0
-The use of iframe in edit mode is supported!
-Fix the selected condition.
+Iframe is supported in editing mode!
+Repair the selected condition.
 ## 0.5.1
-Fix the problem on the right that cannot be unchecked.
+Fixed the problem that the right selection cannot be unchecked.
 ## 0.5.0
-Fix the problem that the width of the control component is not enough.
+Fixed the problem that the width of the control component was not enough.
 Remove the antd custom icon, and the icon at the bottom of the container can be configured.
 ## 0.4.2
-Fix animation error initial value.
+Fix incorrect initial value of animate.
 Modify the markline style.
-Global settings increase the height of the container.
+The global setting increases the height of the container.
 ## 0.4.1
 Remove the Lib auto import style.
 ## 0.4.0
 Remove the runtime export and get all properties from config.
 ## 0.3.1
 1. Replace UUID with nanoid.
-2. Control component adds ruler control.
+2. The control component adds ruler control.
 ## 0.3.0 
-1. Add a ruler. The containerwrapper needs to pass config before it can be used.
-2. Modify container minimum drag 667. Fix the inconsistency between the distance between the canvas and the mouse when zooming down and dragging.
+1. Add ruler. Containerwrapper needs to pass config before it can be used.
+2. Modify the minimum drag of the container 667. Fixed the inconsistency between the distance between the canvas and the mouse when zooming down and dragging.
 3. Innercontainerdragup needs to pass config.
 ## 0.2.0 
-Modify the transmission of the commander to obtain the config. The commander will no longer be exported from the index. When it needs to be used, it will be obtained from the config. Add the class name on the left to facilitate customization.
+Modify the transfer of the commander to obtain the config. The commander is no longer exported from the index, but needs to be obtained from the config. Add the class name on the left to facilitate customization.
 ## 0.1.10 
-Modify eslint dependency recommendation
+Modify eslint dependency (recommended)
 ## 0.1.9 
 Add global body settings
 ## 0.1.8 
@@ -165,7 +167,7 @@ Add pop-up settings and remove modalcontainer
 ## 0.1.7 
 Modify the preview special condition display and delete the console
 ## 0.1.6 
-Adjust the initial zoom, the initial proportion of the canvas, and add the function of righting the canvas.
+Adjust the initial scale, the initial scale of the canvas, and add the function of aligning the canvas.
 ## 0.1.5 
 Delete the button not made and add the fixed configuration
 ## 0.1.4 
