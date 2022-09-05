@@ -21,3 +21,30 @@ export class ComponentItemFactory implements ComponentItem {
 		public remoteConfig: ComponentItem['remoteConfig'] = {}
 	) {}
 }
+export interface IPluginConfig {
+	name: ComponentItemFactory['name'];
+	display: ComponentItemFactory['display'];
+	props: ComponentItemFactory['props'];
+	initData: ComponentItemFactory['initData'];
+	render: ComponentItem['render'];
+	resize?: ComponentItem['resize'];
+	needPosition?: ComponentItem['needPosition'];
+	init?: ComponentItem['init'];
+	destroy?: ComponentItem['destroy'];
+	remoteConfig?: ComponentItem['remoteConfig'];
+}
+
+export function createComponent(config: IPluginConfig) {
+	return new ComponentItemFactory(
+		config.name,
+		config.display,
+		config.props,
+		config.initData,
+		config.render,
+		config.resize,
+		config.needPosition,
+		config.init,
+		config.destroy,
+		config.remoteConfig
+	);
+}

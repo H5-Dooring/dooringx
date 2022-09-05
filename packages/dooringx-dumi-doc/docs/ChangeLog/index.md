@@ -5,6 +5,10 @@ nav:
   title: 变更日志
   order: 6
 ---
+## 1.0.0
+
+新增文档，增加createComponent函数
+
 ## 0.15.3
 
 修改选框选中算法

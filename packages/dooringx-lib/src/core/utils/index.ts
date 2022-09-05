@@ -7,20 +7,6 @@ import { specialCoList } from './special';
 import deepCopys from 'deepcopy';
 import { FunctionDataMap } from '../functionCenter/config';
 import UserConfig from '../../config';
-import { IPluginConfig } from './types';
-import { ComponentItemFactory } from '../components/abstract';
-
-// 创建插件
-export const createPlugin = (config: IPluginConfig) => {
-	return new ComponentItemFactory(
-		config.key,
-		config.name,
-		{},
-		config.attr,
-		config.render,
-		config.attr.resize
-	);
-};
 
 export function deepCopy<T = any>(obj: T): T {
 	return deepCopys(obj);
